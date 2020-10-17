@@ -1,3 +1,13 @@
+body {
+    margin: 0;
+}
+
+.menu {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+}
+
 canvas {
     background-color: skyblue;
 }
