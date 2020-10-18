@@ -48,6 +48,7 @@ var heroTri = {
     fillColor: 'limegreen',
     rotationDegrees: 270,
     velocityY: 0,
+    airBorn: false,
     
     draw: function() {
         var radians = this.rotationDegrees*Math.PI/180;
@@ -78,7 +79,20 @@ var heroTri = {
     onFloorCheck: function() {
        if(heroTri.centerY >= $(window).height() - heroTri.size/2) {
             heroTri.centerY = $(window).height() - heroTri.size/2;
+            heroTri.airBorn = false;
         };
     },
 
+    jump: function() {
+        heroTri.velocityY -= 65;
+        console.log('spacebar pressed');
+        heroTri.airBorn = true;
+    },
 }
+
+//Controller
+document.addEventListener('keydown', function (event) {
+    if (event.key === ' ' && heroTri.airBorn == false) {
+        heroTri.jump();
+    }
+});
