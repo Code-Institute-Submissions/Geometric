@@ -29,6 +29,55 @@ var gameCanvas = {
         heroTri.gravity();
         heroTri.onFloorCheck();
 
+        //Creates Initial Floor Pushing them into the array
+        if(gameFloor.length == 0) {
+            for(var i = 0; i < 10; i++) {
+                gameFloor.push(new Floor())
+                console.log(gameFloor.length);
+            }
+
+            if(i = 1) {
+                gameFloor[i].x += gameFloor[i].width;
+            }
+
+            if(i = 2) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 3) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 4) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 5) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 6) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 7) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 8) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+
+            if(i = 9) {
+                gameFloor[i].x += gameFloor[i].width * i;
+            }
+        }
+
+        //Draws Floor
+        for (i = 0; i < gameFloor.length; i++) {
+            gameFloor[i].draw();
+        }
+        
         requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
     },
 
@@ -41,8 +90,8 @@ var gameCanvas = {
 var heroTri = {
     sides: 3,
     size: 40,
-    centerX: fullWith * 0.1,
-    centerY: fullHeight - 40/2,
+    centerX: fullWith * 0.15,
+    centerY: fullHeight - fullHeight * 0.1 - 5 - 40/2,
     //strokeWidth: 0,
     strokeColor: 'purple',
     fillColor: 'limegreen',
@@ -78,9 +127,10 @@ var heroTri = {
     },
 
     onFloorCheck: function() {
-       if(heroTri.centerY >= $(window).height() - heroTri.size/2) {
-            heroTri.centerY = $(window).height() - heroTri.size/2;
+       if(heroTri.centerY >= fullHeight - fullHeight * 0.1 - 5 - 40/2) {
+            heroTri.centerY = fullHeight - fullHeight * 0.1 - 5 - 40/2;
             heroTri.airBorn = false;
+            //Rotation
             heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added) 
         } else {
             heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
@@ -93,6 +143,30 @@ var heroTri = {
         console.log('spacebar pressed');
         heroTri.airBorn = true;
     },
+};
+
+//Floor
+
+var gameFloor = [];
+
+function Floor() {
+    this.height = fullHeight * 0.1;
+    this.width = fullWith / 9;
+    this.x = 0;
+    this.y = fullHeight - this.height;
+    this.strokeWidth = 10;
+
+    this.draw = function() {
+        gameCanvas.ctx.fillStyle = '#161616';
+        gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        gameCanvas.ctx.strokeStyle = 'white';
+        gameCanvas.ctx.lineWidth = this.strokeWidth;
+        gameCanvas.ctx.beginPath();
+        gameCanvas.ctx.moveTo(this.x, this.y);
+        gameCanvas.ctx.lineTo(this.width, this.y);
+        gameCanvas.ctx.stroke();
+    }
 }
 
 //Controller
