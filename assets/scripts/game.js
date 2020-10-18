@@ -21,8 +21,12 @@ var gameCanvas = {
         $('body').css('height', this.canvas.height);
     },
 
-    draw: function() {
+    loop: function() {
+        gameCanvas.clear();
+        
         heroTri.draw();
+
+        requestAnimationFrame(gameCanvas.loop);
     },
 };
 
