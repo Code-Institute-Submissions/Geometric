@@ -42,13 +42,14 @@ var heroTri = {
     sides: 3,
     size: 40,
     centerX: fullWith * 0.1,
-    centerY: 600,
+    centerY: fullHeight - 40/2,
     //strokeWidth: 0,
     strokeColor: 'purple',
     fillColor: 'limegreen',
     rotationDegrees: 270,
     velocityY: 0,
-    airBorn: false,
+    airBorn: true,
+    rotationSpeed: 0,
     
     draw: function() {
         var radians = this.rotationDegrees*Math.PI/180;
@@ -80,6 +81,10 @@ var heroTri = {
        if(heroTri.centerY >= $(window).height() - heroTri.size/2) {
             heroTri.centerY = $(window).height() - heroTri.size/2;
             heroTri.airBorn = false;
+            heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added) 
+        } else {
+            heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
+            heroTri.rotationDegrees += heroTri.rotateSpeed;  
         };
     },
 
