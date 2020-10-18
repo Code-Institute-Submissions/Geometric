@@ -27,6 +27,7 @@ var gameCanvas = {
         
         heroTri.draw();
         heroTri.gravity();
+        heroTri.onFloorCheck();
 
         requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
     },
@@ -46,7 +47,6 @@ var heroTri = {
     strokeColor: 'purple',
     fillColor: 'limegreen',
     rotationDegrees: 270,
-    nextTime: 0,
     velocityY: 0,
     
     draw: function() {
@@ -74,5 +74,11 @@ var heroTri = {
         heroTri.velocityY += 2;
         heroTri.velocityY *= 0.9;
     },
-    
+
+    onFloorCheck: function() {
+       if(heroTri.centerY >= $(window).height() - heroTri.size/2) {
+            heroTri.centerY = $(window).height() - heroTri.size/2;
+        };
+    },
+
 }
