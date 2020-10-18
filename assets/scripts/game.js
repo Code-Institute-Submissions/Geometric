@@ -4,7 +4,7 @@ var fullHeight = $(window).height();
 
 $(document).ready(function() {
     gameCanvas.create();
-    gameCanvas.draw();
+    gameCanvas.loop();
 });
 
 //Game Canvas
@@ -27,6 +27,10 @@ var gameCanvas = {
         heroTri.draw();
 
         requestAnimationFrame(gameCanvas.loop);
+    },
+
+    clear: function() {
+        gameCanvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
 };
 
