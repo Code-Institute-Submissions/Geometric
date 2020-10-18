@@ -2,6 +2,7 @@
 var fullWith = $(window).width();
 var fullHeight = $(window).height();
 
+//Start Game
 $(document).ready(function() {
     gameCanvas.create();
     gameCanvas.loop();
@@ -22,31 +23,31 @@ var gameCanvas = {
     },
 
     loop: function() {
-        gameCanvas.clear();
+        gameCanvas.clear(); //Calls Clear Canvas
         
         heroTri.draw();
+        heroTri.gravity();
 
-        requestAnimationFrame(gameCanvas.loop);
+        requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
     },
 
     clear: function() {
-        gameCanvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        gameCanvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //Clears Canvas
     },
 };
 
-// Hero Character - Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS
+// Hero Character - Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
 var heroTri = {
     sides: 3,
     size: 40,
     centerX: fullWith * 0.1,
-    centerY: fullHeight - 40/2,
+    centerY: 600,
     //strokeWidth: 0,
     strokeColor: 'purple',
     fillColor: 'limegreen',
     rotationDegrees: 270,
-    rotationIncrement: 1,
     nextTime: 0,
-    delay: 1000/60*1, 
+    velocityY: 0,
     
     draw: function() {
         var radians = this.rotationDegrees*Math.PI/180;
@@ -66,4 +67,12 @@ var heroTri = {
         gameCanvas.ctx.rotate(-radians);
         gameCanvas.ctx.translate(-this.centerX,-this.centerY);
     },
+//(End of Not all my own code)
+
+    gravity() {
+        heroTri.centerY += heroTri.velocityY;
+        heroTri.velocityY += 2;
+        heroTri.velocityY *= 0.9;
+    },
+    
 }
