@@ -1,5 +1,5 @@
 //Variables
-var fullWith = $(window).width();
+var fullWidth = $(window).width();
 var fullHeight = $(window).height();
 
 //Start Game
@@ -13,7 +13,7 @@ var gameCanvas = {
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
         //Full size of browser
-        this.canvas.width  = fullWith;
+        this.canvas.width  = fullWidth;
         this.canvas.height = fullHeight;
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.ctx = this.canvas.getContext("2d");
@@ -28,12 +28,10 @@ var gameCanvas = {
         heroTri.draw();
         heroTri.gravity();
         heroTri.onFloorCheck();
-
         //Creates Initial Floor Pushing them into the array
         if(gameFloor.length == 0) {
             for(var i = 0; i < 10; i++) {
                 gameFloor.push(new Floor())
-                console.log(gameFloor.length);
             }
 
             if(i = 1) {
@@ -90,7 +88,7 @@ var gameCanvas = {
 var heroTri = {
     sides: 3,
     size: 40,
-    centerX: fullWith * 0.15,
+    centerX: fullWidth * 0.15,
     centerY: fullHeight - fullHeight * 0.1 - 5 - 40/2,
     //strokeWidth: 0,
     strokeColor: 'purple',
@@ -98,6 +96,8 @@ var heroTri = {
     rotationDegrees: 270,
     velocityY: 0,
     airBorn: true,
+    shooting: false,
+    shootMax: false,
     rotationSpeed: 0,
     
     draw: function() {
@@ -121,28 +121,62 @@ var heroTri = {
 //(End of Not all my own code)
 
     gravity() {
-        heroTri.centerY += heroTri.velocityY;
-        heroTri.velocityY += 2;
-        heroTri.velocityY *= 0.9;
+        //Check shoot functions (Shoot defies gravity)
+        if(heroTri.shooting == true) {
+            heroTri.shoot();
+
+        //Gravity
+        } else {
+            heroTri.centerY += heroTri.velocityY;
+            heroTri.velocityY += 2;
+            heroTri.velocityY *= 0.9;
+
+            heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
+            heroTri.rotationDegrees -= heroTri.rotateSpeed;
+        }
     },
 
     onFloorCheck: function() {
-       if(heroTri.centerY >= fullHeight - fullHeight * 0.1 - 5 - 40/2) {
+       if(heroTri.centerY > fullHeight - fullHeight * 0.1 - 5 - 40/2) { //
             heroTri.centerY = fullHeight - fullHeight * 0.1 - 5 - 40/2;
             heroTri.airBorn = false;
+            heroTri.shooting = false;
+            heroTri.shootMax = false;
+            heroTri.velocityY = 17.99;
             //Rotation
-            heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added) 
-        } else {
-            heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
-            heroTri.rotationDegrees += heroTri.rotateSpeed;  
-        };
+            heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
+        }
     },
 
     jump: function() {
         heroTri.velocityY -= 65;
-        console.log('spacebar pressed');
+        console.log('jump');
         heroTri.airBorn = true;
+
+        heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
+        heroTri.rotationDegrees += heroTri.rotateSpeed;
     },
+
+    shoot: function() {
+        heroTri.shooting = true;
+        console.log('shoot');
+
+        heroTri.rotateSpeed = 6;
+        heroTri.velocityY = 3;
+
+        if(heroTri.rotationDegrees <= 220) {
+            heroTri.shootMax = true;
+        }
+
+        if(heroTri.shootMax == true) {
+            heroTri.rotationDegrees += heroTri.rotateSpeed;
+            heroTri.centerY += heroTri.velocityY;
+
+        } else {
+            heroTri.rotationDegrees -= heroTri.rotateSpeed;
+            heroTri.centerY -= heroTri.velocityY;
+        }
+    }
 };
 
 //Floor
@@ -151,7 +185,7 @@ var gameFloor = [];
 
 function Floor() {
     this.height = fullHeight * 0.1;
-    this.width = fullWith / 9;
+    this.width = fullWidth / 9;
     this.x = 0;
     this.y = fullHeight - this.height;
     this.strokeWidth = 10;
@@ -171,7 +205,11 @@ function Floor() {
 
 //Controller
 document.addEventListener('keydown', function (event) {
-    if (event.key === ' ' && heroTri.airBorn == false) {
+    if (event.key === ' ' && heroTri.airBorn == false && heroTri.shooting == false) {
         heroTri.jump();
+    }
+
+    if (event.key === 's' && heroTri.airBorn == false) {
+        heroTri.shoot();
     }
 });
