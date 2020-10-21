@@ -12,6 +12,7 @@ $(document).ready(function() {
 var gameCanvas = {
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
+        
         //Full size of browser
         this.canvas.width  = fullWidth;
         this.canvas.height = fullHeight;
@@ -30,15 +31,13 @@ var gameCanvas = {
         heroTri.onFloorCheck();
 
         //Lazer Loop
-        console.log(gameLazer.length)
         if(gameLazer.length >= 1) {
             for(var i = 0; i < gameLazer.length; i++) {
                 gameLazer[i].draw();
                 gameLazer[i].x += 2;
-                console.log('i am running')
             }
         };
-
+        
         //Creates Initial Floor Pushing them into the array
         if(gameFloor.length == 0) {
             for(var i = 0; i < 10; i++) {
@@ -46,7 +45,7 @@ var gameCanvas = {
             }
 
             if(i = 1) {
-                gameFloor[i].x += gameFloor[i].width;
+                gameFloor[i].x += gameFloor[i].width * i;
             }
 
             if(i = 2) {
@@ -66,7 +65,7 @@ var gameCanvas = {
             }
 
             if(i = 6) {
-                gameFloor[i].x += gameFloor[i].width * i;
+                gameFloor[i].x += gameFloor[i].width * i ;
             }
 
             if(i = 7) {
@@ -80,12 +79,20 @@ var gameCanvas = {
             if(i = 9) {
                 gameFloor[i].x += gameFloor[i].width * i;
             }
-        }
+
+        }  
+        
+        // Adds new floor tile to create continuous infinity floor 
+        if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
+            gameFloor.push(new Floor());
+            gameFloor[gameFloor.length - 1].x = fullWidth - 2;
+        };
 
         //Draws Floor
-        for (i = 0; i < gameFloor.length; i++) {
+        for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
-        }
+            gameFloor[i].x -= 2;
+        };
         
         requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
     },
@@ -163,8 +170,6 @@ var heroTri = {
         heroTri.velocityY -= 65;
         console.log('jump');
         heroTri.airBorn = true;
-
-        
     },
 
     shoot: function() {
@@ -212,7 +217,7 @@ var gameFloor = [];
 
 function Floor() {
     this.height = fullHeight * 0.1;
-    this.width = fullWidth / 9;
+    this.width = fullWidth / 10;
     this.x = 0;
     this.y = fullHeight - this.height;
     this.strokeWidth = 10;
@@ -225,7 +230,7 @@ function Floor() {
         gameCanvas.ctx.lineWidth = this.strokeWidth;
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.moveTo(this.x, this.y);
-        gameCanvas.ctx.lineTo(this.width, this.y);
+        gameCanvas.ctx.lineTo(this.x + this.width, this.y);
         gameCanvas.ctx.stroke();
     };
 }
