@@ -28,6 +28,17 @@ var gameCanvas = {
         heroTri.draw();
         heroTri.gravity();
         heroTri.onFloorCheck();
+
+        //Lazer Loop
+        console.log(gameLazer.length)
+        if(gameLazer.length >= 1) {
+            for(var i = 0; i < gameLazer.length; i++) {
+                gameLazer[i].draw();
+                gameLazer[i].x += 2;
+                console.log('i am running')
+            }
+        };
+
         //Creates Initial Floor Pushing them into the array
         if(gameFloor.length == 0) {
             for(var i = 0; i < 10; i++) {
@@ -128,11 +139,11 @@ var heroTri = {
         //Gravity
         } else {
             heroTri.centerY += heroTri.velocityY;
-            heroTri.velocityY += 2;
+            heroTri.velocityY += 4;
             heroTri.velocityY *= 0.9;
 
             heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
-            heroTri.rotationDegrees -= heroTri.rotateSpeed;
+            heroTri.rotationDegrees += heroTri.rotateSpeed;
         }
     },
 
@@ -153,19 +164,19 @@ var heroTri = {
         console.log('jump');
         heroTri.airBorn = true;
 
-        heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
-        heroTri.rotationDegrees += heroTri.rotateSpeed;
+        
     },
 
     shoot: function() {
         heroTri.shooting = true;
         console.log('shoot');
 
-        heroTri.rotateSpeed = 6;
-        heroTri.velocityY = 3;
+        heroTri.rotateSpeed = 3;
+        heroTri.velocityY = 1.5;
 
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
+            gameLazer.push(new Lazer());
         }
 
         if(heroTri.shootMax == true) {
@@ -178,6 +189,22 @@ var heroTri = {
         }
     }
 };
+
+//Lazer
+
+var gameLazer = [];
+
+function Lazer() {
+    this.y = fullHeight - fullHeight * 0.1 - 5 - 40/2 - 10;
+    this.x = fullWidth * 0.15 + 40;
+    this.width = 40;
+    this.height = 5;
+
+    this.draw = function() {
+        gameCanvas.ctx.fillStyle = 'skyblue';
+        gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
+    };
+}
 
 //Floor
 
@@ -200,7 +227,7 @@ function Floor() {
         gameCanvas.ctx.moveTo(this.x, this.y);
         gameCanvas.ctx.lineTo(this.width, this.y);
         gameCanvas.ctx.stroke();
-    }
+    };
 }
 
 //Controller
