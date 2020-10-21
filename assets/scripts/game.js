@@ -30,14 +30,14 @@ var gameCanvas = {
         heroTri.gravity();
         heroTri.onFloorCheck();
 
-        //Lazer Loop
-        if(gameLazer.length >= 1) {
-            for(var i = 0; i < gameLazer.length; i++) {
-                gameLazer[i].draw();
-                gameLazer[i].x += 2;
+        //Laser Loop
+        if(gameLaser.length >= 1) {
+            for(var i = 0; i < gameLaser.length; i++) {
+                gameLaser[i].draw();
+                gameLaser[i].x += 10;
             }
         };
-        
+
         //Creates Initial Floor Pushing them into the array
         if(gameFloor.length == 0) {
             for(var i = 0; i < 10; i++) {
@@ -176,12 +176,12 @@ var heroTri = {
         heroTri.shooting = true;
         console.log('shoot');
 
-        heroTri.rotateSpeed = 3;
-        heroTri.velocityY = 1.5;
+        heroTri.rotateSpeed = 6; // 2:1 rotate to velocity for 40 height triangle
+        heroTri.velocityY = 3;
 
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
-            gameLazer.push(new Lazer());
+            gameLaser.push(new Laser());
         }
 
         if(heroTri.shootMax == true) {
@@ -195,11 +195,11 @@ var heroTri = {
     }
 };
 
-//Lazer
+//Laser
 
-var gameLazer = [];
+var gameLaser = [];
 
-function Lazer() {
+function Laser() {
     this.y = fullHeight - fullHeight * 0.1 - 5 - 40/2 - 10;
     this.x = fullWidth * 0.15 + 40;
     this.width = 40;
