@@ -32,14 +32,48 @@ var gameCanvas = {
         heroTri.draw();
         heroTri.gravity();
         heroTri.onFloorCheck();
+        
+        //Laser 
+        //Laser Collisions
+        for (var i = 0; i < gameLaser.length; i++) {
+            for (var j = 0; j < gameObstacles.length; j++) {
+                if (
+                gameObstacles[j].type == 'rect' && 
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
+                gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
+                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y || 
+                gameLaser[i].x > fullWidth) {
+                    gameLaser.shift();
+                    console.log('rect collision');
+                } 
+                
+               else if (
+                gameObstacles[j].type == 'tri' && 
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
+                gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].size) {
+                    gameLaser[i].speed = -gameLaser[i].speed;
+                    gameLaser[i].color = 'red';
+                    console.log('tri collision');
+                }
 
-        //Laser
-        if(gameLaser.length >= 1) {
-            for(var i = 0; i < gameLaser.length; i++) {
-                gameLaser[i].draw();
-                gameLaser[i].x += 10;
-            };
-        };
+                else if (
+                gameObstacles[j].type == 'circle' && 
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
+                gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
+                    gameLaser[i].color = 'red';
+                    console.log('circle collision');
+                    //Laser Movement again as the laser wouldn't be drawn after if the circle was the only obstacle in the array
+                    gameLaser[i].draw();
+                    gameLaser[i].x += gameLaser[i].speed;
+                }
+                
+                //Laser Movement
+                else {
+                    gameLaser[i].draw();
+                    gameLaser[i].x += gameLaser[i].speed;
+                }
+            }
+        }
 
         //Creates Initial Floor Pushing them into the array
         if(gameFloor.length == 0) {
@@ -93,7 +127,7 @@ var gameCanvas = {
         //Draws Floor
         for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
-            gameFloor[i].x -= 2;
+            gameFloor[i].x -= 2; //Floor Speed
         };
 
         for(i = 0; i < gameFloor.length; i++) {
@@ -101,17 +135,18 @@ var gameCanvas = {
             gameFloor[i].x -= 2;
         };
 
-        if(gameCanvas.loopCounter % 200 == 0 && gameObstacles.length < 1) {
-            gameObstacles.push(new Obstacle());
+        //Obstacles draw and type
+        if(gameCanvas.loopCounter == 0) {
+            gameObstacles.push(new Obstacle('tri'));
+            gameObstacles.push(new Obstacle('circle'));
+            gameObstacles.push(new Obstacle('rect'));
         };
 
-        //Obstacles
         for(i = 0; i < gameObstacles.length; i++) {
-            gameObstacles[i].drawObsCircle();
-            gameObstacles[i].drawObsTri();
-            gameObstacles[i].drawObsRect();
+            gameObstacles[i].draw();
         };
         
+        //Calls loop again and counts how many time
         gameCanvas.loopCounter += 1;
         requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
     },
@@ -223,9 +258,11 @@ function Laser() {
     this.x = fullWidth * 0.15 + 40;
     this.width = 40;
     this.height = 5;
+    this.speed = 10;
+    this.color = 'skyblue';
 
     this.draw = function() {
-        gameCanvas.ctx.fillStyle = 'skyblue';
+        gameCanvas.ctx.fillStyle = this.color;
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
 };
@@ -255,16 +292,17 @@ function Floor() {
 };
 
 //Obstacles
-
 var gameObstacles = [];
 
-function Obstacle() {
+function Obstacle(type) {
+
+    this.type = type;
 
     //Triangle
     this.sides = 3;
     this.size = 40;
-    this.centerX = 600;
-    this.centerY = fullHeight - fullHeight * 0.1 - 5 - 40/2;
+    this.triCenterX = 600;
+    this.triCenterY = fullHeight - fullHeight * 0.1 - 5 - 40/2;
     //this.strokeWidth = 0;
     //this.strokeColor = 'purple';
     this.rotationDegrees = 270;
@@ -276,8 +314,19 @@ function Obstacle() {
     this.height = 60;
 
     //Circle
-    this.radians = 30;
-    this.centerYCirc = fullHeight - fullHeight * 0.1 - 5 - this.radians;
+    this.radius = 30;
+    this.circleCenterX = 800;
+    this.circleCenterY = fullHeight - fullHeight * 0.1 - 5 - this.radius;
+
+    this.draw = function() {
+        if(this.type == 'tri') {
+            this.drawObsTri()
+        } else if(this.type == 'circle') {
+            this.drawObsCircle()
+        } else if(this.type == 'rect'){
+            this.drawObsRect()
+        }
+    };
 
     this.drawObsRect = function() {
         gameCanvas.ctx.fillStyle = 'yellow';
@@ -288,13 +337,13 @@ function Obstacle() {
     this.drawObsCircle = function() {
         gameCanvas.ctx.fillStyle = 'purple';
         gameCanvas.ctx.beginPath();
-        gameCanvas.ctx.arc(800, this.centerYCirc, this.radians, 0, 2 * Math.PI, true);
+        gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.radius, 0, 2 * Math.PI, true);
         gameCanvas.ctx.fill();
     };
 
     this.drawObsTri = function() {
         var radiansObs = this.rotationDegrees * Math.PI/180;
-        gameCanvas.ctx.translate(this.centerX, this.centerY);
+        gameCanvas.ctx.translate(this.triCenterX, this.triCenterY);
         gameCanvas.ctx.rotate(radiansObs);
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.moveTo (this.size * Math.cos(0), this.size * Math.sin(0));          
@@ -307,7 +356,7 @@ function Obstacle() {
         //gameCanvas.ctx.lineWidth = this.strokeWidth;
         //gameCanvas.ctx.stroke();
         gameCanvas.ctx.rotate(-radiansObs);
-        gameCanvas.ctx.translate(-this.centerX,-this.centerY);
+        gameCanvas.ctx.translate(-this.triCenterX,-this.triCenterY);
         gameCanvas.ctx.fill();
     };
 };
