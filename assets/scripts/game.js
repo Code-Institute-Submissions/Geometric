@@ -149,11 +149,6 @@ var gameCanvas = {
             gameFloor[i].x -= 2; //Floor Speed
         };
 
-        for(i = 0; i < gameFloor.length; i++) {
-            gameFloor[i].draw();
-            gameFloor[i].x -= 2;
-        };
-
         //Obstacles draw and type
         if(gameCanvas.loopCounter == 0) {
             gameObstacles.push(new Obstacle('tri'));
