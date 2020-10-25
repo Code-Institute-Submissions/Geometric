@@ -41,14 +41,17 @@ var gameCanvas = {
         //Laser 
         //Laser Collisions
         for (var i = 0; i < gameLaser.length; i++) {
-            if (gameObstacles.length > 0) {
+            if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
+                gameLaser.shift();
+            }
+            
+            else if (gameObstacles.length > 0) {
                 for (var j = 0; j < gameObstacles.length; j++) {
                     if (
                     gameObstacles[j].type == 'rect' && 
                     gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
                     gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
-                    gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y || 
-                    gameLaser[i].x > fullWidth) {
+                    gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
                         gameLaser.shift();
                         console.log('rect collision');
                     } 
@@ -83,6 +86,7 @@ var gameCanvas = {
                     }
                 }
             }
+
             else {
                 gameLaser[i].draw();
                 gameLaser[i].x += gameLaser[i].speed;
@@ -273,7 +277,7 @@ var gameLaser = [];
 function Laser() {
     this.width = objectSize * 0.66;
     this.height = objectSize * 0.1;
-    this.speed = fullWidth * 0.01;
+    this.speed = fullWidth * 0.0075;
     this.y = totalFloorHeight - objectSize / 2 - this.height * 2;
     this.x = heroTri.centerX + heroTri.size;
     this.color = 'skyblue';
@@ -318,7 +322,7 @@ function Obstacle(type) {
     //Triangle
     this.sides = 3;
     this.size = heroTri.size;
-    this.triCenterX = 600;
+    this.triCenterX = 1000;
     this.triCenterY = totalFloorHeight - this.size / 2;
     //this.strokeWidth = 0;
     //this.strokeColor = 'purple';
@@ -327,12 +331,12 @@ function Obstacle(type) {
     //Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
-    this.x = fullWidth * 0.3;
+    this.x = 1000;
     this.y = totalFloorHeight - this.height;
 
     //Circle
     this.radius = objectSize * 0.75;
-    this.circleCenterX = 800;
+    this.circleCenterX = 1000;
     this.circleCenterY = totalFloorHeight - this.radius;
 
     this.draw = function() {
