@@ -54,11 +54,13 @@ var gameCanvas = {
                else if (
                 gameObstacles[j].type == 'tri' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX - gameObstacles[j].size / 2 && 
-                gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].size &&
+                gameLaser[i].x < gameObstacles[j].triCenterX &&
                 gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
                     gameLaser[i].speed = -gameLaser[i].speed;
                     gameLaser[i].color = 'red';
                     console.log('tri collision');
+                    gameLaser[i].draw();
+                    gameLaser[i].x += gameLaser[i].speed;
                 }
 
                 else if (
@@ -165,7 +167,7 @@ var gameCanvas = {
 var heroTri = {
     sides: 3,
     size: objectSize,
-    centerX: 150,
+    centerX: fullWidth * 0.15,
     centerY: totalFloorHeight - objectSize / 2,
     //strokeWidth: 0,
     //strokeColor: 'purple',
