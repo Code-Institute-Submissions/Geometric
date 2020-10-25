@@ -1,10 +1,11 @@
 //Variables
 var fullWidth = $(window).width();
 var fullHeight = $(window).height();
-var strokeWidth = 10;
-var objectSize = 60; //Triange, others are scaled based of it
+var strokeWidth = fullHeight * 0.02;
+var objectSize = fullHeight * 0.06; //Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
+var obstacleHeight = objectSize * 1.5;
 
 //Start Game
 $(document).ready(function() {
@@ -14,7 +15,7 @@ $(document).ready(function() {
 
 //Game Canvas
 var gameCanvas = {
-    //Counter
+    //Counterss
     loopCounter : 0,
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
@@ -178,7 +179,7 @@ var heroTri = {
     shooting: false,
     shootMax: false,
     rotationSpeed: 0,
-    jumpHeight: objectSize * 1.5,
+    jumpHeight: obstacleHeight * 1,
     
     draw: function() {
         var radians = this.rotationDegrees*Math.PI/180;
@@ -208,29 +209,30 @@ var heroTri = {
         //Gravity
         } else {
             heroTri.centerY += heroTri.velocityY;
-            heroTri.velocityY += 4;
+            heroTri.velocityY += obstacleHeight * 0.075;
             heroTri.velocityY *= 0.9;
 
-            heroTri.rotateSpeed = 8; //Close to correct rotation (Add formula later for precise rotation)
+            heroTri.rotateSpeed = 10; //Close to correct rotation (Add formula later for precise rotation)
             heroTri.rotationDegrees += heroTri.rotateSpeed;
         };
     },
 
     onFloorCheck: function() {
-       if(heroTri.centerY > totalFloorHeight - objectSize / 2) { //
+       if(heroTri.centerY > totalFloorHeight - objectSize / 2 - 1) { //
             heroTri.centerY = totalFloorHeight - objectSize / 2;
+            //Resets
             heroTri.airBorn = false;
             heroTri.shooting = false;
             heroTri.shootMax = false;
-            heroTri.velocityY = 17.99;
-            //Rotation
+            heroTri.velocityY = 0;
+            //Rotation Resets
             heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
+            heroTri.rotationSpeed = 0
         };
     },
 
     jump: function() {
-        heroTri.velocityY -= this.jumpHeight;
-        console.log('jump');
+        heroTri.velocityY -= this.jumpHeight; //
         heroTri.airBorn = true;
     },
 
@@ -238,8 +240,8 @@ var heroTri = {
         heroTri.shooting = true;
         console.log('shoot');
 
-        heroTri.rotateSpeed = 6; // 2:1 rotate to velocity for 40 height triangle
-        heroTri.velocityY = 4;
+        heroTri.rotateSpeed = 6;
+        heroTri.velocityY = objectSize * 0.075;
 
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
@@ -264,7 +266,7 @@ var gameLaser = [];
 function Laser() {
     this.width = objectSize * 0.66;
     this.height = objectSize * 0.1;
-    this.speed = 10;
+    this.speed = fullWidth * 0.005;
     this.y = totalFloorHeight - objectSize / 2 - this.height * 2;
     this.x = heroTri.centerX + heroTri.size;
     this.color = 'skyblue';
@@ -318,7 +320,7 @@ function Obstacle(type) {
     //Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
-    this.x = 1000;
+    this.x = fullWidth * 0.3;
     this.y = totalFloorHeight - this.height;
 
     //Circle
