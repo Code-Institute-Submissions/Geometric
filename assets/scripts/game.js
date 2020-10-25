@@ -1,6 +1,10 @@
 //Variables
 var fullWidth = $(window).width();
 var fullHeight = $(window).height();
+var strokeWidth = 10;
+var objectSize = 60; //Triange, others are scaled based of it
+var floorHeight = fullHeight * 0.1;
+var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 
 //Start Game
 $(document).ready(function() {
@@ -49,8 +53,9 @@ var gameCanvas = {
                 
                else if (
                 gameObstacles[j].type == 'tri' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
-                gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].size) {
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX - gameObstacles[j].size / 2 && 
+                gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].size &&
+                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
                     gameLaser[i].speed = -gameLaser[i].speed;
                     gameLaser[i].color = 'red';
                     console.log('tri collision');
@@ -159,9 +164,9 @@ var gameCanvas = {
 // Hero Character - Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
 var heroTri = {
     sides: 3,
-    size: 40,
-    centerX: fullWidth * 0.15,
-    centerY: fullHeight - fullHeight * 0.1 - 5 - 40/2,
+    size: objectSize,
+    centerX: 150,
+    centerY: totalFloorHeight - objectSize / 2,
     //strokeWidth: 0,
     //strokeColor: 'purple',
     fillColor: 'limegreen',
@@ -171,6 +176,7 @@ var heroTri = {
     shooting: false,
     shootMax: false,
     rotationSpeed: 0,
+    jumpHeight: objectSize * 1.5,
     
     draw: function() {
         var radians = this.rotationDegrees*Math.PI/180;
@@ -203,14 +209,14 @@ var heroTri = {
             heroTri.velocityY += 4;
             heroTri.velocityY *= 0.9;
 
-            heroTri.rotateSpeed = 3.41; //Close to correct rotation (Add formula later for precise rotation)
+            heroTri.rotateSpeed = 8; //Close to correct rotation (Add formula later for precise rotation)
             heroTri.rotationDegrees += heroTri.rotateSpeed;
         };
     },
 
     onFloorCheck: function() {
-       if(heroTri.centerY > fullHeight - fullHeight * 0.1 - 5 - 40/2) { //
-            heroTri.centerY = fullHeight - fullHeight * 0.1 - 5 - 40/2;
+       if(heroTri.centerY > totalFloorHeight - objectSize / 2) { //
+            heroTri.centerY = totalFloorHeight - objectSize / 2;
             heroTri.airBorn = false;
             heroTri.shooting = false;
             heroTri.shootMax = false;
@@ -221,7 +227,7 @@ var heroTri = {
     },
 
     jump: function() {
-        heroTri.velocityY -= 65;
+        heroTri.velocityY -= this.jumpHeight;
         console.log('jump');
         heroTri.airBorn = true;
     },
@@ -231,7 +237,7 @@ var heroTri = {
         console.log('shoot');
 
         heroTri.rotateSpeed = 6; // 2:1 rotate to velocity for 40 height triangle
-        heroTri.velocityY = 3;
+        heroTri.velocityY = 4;
 
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
@@ -254,11 +260,11 @@ var heroTri = {
 var gameLaser = [];
 
 function Laser() {
-    this.y = fullHeight - fullHeight * 0.1 - 5 - 40/2 - 10;
-    this.x = fullWidth * 0.15 + 40;
-    this.width = 40;
-    this.height = 5;
+    this.width = objectSize * 0.66;
+    this.height = objectSize * 0.1;
     this.speed = 10;
+    this.y = totalFloorHeight - objectSize / 2 - this.height * 2;
+    this.x = heroTri.centerX + heroTri.size;
     this.color = 'skyblue';
 
     this.draw = function() {
@@ -272,11 +278,11 @@ function Laser() {
 var gameFloor = [];
 
 function Floor() {
-    this.height = fullHeight * 0.1;
+    this.height = floorHeight;
     this.width = fullWidth / 10;
     this.x = 0;
     this.y = fullHeight - this.height;
-    this.strokeWidth = 10;
+    this.strokeWidth = strokeWidth;
 
     this.draw = function() {
         gameCanvas.ctx.fillStyle = '#161616';
@@ -300,23 +306,23 @@ function Obstacle(type) {
 
     //Triangle
     this.sides = 3;
-    this.size = 40;
+    this.size = heroTri.size;
     this.triCenterX = 600;
-    this.triCenterY = fullHeight - fullHeight * 0.1 - 5 - 40/2;
+    this.triCenterY = totalFloorHeight - this.size / 2;
     //this.strokeWidth = 0;
     //this.strokeColor = 'purple';
     this.rotationDegrees = 270;
 
     //Rectangle
+    this.height = objectSize * 1.5;
+    this.width = this.height;
     this.x = 1000;
-    this.y = fullHeight - fullHeight * 0.1 - 5 - 60;
-    this.width = 60;
-    this.height = 60;
+    this.y = totalFloorHeight - this.height;
 
     //Circle
-    this.radius = 30;
+    this.radius = objectSize * 0.75;
     this.circleCenterX = 800;
-    this.circleCenterY = fullHeight - fullHeight * 0.1 - 5 - this.radius;
+    this.circleCenterY = totalFloorHeight - this.radius;
 
     this.draw = function() {
         if(this.type == 'tri') {
