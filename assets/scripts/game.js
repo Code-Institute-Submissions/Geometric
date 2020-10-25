@@ -41,48 +41,55 @@ var gameCanvas = {
         //Laser 
         //Laser Collisions
         for (var i = 0; i < gameLaser.length; i++) {
-            for (var j = 0; j < gameObstacles.length; j++) {
-                if (
-                gameObstacles[j].type == 'rect' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
-                gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
-                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y || 
-                gameLaser[i].x > fullWidth) {
-                    gameLaser.shift();
-                    console.log('rect collision');
-                } 
-                
-               else if (
-                gameObstacles[j].type == 'tri' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX - gameObstacles[j].size / 2 && 
-                gameLaser[i].x < gameObstacles[j].triCenterX &&
-                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
-                    gameLaser[i].speed = -gameLaser[i].speed;
-                    gameLaser[i].color = 'red';
-                    console.log('tri collision');
-                    gameLaser[i].draw();
-                    gameLaser[i].x += gameLaser[i].speed;
-                }
+            if (gameObstacles.length > 0) {
+                for (var j = 0; j < gameObstacles.length; j++) {
+                    if (
+                    gameObstacles[j].type == 'rect' && 
+                    gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
+                    gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
+                    gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y || 
+                    gameLaser[i].x > fullWidth) {
+                        gameLaser.shift();
+                        console.log('rect collision');
+                    } 
+                    
+                    else if (
+                    gameObstacles[j].type == 'tri' && 
+                    gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX - gameObstacles[j].size / 2 && 
+                    gameLaser[i].x < gameObstacles[j].triCenterX &&
+                    gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
+                        gameLaser[i].speed = -gameLaser[i].speed;
+                        gameLaser[i].color = 'red';
+                        console.log('tri collision');
+                        gameLaser[i].draw();
+                        gameLaser[i].x += gameLaser[i].speed;
+                    }
 
-                else if (
-                gameObstacles[j].type == 'circle' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
-                gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
-                    gameLaser[i].color = 'red';
-                    console.log('circle collision');
-                    //Laser Movement again as the laser wouldn't be drawn after if the circle was the only obstacle in the array
-                    gameLaser[i].draw();
-                    gameLaser[i].x += gameLaser[i].speed;
-                }
-                
-                //Laser Movement
-                else {
-                    gameLaser[i].draw();
-                    gameLaser[i].x += gameLaser[i].speed;
+                    else if (
+                    gameObstacles[j].type == 'circle' && 
+                    gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
+                    gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
+                        gameLaser[i].color = 'red';
+                        console.log('circle collision');
+                        //Laser Movement again as the laser wouldn't be drawn after if the circle was the only obstacle in the array
+                        gameLaser[i].draw();
+                        gameLaser[i].x += gameLaser[i].speed;
+                    }
+                    
+                    //Laser Movement
+                    else {
+                        gameLaser[i].draw();
+                        gameLaser[i].x += gameLaser[i].speed;
+                    }
                 }
             }
+            else {
+                gameLaser[i].draw();
+                gameLaser[i].x += gameLaser[i].speed;
+                console.log('else run');
+            }
         }
-
+        console.log(gameLaser.length);
         //Creates Initial Floor Pushing them into the array
         if(gameFloor.length == 0) {
             for(var i = 0; i < 10; i++) {
@@ -266,7 +273,7 @@ var gameLaser = [];
 function Laser() {
     this.width = objectSize * 0.66;
     this.height = objectSize * 0.1;
-    this.speed = fullWidth * 0.005;
+    this.speed = fullWidth * 0.01;
     this.y = totalFloorHeight - objectSize / 2 - this.height * 2;
     this.x = heroTri.centerX + heroTri.size;
     this.color = 'skyblue';
