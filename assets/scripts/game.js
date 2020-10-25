@@ -140,13 +140,13 @@ var gameCanvas = {
         // Adds new floor tile to create continuous infinity floor 
         if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
             gameFloor.push(new Floor());
-            gameFloor[gameFloor.length - 1].x = fullWidth - 2;
+            gameFloor[gameFloor.length - 1].x = fullWidth - 10;
         };
 
         //Draws Floor
         for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
-            gameFloor[i].x -= 2; //Floor Speed
+            gameFloor[i].x -= 10; //Floor Speed
         };
 
         //Obstacles draw and type
@@ -158,6 +158,9 @@ var gameCanvas = {
 
         for(i = 0; i < gameObstacles.length; i++) {
             gameObstacles[i].draw();
+            gameObstacles[i].x -= 10;
+            gameObstacles[i].triCenterX -= 10;
+            gameObstacles[i].circleCenterX -= 10;
         };
         
         //Calls loop again and counts how many time
@@ -316,8 +319,8 @@ function Obstacle(type) {
 
     //Triangle
     this.sides = 3;
-    this.size = heroTri.size;
-    this.triCenterX = 1000;
+    this.size = objectSize;
+    this.triCenterX = fullWidth + objectSize;
     this.triCenterY = totalFloorHeight - this.size / 2;
     //this.strokeWidth = 0;
     //this.strokeColor = 'purple';
@@ -326,12 +329,12 @@ function Obstacle(type) {
     //Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
-    this.x = 1000;
+    this.x = fullWidth;
     this.y = totalFloorHeight - this.height;
 
     //Circle
     this.radius = objectSize * 0.75;
-    this.circleCenterX = 1000;
+    this.circleCenterX = fullWidth + this.radius;
     this.circleCenterY = totalFloorHeight - this.radius;
 
     this.draw = function() {
