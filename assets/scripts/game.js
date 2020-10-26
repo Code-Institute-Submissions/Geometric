@@ -40,109 +40,13 @@ var gameCanvas = {
         
         //Laser 
         //Laser Collisions
-        for (var i = 0; i < gameLaser.length; i++) {
-            if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
-                gameLaser.shift();
-            }
-            
-            else if (gameObstacles.length > 0) {
-                for (var j = 0; j < gameObstacles.length; j++) {
-                    if (
-                    gameObstacles[j].type == 'rect' && 
-                    gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
-                    gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
-                    gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
-                        gameLaser.shift();
-                        console.log('rect collision');
-                    } 
-                    
-                    else if (
-                    gameObstacles[j].type == 'tri' && 
-                    gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
-                    gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].width / 2 &&
-                    gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
-                        gameLaser[i].speed = -gameLaser[i].speed;
-                        gameLaser[i].color = 'red';
-                        console.log('tri collision');
-                        gameLaser[i].x += gameLaser[i].speed;
-                        gameLaser[i].x -= 40;
-                        gameLaser[i].draw();
-                    }
+        laserCollisionCheck();
 
-                    else if (
-                    gameObstacles[j].type == 'circle' && 
-                    gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
-                    gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
-                        gameLaser[i].color = 'red';
-                        console.log('circle collision');
-                        //Laser Movement again as the laser wouldn't be drawn after if the circle was the only obstacle in the array
-                        gameLaser[i].draw();
-                        gameLaser[i].x += gameLaser[i].speed;
-                    }
-                    
-                    //Laser Movement
-                    else {
-                        gameLaser[i].draw();
-                        gameLaser[i].x += gameLaser[i].speed;
-                    }
-                }
-            }
-
-            else {
-                gameLaser[i].draw();
-                gameLaser[i].x += gameLaser[i].speed;
-                console.log('else run');
-            }
-        }
-        console.log(gameLaser.length);
         //Creates Initial Floor Pushing them into the array
-        if(gameFloor.length == 0) {
-            for(var i = 0; i < 10; i++) {
-                gameFloor.push(new Floor())
-            };
+        initalFloorCreation();
 
-            if(i = 1) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 2) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 3) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 4) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 5) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 6) {
-                gameFloor[i].x += gameFloor[i].width * i ;
-            };
-
-            if(i = 7) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 8) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-
-            if(i = 9) {
-                gameFloor[i].x += gameFloor[i].width * i;
-            };
-        };
-        
         // Adds new floor tile to create continuous infinity floor 
-        if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
-            gameFloor.push(new Floor());
-            gameFloor[gameFloor.length - 1].x = fullWidth - 10;
-        };
+        infinityFloor();
 
         //Draws Floor
         for(i = 0; i < gameFloor.length; i++) {
@@ -153,16 +57,12 @@ var gameCanvas = {
         //Obstacles draw and type
         if(gameCanvas.loopCounter == 0) {
             gameObstacles.push(new Obstacle('tri'));
-            //gameObstacles.push(new Obstacle('circle'));
-            //gameObstacles.push(new Obstacle('rect'));
+            gameObstacles.push(new Obstacle('circle'));
+            gameObstacles.push(new Obstacle('rect'));
         };
 
-        for(i = 0; i < gameObstacles.length; i++) {
-            gameObstacles[i].draw();
-            gameObstacles[i].x -= 10;
-            gameObstacles[i].triCenterX -= 10;
-            gameObstacles[i].circleCenterX -= 10;
-        };
+        //Obstacle Movement
+        obstacleMovement();
         
         //Calls loop again and counts how many time
         gameCanvas.loopCounter += 1;
@@ -287,6 +187,64 @@ function Laser() {
     };
 };
 
+function laserCollisionCheck() {
+    for (var i = 0; i < gameLaser.length; i++) {
+        if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
+            gameLaser.shift();
+        }
+        
+        else if (gameObstacles.length > 0) {
+            for (var j = 0; j < gameObstacles.length; j++) {
+            
+                if (
+                gameObstacles[j].type == 'rect' && 
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
+                gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
+                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
+                    gameLaser.shift();
+                    console.log('rect collision');
+                } 
+                
+                else if (
+                gameObstacles[j].type == 'tri' && 
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
+                gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].width / 2 &&
+                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
+                    gameLaser[i].speed = -gameLaser[i].speed;
+                    gameLaser[i].color = 'red';
+                    console.log('tri collision');
+                    gameLaser[i].x += gameLaser[i].speed;
+                    gameLaser[i].x -= 40; //Make a percentage of full width
+                    gameLaser[i].draw();
+                }
+
+                else if (
+                gameObstacles[j].type == 'circle' && 
+                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
+                gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
+                    gameLaser[i].color = 'red';
+                    console.log('circle collision');
+                    //Laser Movement again as the laser wouldn't be drawn after if the circle was the only obstacle in the array
+                    gameLaser[i].draw();
+                    gameLaser[i].x += gameLaser[i].speed;
+                }
+                
+                //Laser Movement
+                else {
+                    gameLaser[i].draw();
+                    gameLaser[i].x += gameLaser[i].speed;
+                }
+            }
+        }
+
+        else {
+            gameLaser[i].draw();
+            gameLaser[i].x += gameLaser[i].speed;
+            console.log('else run');
+        }
+    }
+}
+
 //Floor
 
 var gameFloor = [];
@@ -310,6 +268,57 @@ function Floor() {
         gameCanvas.ctx.stroke();
     };
 };
+
+function initalFloorCreation() {
+    if(gameFloor.length == 0) {
+        for(var i = 0; i < 10; i++) {
+            gameFloor.push(new Floor())
+        };
+
+        if(i = 1) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 2) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 3) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 4) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 5) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 6) {
+            gameFloor[i].x += gameFloor[i].width * i ;
+        };
+
+        if(i = 7) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 8) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+
+        if(i = 9) {
+            gameFloor[i].x += gameFloor[i].width * i;
+        };
+    };
+}
+
+function infinityFloor() {
+    if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
+        gameFloor.push(new Floor());
+        gameFloor[gameFloor.length - 1].x = fullWidth - 10;
+    };
+}
 
 //Obstacles
 var gameObstacles = [];
@@ -380,6 +389,15 @@ function Obstacle(type) {
         gameCanvas.ctx.fill();
     };
 };
+
+function obstacleMovement() {
+    for(i = 0; i < gameObstacles.length; i++) {
+        gameObstacles[i].draw();
+        gameObstacles[i].x -= 10;
+        gameObstacles[i].triCenterX -= 10;
+        gameObstacles[i].circleCenterX -= 10;
+    };
+}
 
 //Controller
 document.addEventListener('keydown', function (event) {
