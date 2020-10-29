@@ -37,7 +37,10 @@ var gameCanvas = {
         heroTri.draw();
         heroTri.gravity();
         heroTri.onFloorCheck();
-        
+
+        //Hero collisions
+        //Circle collisions
+        heroTri.cirlceCrash()
         //Laser 
         //Laser Collisions
         laserCollisionCheck();
@@ -93,6 +96,15 @@ var heroTri = {
     jumpHeight: obstacleHeight * 1,
     
     draw: function() {
+
+        //Draw tri boundary circle 
+        gameCanvas.ctx.fillStyle = 'yellow'
+        gameCanvas.ctx.beginPath();
+        gameCanvas.ctx.arc(this.centerX, this.centerY, this.size, 0, 2 * Math.PI, true);
+        gameCanvas.ctx.closePath();
+        gameCanvas.ctx.fill();
+
+        //Draw tri
         var radians = this.rotationDegrees*Math.PI/180;
         gameCanvas.ctx.translate(this.centerX, this.centerY);
         gameCanvas.ctx.rotate(radians);
@@ -111,6 +123,17 @@ var heroTri = {
         gameCanvas.ctx.translate(-this.centerX,-this.centerY);
     },
 //(End of Not all my own code)
+
+    cirlceCrash: function() {
+        for(i = 0; i < gameObstacles.length; i++) {
+            var disX = heroTri.centerX - gameObstacles[i].circleCenterX;
+            var disY = heroTri.centerY - gameObstacles[i].circleCenterY;
+            var disHyp = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
+            if(disHyp < heroTri.size + gameObstacles[i].radius) {
+                heroTri.fillColor = 'red' //Change to END GAME
+            }
+        }
+    },
 
     gravity() {
         //Check shoot functions (Shoot defies gravity)
