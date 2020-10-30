@@ -223,10 +223,19 @@ function laserCollisionCheck() {
         if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
             gameLaser.shift();
         }
+
+        //Laser vs Hero 
+        else if (gameLaser[i].x + gameLaser[i].width > heroTri.centerX && 
+        gameLaser[i].x < heroTri.centerX + heroTri.size / 2 &&
+        gameLaser[i].y + gameLaser[i].height < heroTri.centerY) {
+            heroTri.fillColor = 'red';
+            console.log('hero collision')
+        }
         
         else if (gameObstacles.length > 0) {
             for (var j = 0; j < gameObstacles.length; j++) {
-            
+                
+                //Laser vs Rect
                 if (
                 gameObstacles[j].type == 'rect' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
@@ -236,6 +245,7 @@ function laserCollisionCheck() {
                     console.log('rect collision');
                 } 
                 
+                //Laser vs Triangle
                 else if (
                 gameObstacles[j].type == 'tri' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
@@ -246,7 +256,8 @@ function laserCollisionCheck() {
                     console.log('tri collision');
                     gameLaser[i].x -= 40; //Make a percentage of full width
                 }
-
+                
+                //Laser vs Circle
                 else if (
                 gameObstacles[j].type == 'circle' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
