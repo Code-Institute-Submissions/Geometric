@@ -30,8 +30,8 @@ $(document).ready(function() {
 // Game Canvas
 var gameCanvas = {
     
-    // How many time the loop function has run
-    loopCounter : 0,
+    // Counter
+    loopCounter : 0, // How many time the loop function runs
 
     // Cancus Creation
     canvas : document.createElement('canvas'),
@@ -81,12 +81,13 @@ var gameCanvas = {
         // Test Obstacles pushed into the array (Replace with Level Design in Late Commit)
         if(gameCanvas.loopCounter == 0) {
             gameObstacles.push(new Obstacle('tri'));
-            gameObstacles.push(new Obstacle('circle'));
             gameObstacles.push(new Obstacle('rect'));
+            gameObstacles.push(new Obstacle('circle'));
         };
 
         // Obstacle Physics
         obstacleMovement();
+        obstacleRemove();
         
         // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
@@ -100,7 +101,8 @@ var gameCanvas = {
     },
 };
 
-// Hero Character - Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
+// Hero Character
+// Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
 var heroTri = {
     sides: 3,
     size: objectSize,
@@ -199,19 +201,21 @@ var heroTri = {
     },
 
     onFloorCheck: function() {
-       if(heroTri.centerY > totalFloorHeight - objectSize / 2 - 1) { //
-            heroTri.centerY = totalFloorHeight - objectSize / 2; // Stops hero falling through the floor
+        for(i = 0; i < gameFloor.length; i++) {
+            if(heroTri.centerY > fullHeight - gameFloor[i].height - gameFloor[i].strokeWidth / 2 - objectSize / 2 - 1) { //
+                heroTri.centerY = totalFloorHeight - objectSize / 2; // Stops hero falling through the floor
 
-            // Resets
-            heroTri.airBorn = false;
-            heroTri.shooting = false;
-            heroTri.shootMax = false;
-            heroTri.velocityY = 0;
+                // Resets
+                heroTri.airBorn = false;
+                heroTri.shooting = false;
+                heroTri.shootMax = false;
+                heroTri.velocityY = 0;
 
-            // Rotation Resets
-            heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
-            heroTri.rotationSpeed = 0
-        };
+                // Rotation Resets
+                heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
+                heroTri.rotationSpeed = 0
+            };
+        }
     },
 
     jump: function() {
@@ -272,11 +276,13 @@ function laserMovement() {
 // Laser Collisions
 function laserCollisionCheck() {
     for (var i = 0; i < gameLaser.length; i++) {
+
+        // Remove off canvas lasers
         if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
             gameLaser.shift();
         }
 
-        //Laser vs Hero 
+        // Laser vs Hero 
         else if (gameLaser[i].x + gameLaser[i].width > heroTri.centerX && 
         gameLaser[i].x < heroTri.centerX + heroTri.size / 2 &&
         gameLaser[i].y + gameLaser[i].height < heroTri.centerY) {
@@ -297,7 +303,7 @@ function laserCollisionCheck() {
                     console.log('rect collision');
                 } 
                 
-                //Laser vs Triangle
+                // Laser vs Triangle
                 else if (
                 gameObstacles[j].type == 'tri' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
@@ -306,10 +312,10 @@ function laserCollisionCheck() {
                     gameLaser[i].speed = -gameLaser[i].speed;
                     gameLaser[i].color = 'red';
                     console.log('tri collision');
-                    gameLaser[i].x -= 40; //Make a percentage of full width
+                    gameLaser[i].x -= 40; // Make a percentage of full width
                 }
                 
-                //Laser vs Circle
+                // Laser vs Circle
                 else if (
                 gameObstacles[j].type == 'circle' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
@@ -322,7 +328,7 @@ function laserCollisionCheck() {
     }
 }
 
-//Floor
+// Floor
 var gameFloor = [];
 
 function Floor() {
@@ -419,9 +425,8 @@ function Obstacle(type) {
     // Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
-    this.x = fullWidth + 2000;
-    this.y = totalFloorHeight - this.height;
-
+    this.x = fullWidth + 1000;
+    this.y = 500
     // Circle
     this.radius = objectSize * 0.75;
     this.circleCenterX = fullWidth + this.radius + 3000;
@@ -441,8 +446,9 @@ function Obstacle(type) {
     // Draw Rectangle Obstacles
     this.drawObsRect = function() {
         gameCanvas.ctx.fillStyle = 'yellow';
+        gameCanvas.ctx.beginPath()
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
-        
+        gameCanvas.ctx.closePath()
     };
 
     // Draw Cirlce Obstacles
@@ -450,6 +456,7 @@ function Obstacle(type) {
         gameCanvas.ctx.fillStyle = 'purple';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.radius, 0, 2 * Math.PI, true);
+        gameCanvas.ctx.closePath();
         gameCanvas.ctx.fill();
     };
 
@@ -476,12 +483,23 @@ function Obstacle(type) {
 
 // Moves the obstacles
 function obstacleMovement() {
-    for(i = 0; i < gameObstacles.length; i++) {
+     for(i = 0; i < gameObstacles.length; i++) {
+        console.log(gameObstacles.length);
         gameObstacles[i].draw();
         gameObstacles[i].x -= moveSpeed;
         gameObstacles[i].triCenterX -= moveSpeed;
         gameObstacles[i].circleCenterX -= moveSpeed;
-    };
+     }
+}
+
+function obstacleRemove(){
+    for(i = 0; i < gameObstacles.length; i++) {
+        if (gameObstacles[i].x + gameObstacles[i].width < 0 && gameObstacles[i].type == 'rect' || 
+            gameObstacles[i].triCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'tri'|| 
+            gameObstacles[i].circleCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'circle') {
+            gameObstacles.shift();
+        }
+    }
 }
 
 //Controller
