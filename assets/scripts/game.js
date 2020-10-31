@@ -282,7 +282,7 @@ function laserCollisionCheck() {
     for (var i = 0; i < gameLaser.length; i++) {
 
         // Remove off canvas lasers
-        if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
+        if (gameLaser[i].x >= fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
             gameLaser.shift();
         }
 
@@ -303,7 +303,7 @@ function laserCollisionCheck() {
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
                 gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
                 gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
-                    gameLaser.shift();
+                    gameLaser[i].x = fullWidth;
                     console.log('rect collision');
                 } 
                 
