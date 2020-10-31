@@ -30,9 +30,9 @@ $(document).ready(function() {
 // Game Canvas
 var gameCanvas = {
     
-    // Counter
+    // Counters
     loopCounter : 0, // How many time the loop function runs
-
+    score: 0, // Player Score
     // Cancus Creation
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
@@ -49,7 +49,11 @@ var gameCanvas = {
 
     // Updates the game and self calls creating the loop
     loop: function() {
-        gameCanvas.clear(); //Calls Clear Canvas
+        //Clears last frame
+        gameCanvas.clear();
+
+        //Writes score
+        score.draw();
         
         // Hero Physics
         heroTri.draw();
@@ -425,8 +429,8 @@ function Obstacle(type) {
     // Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
-    this.x = fullWidth + 1000;
-    this.y = 500
+    this.x = fullWidth + 2000;
+    this.y = totalFloorHeight - this.height
     // Circle
     this.radius = objectSize * 0.75;
     this.circleCenterX = fullWidth + this.radius + 3000;
@@ -492,12 +496,14 @@ function obstacleMovement() {
      }
 }
 
+// Removes obstacles outside the canvas
 function obstacleRemove(){
     for(i = 0; i < gameObstacles.length; i++) {
         if (gameObstacles[i].x + gameObstacles[i].width < 0 && gameObstacles[i].type == 'rect' || 
             gameObstacles[i].triCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'tri'|| 
             gameObstacles[i].circleCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'circle') {
             gameObstacles.shift();
+            gameCanvas.score += 1;
         }
     }
 }
@@ -512,3 +518,16 @@ document.addEventListener('keydown', function (event) {
         heroTri.shoot();
     };
 });
+
+// Score
+var score = {
+    x : fullWidth / 2 - 16,
+    y : fullHeight * 0.075,
+    color : 'white',
+    draw : function() {
+		gameCanvas.ctx.fillStyle = this.color;
+		gameCanvas.ctx.font = '3rem Montserrat';
+		gameCanvas.ctx.fillText(gameCanvas.score, this.x, this.y);
+	}
+
+}
