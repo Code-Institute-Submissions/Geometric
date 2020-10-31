@@ -6,6 +6,7 @@ var objectSize = fullHeight * 0.06; // Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = objectSize * 1.5;
+var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
 
 // Functions
 /* Clamp use to work out sections of the canvas for heroTri / Cirlce Obs Collisions
@@ -20,70 +21,77 @@ Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
 
 // (End of NOT MY OWN CODE)
 
-//Start Game
+// Starts Game
 $(document).ready(function() {
     gameCanvas.create();
     gameCanvas.loop();
 });
 
-//Game Canvas
+// Game Canvas
 var gameCanvas = {
-    //Counters
+    
+    // How many time the loop function has run
     loopCounter : 0,
+
+    // Cancus Creation
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
         
-        //Full size of browser
+        // Full size of browser
         this.canvas.width  = fullWidth;
         this.canvas.height = fullHeight;
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.ctx = this.canvas.getContext("2d");
 
-        //Removes vertical side scroller
+        // Removes vertical side scroller
         $('body').css('height', this.canvas.height);
     },
 
+    // Updates the game and self calls creating the loop
     loop: function() {
         gameCanvas.clear(); //Calls Clear Canvas
         
-        //Hero
+        // Hero Physics
         heroTri.draw();
         heroTri.gravity();
         heroTri.onFloorCheck();
 
-        //Hero collisions
-        //Circle collisions
+        // Hero Collisions
         heroTri.cirlceCrash()
         heroTri.rectCrash()
-        //Laser 
-        //Laser Collisions
-        laserCollisionCheck();
+
+        // Laser Physics
         laserMovement();
 
-        //Creates Initial Floor Pushing them into the array
-        initalFloorCreation();
+        // Laser Collisions
+        laserCollisionCheck();
 
-        // Adds new floor tile to create continuous infinity floor 
-        infinityFloor();
-
-        //Draws Floor
+        // Floor Physics 
         for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
             gameFloor[i].x -= 10; //Floor Speed
         };
 
-        //Obstacles draw and type
+        // Initial Floor pushed into the array
+        initalFloorCreation();
+
+        // Adds new floor tile to create continuous infinity floor 
+        infinityFloor();
+
+        // Test Obstacles pushed into the array (Replace with Level Design in Late Commit)
         if(gameCanvas.loopCounter == 0) {
             gameObstacles.push(new Obstacle('tri'));
             gameObstacles.push(new Obstacle('circle'));
             gameObstacles.push(new Obstacle('rect'));
         };
 
-        //Obstacle Movement
+        // Obstacle Physics
         obstacleMovement();
         
-        //Calls loop again and counts how many time
+        // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
+
+        // Self Call to repeat the loop
         requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
     },
 
@@ -103,7 +111,7 @@ var heroTri = {
     fillColor: 'limegreen',
     rotationDegrees: 270,
     velocityY: 0,
-    airBorn: true,
+    airBorn: true, // true = Hero is off the floor
     shooting: false,
     shootMax: false,
     rotationSpeed: 0,
@@ -138,18 +146,23 @@ var heroTri = {
     },
 //(End of Not all my own code)
 
+    // Hero Collision with Circle Obstacle (Pythagoras Therom)
     cirlceCrash: function() {
         for(i = 0; i < gameObstacles.length; i++) {
+            // Works out the length of Opposite and Adjacent sides from the centers of the two circles
             var disX = heroTri.centerX - gameObstacles[i].circleCenterX;
             var disY = heroTri.centerY - gameObstacles[i].circleCenterY;
+            // Pythagoras Therom to find the length Hypotenuse
             var disHyp = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
+
+            // If the size of the radii, added together, are smaller then the length of the Hypotenuse they must be overlapping
             if(disHyp < heroTri.size + gameObstacles[i].radius) {
                 heroTri.fillColor = 'red' //Change to END GAME
             }
         }
     },
 
-    // Hero Collision with Rectangle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
+    // Hero Collision with Rectangle Obstacle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
     rectCrash: function() {
         for (i = 0; i < gameObstacles.length; i++) {
             var closestX = Math.clamp(heroTri.centerX, gameObstacles[i].x, gameObstacles[i].x + gameObstacles[i].width);
@@ -167,14 +180,14 @@ var heroTri = {
             }
         }
     },
-    //(End of Not all my own code)
+    // (End of Not all my own code)
 
     gravity() {
-        //Check shoot functions (Shoot defies gravity)
+        // Check shoot functions isn't running first (Shoot defies gravity)
         if(heroTri.shooting == true) {
             heroTri.shoot();
 
-        //Gravity
+        // Gravity
         } else {
             heroTri.centerY += heroTri.velocityY;
             heroTri.velocityY += obstacleHeight * 0.075;
@@ -187,20 +200,22 @@ var heroTri = {
 
     onFloorCheck: function() {
        if(heroTri.centerY > totalFloorHeight - objectSize / 2 - 1) { //
-            heroTri.centerY = totalFloorHeight - objectSize / 2;
-            //Resets
+            heroTri.centerY = totalFloorHeight - objectSize / 2; // Stops hero falling through the floor
+
+            // Resets
             heroTri.airBorn = false;
             heroTri.shooting = false;
             heroTri.shootMax = false;
             heroTri.velocityY = 0;
-            //Rotation Resets
+
+            // Rotation Resets
             heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
             heroTri.rotationSpeed = 0
         };
     },
 
     jump: function() {
-        heroTri.velocityY -= this.jumpHeight; //
+        heroTri.velocityY -= this.jumpHeight;
         heroTri.airBorn = true;
     },
 
@@ -208,15 +223,17 @@ var heroTri = {
         heroTri.shooting = true;
         console.log('shoot');
 
-        heroTri.rotateSpeed = 6;
-        heroTri.velocityY = objectSize * 0.075;
+        heroTri.rotateSpeed = 6; // Speed of shooting
+        heroTri.velocityY = objectSize * 0.075; // Move the Hero up so the tip is on the floor
 
+        // Pushes new laser into the array and it to be drawn by another function
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
             gameLaser.push(new Laser());
         };
 
-        if(heroTri.shootMax == true) {
+        //Stops the Hero over rotating and reverses the rotation
+        if(heroTri.shootMax == true) { 
             heroTri.rotationDegrees += heroTri.rotateSpeed;
             heroTri.centerY += heroTri.velocityY;
 
@@ -228,7 +245,6 @@ var heroTri = {
 };
 
 //Laser
-
 var gameLaser = [];
 
 function Laser() {
@@ -245,6 +261,7 @@ function Laser() {
     };
 };
 
+// Laser Movement
 function laserMovement() {
     for (var i = 0; i < gameLaser.length; i++) {
         gameLaser[i].draw();
@@ -252,6 +269,7 @@ function laserMovement() {
     }
 }
 
+// Laser Collisions
 function laserCollisionCheck() {
     for (var i = 0; i < gameLaser.length; i++) {
         if (gameLaser[i].x > fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
@@ -305,7 +323,6 @@ function laserCollisionCheck() {
 }
 
 //Floor
-
 var gameFloor = [];
 
 function Floor() {
@@ -316,9 +333,11 @@ function Floor() {
     this.strokeWidth = strokeWidth;
 
     this.draw = function() {
+        // Block
         gameCanvas.ctx.fillStyle = '#161616';
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
 
+        // Top Line 
         gameCanvas.ctx.strokeStyle = 'white';
         gameCanvas.ctx.lineWidth = this.strokeWidth;
         gameCanvas.ctx.beginPath();
@@ -328,6 +347,7 @@ function Floor() {
     };
 };
 
+// Creates the starting floor of the game
 function initalFloorCreation() {
     if(gameFloor.length == 0) {
         for(var i = 0; i < 10; i++) {
@@ -372,21 +392,22 @@ function initalFloorCreation() {
     };
 }
 
+// Creates new floor title ever time the floor doesn't cover the entire width of the canvas
 function infinityFloor() {
     if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
         gameFloor.push(new Floor());
-        gameFloor[gameFloor.length - 1].x = fullWidth - 10;
+        gameFloor[gameFloor.length - 1].x = fullWidth - 10; // Draws title as the one before it moved passed full width of the canvas
     };
 }
 
-//Obstacles
+// Obstacles
 var gameObstacles = [];
 
 function Obstacle(type) {
 
     this.type = type;
 
-    //Triangle
+    // Triangle
     this.sides = 3;
     this.size = objectSize;
     this.triCenterX = fullWidth + objectSize + 1000;
@@ -395,17 +416,18 @@ function Obstacle(type) {
     //this.strokeColor = 'purple';
     this.rotationDegrees = 270;
 
-    //Rectangle
+    // Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
     this.x = fullWidth + 2000;
     this.y = totalFloorHeight - this.height;
 
-    //Circle
+    // Circle
     this.radius = objectSize * 0.75;
     this.circleCenterX = fullWidth + this.radius + 3000;
     this.circleCenterY = totalFloorHeight - this.radius;
 
+    // Demeterines which obstacle to draw based on type
     this.draw = function() {
         if(this.type == 'tri') {
             this.drawObsTri();
@@ -416,12 +438,14 @@ function Obstacle(type) {
         }
     };
 
+    // Draw Rectangle Obstacles
     this.drawObsRect = function() {
         gameCanvas.ctx.fillStyle = 'yellow';
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
         
     };
 
+    // Draw Cirlce Obstacles
     this.drawObsCircle = function() {
         gameCanvas.ctx.fillStyle = 'purple';
         gameCanvas.ctx.beginPath();
@@ -429,6 +453,7 @@ function Obstacle(type) {
         gameCanvas.ctx.fill();
     };
 
+    // Draw Triangle Obstacles
     this.drawObsTri = function() {
         var radiansObs = this.rotationDegrees * Math.PI/180;
         gameCanvas.ctx.translate(this.triCenterX, this.triCenterY);
@@ -449,12 +474,13 @@ function Obstacle(type) {
     };
 };
 
+// Moves the obstacles
 function obstacleMovement() {
     for(i = 0; i < gameObstacles.length; i++) {
         gameObstacles[i].draw();
-        gameObstacles[i].x -= 10;
-        gameObstacles[i].triCenterX -= 10;
-        gameObstacles[i].circleCenterX -= 10;
+        gameObstacles[i].x -= moveSpeed;
+        gameObstacles[i].triCenterX -= moveSpeed;
+        gameObstacles[i].circleCenterX -= moveSpeed;
     };
 }
 
