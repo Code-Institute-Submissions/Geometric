@@ -521,12 +521,12 @@ document.addEventListener('keydown', function (event) {
 
 // Score
 var score = {
-    x : fullWidth / 2 - 16,
-    y : fullHeight * 0.075,
+    x : fullWidth / 2 - fullWidth * 0.0125,
+    y : fullHeight * 0.1,
     color : 'white',
     draw : function() {
 		gameCanvas.ctx.fillStyle = this.color;
-		gameCanvas.ctx.font = '3rem Montserrat';
+		gameCanvas.ctx.font = '5vw Montserrat';
 		gameCanvas.ctx.fillText(gameCanvas.score, this.x, this.y);
 	}
 
