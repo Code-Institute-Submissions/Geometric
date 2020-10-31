@@ -69,7 +69,7 @@ var gameCanvas = {
         // Floor Physics 
         for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
-            gameFloor[i].x -= 10; //Floor Speed
+            gameFloor[i].x -= moveSpeed; // Floor Speed
         };
 
         // Initial Floor pushed into the array
@@ -396,7 +396,7 @@ function initalFloorCreation() {
 function infinityFloor() {
     if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
         gameFloor.push(new Floor());
-        gameFloor[gameFloor.length - 1].x = fullWidth - 10; // Draws title as the one before it moved passed full width of the canvas
+        gameFloor[gameFloor.length - 1].x = fullWidth - moveSpeed; // Draws title as the one before it moves passed the full width of the canvas
     };
 }
 
