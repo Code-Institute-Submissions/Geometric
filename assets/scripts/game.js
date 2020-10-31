@@ -1,11 +1,24 @@
-//Variables
+// Variables
 var fullWidth = $(window).width();
 var fullHeight = $(window).height();
 var strokeWidth = fullHeight * 0.02;
-var objectSize = fullHeight * 0.06; //Triange, others are scaled based off it
+var objectSize = fullHeight * 0.06; // Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = objectSize * 1.5;
+
+// Functions
+/* Clamp use to work out sections of the canvas for heroTri / Cirlce Obs Collisions
+Limits the value a number between two others.
+Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
+*/
+(function(){
+    Math.clamp = function(val, min, max){
+        return Math.max(min, Math.min(max ,val));
+    }
+})();
+
+// (End of NOT MY OWN CODE)
 
 //Start Game
 $(document).ready(function() {
@@ -41,6 +54,7 @@ var gameCanvas = {
         //Hero collisions
         //Circle collisions
         heroTri.cirlceCrash()
+        heroTri.rectCrash()
         //Laser 
         //Laser Collisions
         laserCollisionCheck();
@@ -98,7 +112,7 @@ var heroTri = {
     draw: function() {
 
         //Draw tri boundary circle 
-        gameCanvas.ctx.fillStyle = 'yellow'
+        gameCanvas.ctx.fillStyle = 'purple'
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.centerX, this.centerY, this.size, 0, 2 * Math.PI, true);
         gameCanvas.ctx.closePath();
@@ -134,6 +148,26 @@ var heroTri = {
             }
         }
     },
+
+    // Hero Collision with Rectangle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
+    rectCrash: function() {
+        for (i = 0; i < gameObstacles.length; i++) {
+            var closestX = Math.clamp(heroTri.centerX, gameObstacles[i].x, gameObstacles[i].x + gameObstacles[i].width);
+            var closestY = Math.clamp(heroTri.centerY, gameObstacles[i].y, gameObstacles[i].y + gameObstacles[i].height);
+
+        // Calculate the distance between the circle's center and this closest point
+            var distanceX = heroTri.centerX - closestX;
+            var distanceY = heroTri.centerY - closestY;
+
+        // If the distance is less than the circle's radius, an intersection occurs
+            var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+            
+            if (distanceSquared < (heroTri.size * heroTri.size)) {
+                heroTri.fillColor = 'red' //Change to END GAME
+            }
+        }
+    },
+    //(End of Not all my own code)
 
     gravity() {
         //Check shoot functions (Shoot defies gravity)
