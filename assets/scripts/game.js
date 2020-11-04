@@ -361,41 +361,6 @@ function initalFloorCreation() {
     if(gameFloor.length == 0) {
         for(var i = 0; i < 10; i++) {
             gameFloor.push(new Floor());
-        }
-
-        if(i = 1) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        };
-
-        if(i = 2) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        }
-
-        if(i = 3) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        }
-
-        if(i = 4) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        }
-
-        if(i = 5) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        }
-
-        if(i = 6) {
-            gameFloor[i].x += gameFloor[i].width * i ;
-        }
-
-        if(i = 7) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        }
-
-        if(i = 8) {
-            gameFloor[i].x += gameFloor[i].width * i;
-        }
-
-        if(i = 9) {
             gameFloor[i].x += gameFloor[i].width * i;
         }
     }
@@ -511,7 +476,7 @@ function obstacleMovement() {
     }
 }
 
-// Removes obstacles outside the canvas
+// Removes obstacles outside the canvas (left side only)
 function obstacleRemove(){
     for(i = 0; i < gameObstacles.length; i++) {
         if (gameObstacles[i].x + gameObstacles[i].width < 0 && gameObstacles[i].type == 'rect' || 
