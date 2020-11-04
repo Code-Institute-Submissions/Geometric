@@ -155,11 +155,10 @@ var heroTri = {
     // Hero Collision with Circle Obstacle (Pythagoras Therom)
     cirlceCrash: function() {
         for(i = 0; i < gameObstacles.length; i++) {
-            // Works out the length of Opposite and Adjacent sides from the centers of the two circles
-            var disX = heroTri.centerX - gameObstacles[i].circleCenterX;
-            var disY = heroTri.centerY - gameObstacles[i].circleCenterY;
-            // Pythagoras Therom to find the length Hypotenuse
-            var disHyp = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
+
+            // Use Pythagoras Therom to work out the distance from Hero Center to Obstacle Center
+            var disHyp = pythagoras(heroTri.centerX ,heroTri.centerY , gameObstacles[i].circleCenterX, gameObstacles[i].circleCenterY);
+            
 
             // If the length of the hypotenuse is smaller than the size of the two radii add together they must be overlapping
             if(disHyp < heroTri.size + gameObstacles[i].radius) {
