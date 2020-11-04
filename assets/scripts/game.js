@@ -74,6 +74,7 @@ var gameCanvas = {
         for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
             gameFloor[i].x -= moveSpeed; // Floor Speed
+            removeOldFloor()
         }
 
         // Initial Floor pushed into the array
@@ -371,6 +372,13 @@ function infinityFloor() {
     if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
         gameFloor.push(new Floor());
         gameFloor[gameFloor.length - 1].x = fullWidth - moveSpeed; // Draws title as the one before it moves passed the full width of the canvas
+    }
+}
+
+// Removes Floor title when they go off the canvas (left side)
+function removeOldFloor() {
+    if(gameFloor[i].x + gameFloor[i].width * 2.5 < 0) { // have set it so it has to been at least 2.5 times it width off or a flashing artefact occurs
+        gameFloor.shift();
     }
 }
 
