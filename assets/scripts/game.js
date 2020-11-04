@@ -9,14 +9,14 @@ var obstacleHeight = objectSize * 1.5;
 var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
 
 // Functions
-/* Clamp use to work out sections of the canvas for heroTri / Cirlce Obs Collisions
+/* Clamp use to work out sections of the canvas for heroTri / Rect Obs Collisions
 Limits the value a number between two others.
 Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
 */
 (function(){
     Math.clamp = function(val, min, max){
         return Math.max(min, Math.min(max ,val));
-    }
+    };
 })();
 
 // (End of NOT MY OWN CODE)
@@ -61,9 +61,9 @@ var gameCanvas = {
         heroTri.onFloorCheck();
 
         // Hero Collisions
-        heroTri.cirlceCrash()
-        heroTri.rectCrash()
-
+        heroTri.cirlceCrash();
+        heroTri.rectCrash();
+        triCollision();
         // Laser Physics
         laserMovement();
 
@@ -74,7 +74,7 @@ var gameCanvas = {
         for(i = 0; i < gameFloor.length; i++) {
             gameFloor[i].draw();
             gameFloor[i].x -= moveSpeed; // Floor Speed
-        };
+        }
 
         // Initial Floor pushed into the array
         initalFloorCreation();
@@ -87,7 +87,7 @@ var gameCanvas = {
             gameObstacles.push(new Obstacle('tri'));
             gameObstacles.push(new Obstacle('rect'));
             gameObstacles.push(new Obstacle('circle'));
-        };
+        }
 
         // Obstacle Physics
         obstacleMovement();
@@ -126,7 +126,7 @@ var heroTri = {
     draw: function() {
 
         //Draw tri boundary circle 
-        gameCanvas.ctx.fillStyle = 'purple'
+        gameCanvas.ctx.fillStyle = 'purple';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.centerX, this.centerY, this.size, 0, 2 * Math.PI, true);
         gameCanvas.ctx.closePath();
@@ -140,7 +140,7 @@ var heroTri = {
         gameCanvas.ctx.moveTo (this.size * Math.cos(0), this.size * Math.sin(0));          
         for (var i = 1; i <= this.sides; i += 1) {
             gameCanvas.ctx.lineTo (this.size * Math.cos(i * 2 * Math.PI / this.sides), this.size * Math.sin(i * 2 * Math.PI / this.sides));
-        };
+        }
         gameCanvas.ctx.closePath();
         gameCanvas.ctx.fillStyle = this.fillColor;
         //gameCanvas.ctx.strokeStyle = this.strokeColor;
@@ -161,9 +161,9 @@ var heroTri = {
             // Pythagoras Therom to find the length Hypotenuse
             var disHyp = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
 
-            // If the size of the radii, added together, are smaller then the length of the Hypotenuse they must be overlapping
+            // If the length of the hypotenuse is smaller than the size of the two radii add together they must be overlapping
             if(disHyp < heroTri.size + gameObstacles[i].radius) {
-                heroTri.fillColor = 'red' //Change to END GAME
+                heroTri.fillColor = 'red'; //Change to END GAME
             }
         }
     },
@@ -182,7 +182,7 @@ var heroTri = {
             var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
             
             if (distanceSquared < (heroTri.size * heroTri.size)) {
-                heroTri.fillColor = 'red' //Change to END GAME
+                heroTri.fillColor = 'red'; //Change to END GAME
             }
         }
     },
@@ -201,7 +201,7 @@ var heroTri = {
 
             heroTri.rotateSpeed = 10; //Close to correct rotation (Add formula later for precise rotation)
             heroTri.rotationDegrees += heroTri.rotateSpeed;
-        };
+        }
     },
 
     onFloorCheck: function() {
@@ -217,8 +217,8 @@ var heroTri = {
 
                 // Rotation Resets
                 heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
-                heroTri.rotationSpeed = 0
-            };
+                heroTri.rotationSpeed = 0;
+            }
         }
     },
 
@@ -238,7 +238,7 @@ var heroTri = {
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
             gameLaser.push(new Laser());
-        };
+        }
 
         //Stops the Hero over rotating and reverses the rotation
         if(heroTri.shootMax == true) { 
@@ -248,7 +248,7 @@ var heroTri = {
         } else {
             heroTri.rotationDegrees -= heroTri.rotateSpeed;
             heroTri.centerY -= heroTri.velocityY;
-        };
+        }
     }
 };
 
@@ -267,7 +267,7 @@ function Laser() {
         gameCanvas.ctx.fillStyle = this.color;
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
-};
+}
 
 // Laser Movement
 function laserMovement() {
@@ -291,7 +291,7 @@ function laserCollisionCheck() {
         gameLaser[i].x < heroTri.centerX + heroTri.size / 2 &&
         gameLaser[i].y + gameLaser[i].height < heroTri.centerY) {
             heroTri.fillColor = 'red';
-            console.log('hero collision')
+            console.log('hero collision');
         }
         
         else if (gameObstacles.length > 0) {
@@ -355,14 +355,14 @@ function Floor() {
         gameCanvas.ctx.lineTo(this.x + this.width, this.y);
         gameCanvas.ctx.stroke();
     };
-};
+}
 
 // Creates the starting floor of the game
 function initalFloorCreation() {
     if(gameFloor.length == 0) {
         for(var i = 0; i < 10; i++) {
-            gameFloor.push(new Floor())
-        };
+            gameFloor.push(new Floor());
+        }
 
         if(i = 1) {
             gameFloor[i].x += gameFloor[i].width * i;
@@ -370,36 +370,36 @@ function initalFloorCreation() {
 
         if(i = 2) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
+        }
 
         if(i = 3) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
+        }
 
         if(i = 4) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
+        }
 
         if(i = 5) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
+        }
 
         if(i = 6) {
             gameFloor[i].x += gameFloor[i].width * i ;
-        };
+        }
 
         if(i = 7) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
+        }
 
         if(i = 8) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
+        }
 
         if(i = 9) {
             gameFloor[i].x += gameFloor[i].width * i;
-        };
-    };
+        }
+    }
 }
 
 // Creates new floor title ever time the floor doesn't cover the entire width of the canvas
@@ -407,7 +407,7 @@ function infinityFloor() {
     if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
         gameFloor.push(new Floor());
         gameFloor[gameFloor.length - 1].x = fullWidth - moveSpeed; // Draws title as the one before it moves passed the full width of the canvas
-    };
+    }
 }
 
 // Obstacles
@@ -417,6 +417,17 @@ function Obstacle(type) {
 
     this.type = type;
 
+    // Rectangle
+    this.height = objectSize * 1.5;
+    this.width = this.height;
+    this.x = fullWidth + 2000;
+    this.y = totalFloorHeight - this.height;
+    
+    // Circle
+    this.radius = objectSize * 0.75;
+    this.circleCenterX = fullWidth + this.radius + 3000;
+    this.circleCenterY = totalFloorHeight - this.radius;
+
     // Triangle
     this.sides = 3;
     this.size = objectSize;
@@ -424,17 +435,17 @@ function Obstacle(type) {
     this.triCenterY = totalFloorHeight - this.size / 2;
     //this.strokeWidth = 0;
     //this.strokeColor = 'purple';
-    this.rotationDegrees = 270;
+    this.rotationDegrees = 180;
 
-    // Rectangle
-    this.height = objectSize * 1.5;
-    this.width = this.height;
-    this.x = fullWidth + 2000;
-    this.y = totalFloorHeight - this.height
-    // Circle
-    this.radius = objectSize * 0.75;
-    this.circleCenterX = fullWidth + this.radius + 3000;
-    this.circleCenterY = totalFloorHeight - this.radius;
+    //Tri Points
+    this.backPointX = this.triCenterX - this.size * Math.sin(1 * 2 * Math.PI / this.sides);
+    this.backPointY =  this.triCenterY - this.size * Math.cos(1 * 2 * Math.PI / this.sides);
+
+    this.topPointX = this.triCenterX;
+    this.topPointY = this.triCenterY - this.size;
+
+    this.frontPointX = this.triCenterX + this.size * Math.sin(1 * 2 * Math.PI / this.sides);
+    this.frontPointY = this.triCenterY - this.size * Math.cos(1 * 2 * Math.PI / this.sides);
 
     // Demeterines which obstacle to draw based on type
     this.draw = function() {
@@ -450,9 +461,9 @@ function Obstacle(type) {
     // Draw Rectangle Obstacles
     this.drawObsRect = function() {
         gameCanvas.ctx.fillStyle = 'yellow';
-        gameCanvas.ctx.beginPath()
+        gameCanvas.ctx.beginPath();
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
-        gameCanvas.ctx.closePath()
+        gameCanvas.ctx.closePath();
     };
 
     // Draw Cirlce Obstacles
@@ -470,10 +481,10 @@ function Obstacle(type) {
         gameCanvas.ctx.translate(this.triCenterX, this.triCenterY);
         gameCanvas.ctx.rotate(radiansObs);
         gameCanvas.ctx.beginPath();
-        gameCanvas.ctx.moveTo (this.size * Math.cos(0), this.size * Math.sin(0));          
+        gameCanvas.ctx.moveTo (this.size * Math.sin(0), this.size * Math.cos(0));          
         for (var i = 1; i <= this.sides; i += 1) {
-            gameCanvas.ctx.lineTo (this.size * Math.cos(i * 2 * Math.PI / this.sides), this.size * Math.sin(i * 2 * Math.PI / this.sides));
-        };
+            gameCanvas.ctx.lineTo (this.size * Math.sin(i * 2 * Math.PI / this.sides), this.size * Math.cos(i * 2 * Math.PI / this.sides));
+        }
         gameCanvas.ctx.closePath();
         gameCanvas.ctx.fillStyle = 'pink';
         //gameCanvas.ctx.strokeStyle = this.strokeColor;
@@ -483,17 +494,22 @@ function Obstacle(type) {
         gameCanvas.ctx.translate(-this.triCenterX,-this.triCenterY);
         gameCanvas.ctx.fill();
     };
-};
+}
 
 // Moves the obstacles
 function obstacleMovement() {
-     for(i = 0; i < gameObstacles.length; i++) {
-        console.log(gameObstacles.length);
+    for(i = 0; i < gameObstacles.length; i++) {
         gameObstacles[i].draw();
         gameObstacles[i].x -= moveSpeed;
-        gameObstacles[i].triCenterX -= moveSpeed;
         gameObstacles[i].circleCenterX -= moveSpeed;
-     }
+        
+        if (gameObstacles[i].type == 'tri') {
+            gameObstacles[i].triCenterX -= moveSpeed;
+            gameObstacles[i].backPointX -= moveSpeed;
+            gameObstacles[i].topPointX -= moveSpeed;
+            gameObstacles[i].frontPointX -= moveSpeed;
+        }
+    }
 }
 
 // Removes obstacles outside the canvas
@@ -512,11 +528,11 @@ function obstacleRemove(){
 document.addEventListener('keydown', function (event) {
     if (event.key === ' ' && heroTri.airBorn == false && heroTri.shooting == false) {
         heroTri.jump();
-    };
+    }
 
     if (event.key === 's' && heroTri.airBorn == false) {
         heroTri.shoot();
-    };
+    }
 });
 
 // Score
