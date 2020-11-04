@@ -58,7 +58,7 @@ var gameCanvas = {
         // Hero Physics
         heroTri.draw();
         heroTri.gravity();
-        heroTri.onFloorCheck();
+        heroTri.onFloor();
 
         // Hero Collisions
         heroTri.cirlceCrash();
@@ -93,7 +93,7 @@ var gameCanvas = {
         // Obstacle Physics
         obstacleMovement();
         obstacleRemove();
-        
+        console.log(heroTri.rotationDegrees)
         // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
 
@@ -171,18 +171,42 @@ var heroTri = {
     // Hero Collision with Rectangle Obstacle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
     rectCrash: function() {
         for (i = 0; i < gameObstacles.length; i++) {
-            var closestX = Math.clamp(heroTri.centerX, gameObstacles[i].x, gameObstacles[i].x + gameObstacles[i].width);
-            var closestY = Math.clamp(heroTri.centerY, gameObstacles[i].y, gameObstacles[i].y + gameObstacles[i].height);
+            // Landing on top of rect
+            if (heroTri.centerX + heroTri.size > gameObstacles[i].x &&
+                heroTri.centerX - heroTri.size < gameObstacles[i].x + gameObstacles[i].width &&
+                heroTri.centerY >= gameObstacles[i].y - heroTri.size &&
+                heroTri.centerY <= gameObstacles[i].y + gameObstacles[i].height * 0.25) {
+                    
+                    heroTri.centerY = gameObstacles[i].y - heroTri.size / 2
+                    // Resets
+                    heroTri.airBorn = false;
+                    heroTri.shooting = false;
+                    heroTri.shootMax = false;
+                    heroTri.velocityY = 0;
+                    heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
+                    heroTri.rotationSpeed = 0;
+            }
 
-        // Calculate the distance between the circle's center and this closest point
-            var distanceX = heroTri.centerX - closestX;
-            var distanceY = heroTri.centerY - closestY;
+            // Allow gravity again 
+            else if (heroTri.centerX - heroTri.size > gameObstacles[i].x + gameObstacles[i].width && heroTri.centerY == gameObstacles[i].y - heroTri.size / 2) {
+                heroTri.airBorn = true;
+            }
 
-        // If the distance is less than the circle's radius, an intersection occurs
-            var distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-            
-            if (distanceSquared < (heroTri.size * heroTri.size)) {
-                heroTri.fillColor = 'red'; //Change to END GAME
+            // 
+            else {
+                var closestX = Math.clamp(heroTri.centerX, gameObstacles[i].x, gameObstacles[i].x + gameObstacles[i].width);
+                var closestY = Math.clamp(heroTri.centerY, gameObstacles[i].y, gameObstacles[i].y + gameObstacles[i].height);
+
+            // Calculate the distance between the circle's center and this closest point
+                var distanceX = heroTri.centerX - closestX;
+                var distanceY = heroTri.centerY - closestY;
+
+            // If the distance is less than the circle's radius, an intersection occurs
+                var distanceSquared = Math.pow(distanceX, 2) + Math.pow(distanceY, 2);
+                
+                if (distanceSquared < Math.pow(heroTri.size,2)) {
+                    heroTri.fillColor = 'red'; //Change to END GAME
+                }
             }
         }
     },
@@ -194,7 +218,9 @@ var heroTri = {
             heroTri.shoot();
 
         // Gravity
-        } else {
+        } 
+        
+        else if (heroTri.airBorn == true){
             heroTri.centerY += heroTri.velocityY;
             heroTri.velocityY += obstacleHeight * 0.075;
             heroTri.velocityY *= 0.9;
@@ -204,7 +230,7 @@ var heroTri = {
         }
     },
 
-    onFloorCheck: function() {
+    onFloor: function() {
         for(i = 0; i < gameFloor.length; i++) {
             if(heroTri.centerY > fullHeight - gameFloor[i].height - gameFloor[i].strokeWidth / 2 - objectSize / 2 - 1) { //
                 heroTri.centerY = totalFloorHeight - objectSize / 2; // Stops hero falling through the floor
