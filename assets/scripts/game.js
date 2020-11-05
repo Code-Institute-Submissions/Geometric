@@ -70,7 +70,7 @@ var gameCanvas = {
         triCollision();
         // Laser Physics
         laserMovement();
-
+        console.log(heroTri.fillColor)
         // Laser Collisions
         laserCollisionCheck();
 
@@ -284,6 +284,7 @@ var heroTri = {
 
 //Laser
 var gameLaser = [];
+var laserColor = 'skyblue';
 
 function Laser() {
     this.width = objectSize * 0.66;
@@ -291,7 +292,7 @@ function Laser() {
     this.speed = fullWidth * 0.015;
     this.y = totalFloorHeight - objectSize / 2 - this.height * 2;
     this.x = heroTri.centerX + heroTri.size;
-    this.color = 'skyblue';
+    this.color = laserColor;
 
     this.draw = function() {
         gameCanvas.ctx.fillStyle = this.color;

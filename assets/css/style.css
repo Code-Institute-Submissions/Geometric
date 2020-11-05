@@ -104,12 +104,12 @@ h1, h2 {
     border-bottom: 8.660254vh solid;
 }
 
-.tri--orange {
-    border-bottom-color: orange;
+.tri--limegreen {
+    border-bottom-color: limegreen;
 }
 
-.tri--blue {
-    border-bottom-color: blue;
+.tri--yellow {
+    border-bottom-color: yellow;
 }
 
 .tri--green {
@@ -121,28 +121,28 @@ h1, h2 {
 }
 
 .color-active, 
-.lazer-active {
+.laser-active {
     background-color: rgb(159, 255, 159);
 }
 
-.lazer {
+.laser {
     width: 50%;
     border: 2px solid;
 }
 
-.lazer--red {
-    border-color: red;
+.laser--skyblue {
+    border-color: skyblue;
 }
 
-.lazer--green {
+.laser--green {
     border-color: green;
 }
 
-.lazer--blue {
+.laser--blue {
     border-color: blue;
 }
 
-.lazer--purple {
+.laser--purple {
     border-color: purple;
 }
 
