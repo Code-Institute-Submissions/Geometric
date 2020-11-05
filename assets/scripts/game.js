@@ -22,10 +22,11 @@ Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
 // (End of NOT MY OWN CODE)
 
 // Starts Game
-$(document).ready(function() {
+/*$(document).ready(function() {
     gameCanvas.create();
     gameCanvas.loop();
 });
+*/
 
 // Game Canvas
 var gameCanvas = {
@@ -45,6 +46,9 @@ var gameCanvas = {
 
         // Removes vertical side scroller
         $('body').css('height', this.canvas.height);
+
+        // Start Game
+         this.loop();
     },
 
     // Updates the game and self calls creating the loop
