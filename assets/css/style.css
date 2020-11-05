@@ -6,8 +6,147 @@ body {
     width: 100vw;
     height: 100vh;
     display: none;
+    text-align: center;
 }
 
 canvas {
     background-color: rgb(56, 56, 56);
+}
+
+.left-side, .right-side {
+    position: absolute;
+    height: 100vh;
+    width: 50%;
+}
+
+.left-side {
+    left: 0;
+}
+
+.right-side {
+    right: 0;
+}
+
+.display-toggle {
+    display: block !important;
+}
+
+h1, h2 {
+    font-size: 3rem;
+}
+
+.btn {
+    font-size: 1.5rem;
+    height: 10vw;
+    background-color: #008080;
+    color: white;
+}
+
+.btn--menu {
+    display: block;
+    width: 40%;
+    margin: 1vh auto;
+}
+
+.btn--play {
+    height: 15vw;
+    font-size: 2.5rem;
+    width: 40%;
+    margin: 1vw auto;
+}
+
+.btn--control,
+.action {
+    width: 20%;
+    display: inline-block;
+    margin: 0 2%;
+}
+
+.control p {
+    display: inline;
+}
+
+.controls_item {
+    margin: 2vh 0;
+}
+
+.action {
+    font-size: 1.5rem; 
+}
+
+.row {
+    width: 50%;
+    margin: 5vh auto;
+}
+
+.custom-title {
+    margin-bottom: 2vh;
+}
+
+.custom {
+    width: 20vh;
+    height: 20vh;
+}
+
+.custom_item {
+    position: relative;
+    top: 20%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -20%);
+    transform: translate(-50%, -20%);
+}
+
+.tri {
+    width: 0; 
+    height: 0; 
+    border-left: 5vh solid transparent;
+    border-right: 5vh solid transparent;
+    border-bottom: 8.660254vh solid;
+}
+
+.tri--orange {
+    border-bottom-color: orange;
+}
+
+.tri--blue {
+    border-bottom-color: blue;
+}
+
+.tri--green {
+    border-bottom-color: green;
+}
+
+.tri--gold {
+    border-bottom-color: gold;
+}
+
+.color-active, 
+.lazer-active {
+    background-color: rgb(159, 255, 159);
+}
+
+.lazer {
+    width: 50%;
+    border: 2px solid;
+}
+
+.lazer--red {
+    border-color: red;
+}
+
+.lazer--green {
+    border-color: green;
+}
+
+.lazer--blue {
+    border-color: blue;
+}
+
+.lazer--purple {
+    border-color: purple;
+}
+
+.shooting-rotation {
+    transform: rotate(-30deg);
+    transition: all 0.5s ease-in-out;  
 }
