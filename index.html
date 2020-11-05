@@ -16,32 +16,123 @@
     <body>
         <!--Main Menu-->
         <section id="mainMenu" class="menu display-toggle">
-
+            <h1>Geometric</h1>
+            <button class="btn btn--play">Play</button>
+            <button class="btn btn--menu" value="controls">Controls</button>
+            <button class="btn btn--menu" value="customise">Customise</button>
+            <button class="btn btn--menu" value="leaderboard">Leaderboard</button>
         </section>
 
         <!--Controls-->
         <section id="controls" class="control menu">
-
+            <h2>Controls</h2>
+                <div class="controls_item">
+                    <div><h3>Click a control to set new key.</h3></div>
+                    <button class="btn btn--control">Spacebar</button>
+                    <p>OR</p>
+                    <button class="btn btn--control">Right Side Click</button>
+                    <p>=</p>
+                    <div class="action">JUMP</div>
+                </div>
+                <div class="controls_item">
+                    <button class="btn btn--control">S</button>
+                    <p>OR</p>
+                    <button class="btn btn--control">Left Side Click</button>
+                    <p>=</p>
+                    <div class="action">SHOOT</div>
+                </div>
+                <div class="controls_item">
+                    <button class="btn btn--control">P</button>
+                    <p>OR</p>
+                    <button class="btn btn--control">Pause Button</button>
+                    <p>=</p>
+                    <div class="action">PAUSE</div>
+                </div>
+            <button class="btn btn--menu" value="mainMenu">Main Menu</button>
         </section>
 
         <!--Customisation-->
         <section id="customise" class="menu">
+            <h2>Customisation</h2>
 
+            <!--Colour-->
+            <div class="row">
+                <div class="custom-title col-12">
+                    <h3>Colour</h3>
+                </div>
+                <div class="col-3">
+                    <button class="custom tri-color color-active" value="orange">
+                        <div class="tri tri--orange custom_item"></div>
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="custom tri-color" value="blue">
+                        <div class="tri tri--blue custom_item"></div>
+                    </button>
+                </div>
+                <div class="col-3">
+                    <div class="lock"></div>
+                    <button class="custom tri-color" value="green">
+                        <div class="tri tri--green custom_item"></div>
+                    </button>
+                </div>
+                <div class="col-3">
+                    <div class="lock"></div>
+                    <button class="custom tri-color" value="gold">
+                        <div class="tri tri--gold custom_item"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!--Lazer-->
+            <div class="row">
+                <div class="custom-title col-12">
+                    <h3>Lazer</h3>
+                </div>
+                <div class="col-3">
+                    <button class="custom lazer-color lazer-active" value="red">
+                        <hr class="lazer lazer--red">
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="custom lazer-color" value="green">
+                        <hr class="lazer lazer--green">
+                    </button>
+                </div>
+                <div class="col-3">
+                    <div class="lock"></div>
+                    <button class="custom lazer-color" value="blue">
+                        <hr class="lazer lazer--blue">
+                    </button>
+                </div>
+                <div class="col-3">
+                    <div class="lock"></div>
+                    <button class="custom lazer-color" value="purple">
+                        <hr class="lazer lazer--purple">
+                    </button>
+                </div>
+            </div>
+            <button class="btn btn--menu" value="mainMenu">Main Menu</button>
         </section>
 
         <!--Leaderboard-->
         <section id="leaderboard" class="menu">
-
+            <h2>Leaderboard</h2>
+            <button class="btn btn--menu" value="mainMenu">Main Menu</button>
         </section>
 
         <!--Game Over-->
         <section id="gameOver" class="menu">
-
+            <h2>Game Over</h2>
+            <p>Your Score = <span id="yourScore"></span></p>
+            <button class="btn btn--menu">Share to Facebook</button>
+            <button class="btn btn--menu">Add Score to Leaderboard</button>
+            <button class="btn btn--menu" value="mainMenu">Main Menu</button>
         </section>
 
         <!--Add to Leaderboard-->
         <section id="addToLeaderboard" class="menu">
-
+           <h2>Leaderboard</h2>
         </section>
 
         <!--Scripts-->
