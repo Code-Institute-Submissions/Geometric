@@ -63,14 +63,13 @@ var gameCanvas = {
         heroTri.draw();
         heroTri.gravity();
         heroTri.onFloor();
-
+        
         // Hero Collisions
         heroTri.cirlceCrash();
         heroTri.rectCrash();
         triCollision();
         // Laser Physics
         laserMovement();
-        console.log(heroTri.fillColor)
         // Laser Collisions
         laserCollisionCheck();
 
@@ -97,7 +96,6 @@ var gameCanvas = {
         // Obstacle Physics
         obstacleMovement();
         obstacleRemove();
-        console.log(heroTri.rotationDegrees)
         // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
 
@@ -527,13 +525,23 @@ function obstacleRemove(){
     }
 }
 
+
 //Controller
-document.addEventListener('keydown', function (event) {
-    if (event.key === ' ' && heroTri.airBorn == false && heroTri.shooting == false) {
+var jumpKey = 32;
+var shootKey = 115;
+
+$(document).keypress(function (event) {
+console.log(`press ${event.which}`)
+console.log(`shoot ${shootKey}`)
+console.log(`jump ${jumpKey}`)
+
+    // Jump Control
+    if (event.which === jumpKey && heroTri.airBorn == false && heroTri.shooting == false) {
         heroTri.jump();
     }
 
-    if (event.key === 's' && heroTri.airBorn == false) {
+    // Shoot Control
+    if (event.which === shootKey && heroTri.airBorn == false) {
         heroTri.shoot();
     }
 });
