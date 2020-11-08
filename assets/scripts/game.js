@@ -62,6 +62,13 @@ var gameCanvas = {
         //Clears last frame
         gameCanvas.clear();
 
+        // Background
+        for(i = 0; i < gameBg.length; i++) {
+            gameBg[i].movement()
+            gameBg[i].draw()
+        }
+
+        bgCreation()
         //Writes score
         score.draw();
         
@@ -93,7 +100,7 @@ var gameCanvas = {
         infinityFloor();
 
         // Test Obstacles pushed into the array (Replace with Level Design in Late Commit)
-        if(gameCanvas.loopCounter == 0) {
+        if(gameObstacles.length == 0) {
             gameObstacles.push(new Obstacle('tri'));
             gameObstacles.push(new Obstacle('rect'));
             gameObstacles.push(new Obstacle('circle'));
