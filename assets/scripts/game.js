@@ -7,6 +7,12 @@ var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = objectSize * 1.5;
 var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
+var laserSfx = document.getElementById('laserSound');
+var laserBounceSfx = document.getElementById('laserBounce');
+var laserAbsorbSfx = document.getElementById('laserAbsorb');
+var circleExplosionSfx = document.getElementById('circleExplosion');
+var jumpSfx = document.getElementById('jumpSound');
+
 
 // Functions
 /* Clamp use to work out sections of the canvas for heroTri / Rect Obs Collisions
@@ -253,6 +259,10 @@ var heroTri = {
     jump: function() {
         heroTri.velocityY -= this.jumpHeight;
         heroTri.airBorn = true;
+
+        // Jump Sound
+        jumpSfx.currentTime = 0; //Reset sound clip to start
+        jumpSfx.play();
     },
 
     shoot: function() {
@@ -266,6 +276,10 @@ var heroTri = {
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
             gameLaser.push(new Laser());
+
+            // Shoot audio 
+            laserSfx.currentTime = 0; //Reset sound clip to start
+            laserSfx.play();
         }
 
         //Stops the Hero over rotating and reverses the rotation
@@ -321,6 +335,7 @@ function laserCollisionCheck() {
         gameLaser[i].y + gameLaser[i].height < heroTri.centerY) {
             heroTri.fillColor = 'red';
             console.log('hero collision');
+
         }
         
         else if (gameObstacles.length > 0) {
@@ -334,6 +349,10 @@ function laserCollisionCheck() {
                 gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
                     gameLaser[i].x = fullWidth;
                     console.log('rect collision');
+
+                    // Laser Absorb audio 
+                    laserAbsorbSfx.currentTime = 0; //Reset sound clip to start
+                    laserAbsorbSfx.play();
                 } 
                 
                 // Laser vs Triangle
@@ -346,6 +365,10 @@ function laserCollisionCheck() {
                     gameLaser[i].color = 'red';
                     console.log('tri collision');
                     gameLaser[i].x -= 40; // Make a percentage of full width
+
+                    // Lazer Bounce Sound
+                    laserBounceSfx.currentTime = 0; //Reset sound clip to start
+                    laserBounceSfx.play();
                 }
                 
                 // Laser vs Circle
@@ -355,6 +378,10 @@ function laserCollisionCheck() {
                 gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
                     gameLaser[i].color = 'red';
                     console.log('circle collision');
+
+                    // Cirlce Explosion Sound
+                    circleExplosionSfx.currentTime = 0; //Reset sound clip to start
+                    circleExplosionSfx.play();
                 }
             }
         }
