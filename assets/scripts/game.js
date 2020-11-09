@@ -171,14 +171,15 @@ var heroTri = {
     // Hero Collision with Circle Obstacle (Pythagoras Therom)
     cirlceCrash: function() {
         for(i = 0; i < gameObstacles.length; i++) {
+            if (gameObstacles[i].alive == true) {
+                // Use Pythagoras Therom to work out the distance from Hero Center to Obstacle Center
+                var disHyp = pythagoras(heroTri.centerX ,heroTri.centerY , gameObstacles[i].circleCenterX, gameObstacles[i].circleCenterY);
+                
 
-            // Use Pythagoras Therom to work out the distance from Hero Center to Obstacle Center
-            var disHyp = pythagoras(heroTri.centerX ,heroTri.centerY , gameObstacles[i].circleCenterX, gameObstacles[i].circleCenterY);
-            
-
-            // If the length of the hypotenuse is smaller than the size of the two radii add together they must be overlapping
-            if(disHyp < heroTri.size + gameObstacles[i].radius) {
-                heroTri.fillColor = 'red'; //Change to END GAME
+                // If the length of the hypotenuse is smaller than the size of the two radii add together they must be overlapping
+                if(disHyp < heroTri.size + gameObstacles[i].radius) {
+                    heroTri.fillColor = 'red'; //Change to END GAME
+                }
             }
         }
     },
@@ -385,6 +386,7 @@ function laserCollisionCheck() {
                 gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
                     gameLaser[i].color = 'red';
                     console.log('circle collision');
+                    gameObstacles[j].alive = false;
 
                     // Cirlce Explosion Sound
                     circleExplosionSfx.currentTime = 0; //Reset sound clip to start
@@ -462,6 +464,11 @@ function Obstacle(type) {
     this.radius = objectSize * 0.75;
     this.circleCenterX = fullWidth + this.radius + 3000;
     this.circleCenterY = totalFloorHeight - this.radius;
+    this.alive = true;
+    this.deathR1 = this.radius * 0.25;
+    this.deathR2 = this.radius * 0.25;
+    this.deathR3 = this.radius * 0.25;
+    this.deathStroke = 4;
 
     // Triangle
     this.sides = 3;
@@ -486,9 +493,16 @@ function Obstacle(type) {
     this.draw = function() {
         if(this.type == 'tri') {
             this.drawObsTri();
-        } else if(this.type == 'circle') {
+        } 
+        else if(this.type == 'circle' && this.alive == true) {
             this.drawObsCircle();
-        } else if(this.type == 'rect'){
+        }
+
+        else if(this.type == 'circle' && this.alive == false) {
+            this.drawCircleDeath();
+        }
+
+        else if(this.type == 'rect'){
             this.drawObsRect();
         }
     };
@@ -529,6 +543,39 @@ function Obstacle(type) {
         gameCanvas.ctx.translate(-this.triCenterX,-this.triCenterY);
         gameCanvas.ctx.fill();
     };
+
+    // Draw Cirlce Death
+    this.drawCircleDeath = function() {
+        // Largest Ring
+        gameCanvas.ctx.strokeStyle = 'red';
+        gameCanvas.ctx.beginPath();
+        gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.deathR1, 0, 2 * Math.PI, false);
+        gameCanvas.ctx.lineWidth = this.deathStroke;
+        gameCanvas.ctx.stroke();
+
+       // Medium Ring
+        gameCanvas.ctx.strokeStyle = 'red';
+        gameCanvas.ctx.beginPath();
+        gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.deathR2, 0, 2 * Math.PI, false);
+        gameCanvas.ctx.lineWidth = this.deathStroke;
+        gameCanvas.ctx.stroke();
+
+        // Small Ring
+        gameCanvas.ctx.strokeStyle = 'red';
+        gameCanvas.ctx.beginPath();
+        gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.deathR3, 0, 2 * Math.PI, false);
+        gameCanvas.ctx.lineWidth = this.deathStroke;
+        gameCanvas.ctx.stroke();
+    };
+
+    // Circle Deat Animation
+    this.circleDeathAnimation = function() {
+        if (gameObstacles[i].alive == false) {
+            this.deathR1 += 1;
+            this.deathR2 += 0.75;
+            this.deathR3 += 0.25; 
+        }
+    }
 }
 
 // Moves the obstacles
@@ -538,12 +585,15 @@ function obstacleMovement() {
         gameObstacles[i].x -= moveSpeed;
         gameObstacles[i].circleCenterX -= moveSpeed;
         
+        // Move all triangle points for collision
         if (gameObstacles[i].type == 'tri') {
             gameObstacles[i].triCenterX -= moveSpeed;
             gameObstacles[i].backPointX -= moveSpeed;
             gameObstacles[i].topPointX -= moveSpeed;
             gameObstacles[i].frontPointX -= moveSpeed;
         }
+
+        gameObstacles[i].circleDeathAnimation();
     }
 }
 
