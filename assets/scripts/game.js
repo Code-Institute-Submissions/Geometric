@@ -7,6 +7,8 @@ var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = objectSize * 1.5;
 var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
+
+// Sound Effects
 var laserSfx = document.getElementById('laserSound');
 var laserBounceSfx = document.getElementById('laserBounce');
 var laserAbsorbSfx = document.getElementById('laserAbsorb');
@@ -64,7 +66,6 @@ var gameCanvas = {
 
         // Background
         for(i = 0; i < gameBg.length; i++) {
-            gameBg[i].movement()
             gameBg[i].draw()
         }
 
@@ -72,15 +73,6 @@ var gameCanvas = {
         //Writes score
         score.draw();
         
-        // Hero Physics
-        heroTri.draw();
-        heroTri.gravity();
-        heroTri.onFloor();
-        
-        // Hero Collisions
-        heroTri.cirlceCrash();
-        heroTri.rectCrash();
-        triCollision();
         // Laser Physics
         laserMovement();
         // Laser Collisions
@@ -106,8 +98,27 @@ var gameCanvas = {
             gameObstacles.push(new Obstacle('circle'));
         }
 
+        for(i = 0; i < gameObstacles.length; i++) {
+            gameObstacles[i].draw();
+        }
+
+        // Hero Physics
+        heroTri.draw();
+        heroTri.gravity();
+        
+        // Hero Collisions
+        heroTri.cirlceCrash();
+        heroTri.rectCrash();
+        triCollision();
+
         // Obstacle Physics
-        obstacleMovement();
+        if (heroTri.alive == true) {
+            heroTri.onFloor();
+            obstacleMovement();
+            for(i = 0; i < gameBg.length; i++) {
+                gameBg[i].movement()
+            }
+        }
         obstacleRemove();
         // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
@@ -138,33 +149,97 @@ var heroTri = {
     shootMax: false,
     rotationSpeed: 0,
     jumpHeight: obstacleHeight * 1,
+    alive: true,
+
+    // Death
+    deathSize: objectSize * 0.3,
+    deathX1: fullWidth * 0.13,
+    deathX2: fullWidth * 0.15,
+    deathX3: fullWidth * 0.16,
     
     draw: function() {
+        if (this.alive == true) {
+            //Draw tri boundary circle 
+            gameCanvas.ctx.fillStyle = 'purple';
+            gameCanvas.ctx.beginPath();
+            gameCanvas.ctx.arc(this.centerX, this.centerY, this.size, 0, 2 * Math.PI, true);
+            gameCanvas.ctx.closePath();
+            gameCanvas.ctx.fill();
 
-        //Draw tri boundary circle 
-        gameCanvas.ctx.fillStyle = 'purple';
-        gameCanvas.ctx.beginPath();
-        gameCanvas.ctx.arc(this.centerX, this.centerY, this.size, 0, 2 * Math.PI, true);
-        gameCanvas.ctx.closePath();
-        gameCanvas.ctx.fill();
-
-        //Draw tri
-        var radians = this.rotationDegrees*Math.PI/180;
-        gameCanvas.ctx.translate(this.centerX, this.centerY);
-        gameCanvas.ctx.rotate(radians);
-        gameCanvas.ctx.beginPath();
-        gameCanvas.ctx.moveTo (this.size * Math.cos(0), this.size * Math.sin(0));          
-        for (var i = 1; i <= this.sides; i += 1) {
-            gameCanvas.ctx.lineTo (this.size * Math.cos(i * 2 * Math.PI / this.sides), this.size * Math.sin(i * 2 * Math.PI / this.sides));
+            //Draw tri
+            var radians = this.rotationDegrees*Math.PI/180;
+            gameCanvas.ctx.translate(this.centerX, this.centerY);
+            gameCanvas.ctx.rotate(radians);
+            gameCanvas.ctx.beginPath();
+            gameCanvas.ctx.moveTo (this.size * Math.cos(0), this.deathSize * Math.sin(0));          
+            for (var i = 1; i <= this.sides; i += 1) {
+                gameCanvas.ctx.lineTo (this.size * Math.cos(i * 2 * Math.PI / this.sides), this.size * Math.sin(i * 2 * Math.PI / this.sides));
+            }
+            gameCanvas.ctx.closePath();
+            gameCanvas.ctx.fillStyle = this.fillColor;
+            //gameCanvas.ctx.strokeStyle = this.strokeColor;
+            //gameCanvas.ctx.lineWidth = this.strokeWidth;
+            //gameCanvas.ctx.stroke();
+            gameCanvas.ctx.fill();
+            gameCanvas.ctx.rotate(-radians);
+            gameCanvas.ctx.translate(-this.centerX,-this.centerY);
         }
-        gameCanvas.ctx.closePath();
-        gameCanvas.ctx.fillStyle = this.fillColor;
-        //gameCanvas.ctx.strokeStyle = this.strokeColor;
-        //gameCanvas.ctx.lineWidth = this.strokeWidth;
-        //gameCanvas.ctx.stroke();
-        gameCanvas.ctx.fill();
-        gameCanvas.ctx.rotate(-radians);
-        gameCanvas.ctx.translate(-this.centerX,-this.centerY);
+
+        else {
+            // Death Tri 1
+            var radians = this.rotationDegrees*Math.PI/180;
+            gameCanvas.ctx.translate(this.deathX1, this.centerY * 0.85);
+            gameCanvas.ctx.rotate(radians);
+            gameCanvas.ctx.beginPath();
+            gameCanvas.ctx.moveTo (this.deathSize * Math.cos(0), this.deathSize * Math.sin(0));          
+            for (var i = 1; i <= this.sides; i += 1) {
+                gameCanvas.ctx.lineTo (this.deathSize * Math.cos(i * 2 * Math.PI / this.sides), this.deathSize * Math.sin(i * 2 * Math.PI / this.sides));
+            }
+            gameCanvas.ctx.closePath();
+            gameCanvas.ctx.fillStyle = this.fillColor;
+            //gameCanvas.ctx.strokeStyle = this.strokeColor;
+            //gameCanvas.ctx.lineWidth = this.strokeWidth;
+            //gameCanvas.ctx.stroke();
+            gameCanvas.ctx.fill();
+            gameCanvas.ctx.rotate(-radians);
+            gameCanvas.ctx.translate(-this.deathX1, -this.centerY * 0.85);
+            
+            // Death Tri 2
+            var radians = this.rotationDegrees*Math.PI/180;
+            gameCanvas.ctx.translate(this.deathX2, this.centerY * 0.8);
+            gameCanvas.ctx.rotate(radians);
+            gameCanvas.ctx.beginPath();
+            gameCanvas.ctx.moveTo (this.deathSize * Math.cos(0), this.deathSize * Math.sin(0));          
+            for (var i = 1; i <= this.sides; i += 1) {
+                gameCanvas.ctx.lineTo (this.deathSize * Math.cos(i * 2 * Math.PI / this.sides), this.deathSize * Math.sin(i * 2 * Math.PI / this.sides));
+            }
+            gameCanvas.ctx.closePath();
+            gameCanvas.ctx.fillStyle = this.fillColor;
+            //gameCanvas.ctx.strokeStyle = this.strokeColor;
+            //gameCanvas.ctx.lineWidth = this.strokeWidth;
+            //gameCanvas.ctx.stroke();
+            gameCanvas.ctx.fill();
+            gameCanvas.ctx.rotate(-radians);
+            gameCanvas.ctx.translate(-this.deathX2, -this.centerY * 0.8);
+
+            // Death Tri 3
+            var radians = this.rotationDegrees*Math.PI/180;
+            gameCanvas.ctx.translate(this.deathX3, this.centerY * 0.9);
+            gameCanvas.ctx.rotate(radians);
+            gameCanvas.ctx.beginPath();
+            gameCanvas.ctx.moveTo (this.deathSize * Math.cos(0), this.deathSize * Math.sin(0));          
+            for (var i = 1; i <= this.sides; i += 1) {
+                gameCanvas.ctx.lineTo (this.deathSize * Math.cos(i * 2 * Math.PI / this.sides), this.deathSize * Math.sin(i * 2 * Math.PI / this.sides));
+            }
+            gameCanvas.ctx.closePath();
+            gameCanvas.ctx.fillStyle = this.fillColor;
+            //gameCanvas.ctx.strokeStyle = this.strokeColor;
+            //gameCanvas.ctx.lineWidth = this.strokeWidth;
+            //gameCanvas.ctx.stroke();
+            gameCanvas.ctx.fill();
+            gameCanvas.ctx.rotate(-radians);
+            gameCanvas.ctx.translate(-this.deathX3, -this.centerY * 0.9);
+        }    
     },
 //(End of Not all my own code)
 
@@ -222,6 +297,7 @@ var heroTri = {
                 
                 if (distanceSquared < Math.pow(heroTri.size,2)) {
                     heroTri.fillColor = 'red'; //Change to END GAME
+                    heroTri.alive = false;
                 }
             }
         }
@@ -236,13 +312,23 @@ var heroTri = {
         // Gravity
         } 
         
-        else if (heroTri.airBorn == true){
-            heroTri.centerY += heroTri.velocityY;
-            heroTri.velocityY += obstacleHeight * 0.075;
-            heroTri.velocityY *= 0.9;
+        else {
+            if (heroTri.alive == true) {
+                heroTri.centerY += heroTri.velocityY;
+                heroTri.velocityY += obstacleHeight * 0.075;
+                heroTri.velocityY *= 0.9;
 
-            heroTri.rotateSpeed = 10; //Close to correct rotation (Add formula later for precise rotation)
-            heroTri.rotationDegrees += heroTri.rotateSpeed;
+                heroTri.rotateSpeed = 10; //Close to correct rotation (Add formula later for precise rotation)
+                heroTri.rotationDegrees += heroTri.rotateSpeed;
+            }
+
+            else {
+                heroTri.centerY += heroTri.velocityY / 5;
+                heroTri.velocityY += obstacleHeight * 0.075;
+
+                heroTri.rotateSpeed = 35; //Close to correct rotation (Add formula later for precise rotation)
+                heroTri.rotationDegrees += heroTri.rotateSpeed;
+            }
         }
     },
 
@@ -581,7 +667,6 @@ function Obstacle(type) {
 // Moves the obstacles
 function obstacleMovement() {
     for(i = 0; i < gameObstacles.length; i++) {
-        gameObstacles[i].draw();
         gameObstacles[i].x -= moveSpeed;
         gameObstacles[i].circleCenterX -= moveSpeed;
         
