@@ -14,6 +14,7 @@ var laserBounceSfx = document.getElementById('laserBounce');
 var laserAbsorbSfx = document.getElementById('laserAbsorb');
 var circleExplosionSfx = document.getElementById('circleExplosion');
 var jumpSfx = document.getElementById('jumpSound');
+var heroCrashSfx = document.getElementById('heroCrash');
 
 
 // Functions
@@ -297,7 +298,7 @@ var heroTri = {
                 
                 if (distanceSquared < Math.pow(heroTri.size,2)) {
                     heroTri.fillColor = 'red'; //Change to END GAME
-                    heroTri.alive = false;
+                    heroTri.crash();
                 }
             }
         }
@@ -385,6 +386,13 @@ var heroTri = {
             heroTri.rotationDegrees -= heroTri.rotateSpeed;
             heroTri.centerY -= heroTri.velocityY;
         }
+    },
+
+    crash: function() {
+        heroTri.alive = false;
+
+        // Hero Crash sound
+        heroCrashSfx.play();
     }
 };
 
