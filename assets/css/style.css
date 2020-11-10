@@ -166,5 +166,24 @@ h1, h2, p {
     color: white; 
 }
 
+/*------------------------------------------------Touch Control Zones*/
+.touch {
+    position: absolute;
+    width: 50%; 
+    height: 100%;
+    top: 0;
+    background: none;
+    border: none;
+}
 
+.touch--left {
+    left: 0;
+}
 
+.touch--right {
+    right: 0;
+}
+
+.touch:focus {
+    outline: none;
+}

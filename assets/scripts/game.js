@@ -46,7 +46,7 @@ var gameCanvas = {
     // Cancus Creation
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
-        
+        this.canvas.setAttribute("id", "gameZone");
         // Full size of browser
         this.canvas.width  = fullWidth;
         this.canvas.height = fullHeight;
