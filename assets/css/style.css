@@ -45,11 +45,13 @@ h1, h2, p {
     font-size: 4rem;
     background-color: #008080;
     color: white;
+    padding: 11px;
+    text-align: center;
 }
 
 .btn--menu {
     display: block;
-    width: 40%;
+    width: 100%;
     margin: 1% auto;
 }
 
@@ -80,7 +82,7 @@ h1, h2, p {
 }
 
 .row {
-    width: 50%;
+    width: 60%;
     margin: 5vh auto;
 }
 
@@ -186,4 +188,17 @@ h1, h2, p {
 
 .touch:focus {
     outline: none;
+}
+
+/*------------------------------------------------404 Error Page*/
+.error-pic_item {
+    height: 100%;
+}
+
+.error-pic_tri {
+    margin: 0 auto;
+}
+
+.error-info {
+     text-align: center;
 }
