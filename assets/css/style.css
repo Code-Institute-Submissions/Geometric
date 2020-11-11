@@ -35,7 +35,7 @@ img {
     display: block !important;
 }
 
-/*------------------------------------------------HText*/
+/*------------------------------------------------Header Text*/
 h1, h2, p {
     font-size: 3rem;
 }
@@ -201,4 +201,16 @@ h1, h2, p {
 
 .error-info {
      text-align: center;
+}
+
+/*------------------------------------------------Pause Menu*/
+#pauseMenu {
+    position: absolute;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+}
+
+.btn--resume {
+    width: 60%;
 }

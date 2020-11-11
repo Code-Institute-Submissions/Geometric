@@ -7,6 +7,7 @@ var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = objectSize * 1.5;
 var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
+var gameState = 0; // Controls Start, Pause, Background
 
 // Sound Effects
 var laserSfx = document.getElementById('laserSound');
@@ -27,15 +28,7 @@ Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
         return Math.max(min, Math.min(max ,val));
     };
 })();
-
 // (End of NOT MY OWN CODE)
-
-// Starts Game
-/*$(document).ready(function() {
-    gameCanvas.create();
-    gameCanvas.loop();
-});
-*/
 
 // Game Canvas
 var gameCanvas = {
@@ -46,13 +39,13 @@ var gameCanvas = {
     // Cancus Creation
     canvas : document.createElement('canvas'),
     create : function() {  //Initial Creation
-        this.canvas.setAttribute("id", "gameZone");
+        this.canvas.setAttribute('id', 'gameZone');
         // Full size of browser
         this.canvas.width  = fullWidth;
         this.canvas.height = fullHeight;
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.ctx = this.canvas.getContext("2d");
-
+        gameState = 1;
         // Removes vertical side scroller
         $('body').css('height', this.canvas.height);
 
@@ -124,8 +117,10 @@ var gameCanvas = {
         // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
 
+        if(gameState == 1) {
         // Self Call to repeat the loop
-        requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
+            requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
+        }
     },
 
     clear: function() {
@@ -704,8 +699,8 @@ function obstacleRemove(){
 
 
 //Controller
-var jumpKey = 32;
-var shootKey = 115;
+var jumpKey = 32; // S
+var shootKey = 115; // Spacebar
 
 $(document).keypress(function (event) {
 console.log(`press ${event.which}`)
@@ -720,6 +715,15 @@ console.log(`jump ${jumpKey}`)
     // Shoot Control
     if (event.which === shootKey && heroTri.airBorn == false) {
         heroTri.shoot();
+    }
+
+    if (event.which === 112 && heroTri.airBorn == false) { // P
+        if (gameState == 2) {
+            resumeGame();
+        }
+        else {
+            pauseGame();
+        }
     }
 });
 
