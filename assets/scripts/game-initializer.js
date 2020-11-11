@@ -3,4 +3,5 @@ $('#playButton').click(function() {
     gameCanvas.create();
     $('.menu').removeClass('display-toggle');
     createZone();
+    hub();
 });
