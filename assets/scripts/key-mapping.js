@@ -4,6 +4,7 @@ $('#jumpButton').click(function() {
     setTimeout(function(){toggleColor('jumpButton')}, 300);
     keyListener(jumpButton);
     $('#controlsInstructions').html('<h3>Press a key</h3>');
+    $('#jumpButton').blur();
 });
 
 // Shoot Key Selection
@@ -12,6 +13,7 @@ $('#shootButton').click(function() {
     setTimeout(function(){toggleColor('shootButton')}, 300);
     keyListener(shootButton);
     $('#controlsInstructions').html('<h3>Press a key</h3>')
+    $('#shootButton').blur();
 });
 
 // Key Listener

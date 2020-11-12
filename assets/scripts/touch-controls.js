@@ -5,12 +5,18 @@ function createZone() {
     d1.insertAdjacentHTML('beforebegin', '<button id="touchRight" class="touch touch--right"></button>');
 
     $('#touchLeft').click(function() {
-        heroTri.shoot();
-        console.log('click right');
+        if (heroTri.airBorn == false) {
+            heroTri.shoot();
+            console.log('click right');
+            $('#touchLeft').blur();
+        }
     });
 
     $('#touchRight').click(function() {
-        heroTri.jump();
-        console.log('click lift');
+        if (heroTri.airBorn == false) {
+            heroTri.jump();
+            console.log('click lift');
+            $('#touchRight').blur();
+        }
     });
 }
