@@ -35,7 +35,7 @@ img {
     display: block !important;
 }
 
-/*------------------------------------------------Header Text*/
+/*------------------------------------------------Header & Text*/
 h1, h2, p {
     font-size: 3rem;
 }
@@ -216,22 +216,33 @@ h1, h2, p {
 }
 
 /*------------------------------------------------Hub*/
-#pause {
-    color: white;
+.hub {
     position: absolute;
-    top: 0;
-    left: 5px;
-    width: 50%;
     z-index: 2;
+    top: 0;
+    width: 100%;
+
+}
+.hub_item {
+    color: white;
     font-size: 2rem;
+    padding: 0 5px;
 }
 
-#pause p{
-    display: inline-block;
+.hub_item--left{
+    float: left;
+}
+
+.hub_item--right{
+    float: right;
+}
+
+.hub_item p{
+    display: inline;
 }
 
 .btn--hub {
     font-size: 2rem;
-    display: inline-block;
+    display: inline;
     margin-left: 10px; 
 }
