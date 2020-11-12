@@ -24,11 +24,13 @@ $('#muteBtn').click(function() {
     console.log('i run')
     if (soundOn == true){
         muteOff()
+        $('#muteBtn').blur();
         return
     }
 
     if (soundOn == false){
         muteOn()
+         $('#muteBtn').blur();
         return
     }
     return
