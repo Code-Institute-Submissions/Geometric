@@ -10,10 +10,25 @@
         <!--Local CSS-->
         <link rel="stylesheet" href="assets/css/style.css">
         <!--JQuery-->
-        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script async src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <!--Local Scripts-->
+        <script defer src="assets/scripts/key-mapping.js"></script>
+        <script defer src="assets/scripts/togglers.js"></script>
+        <script defer src="assets/scripts/game-initializer.js"></script>
+        <script defer src="assets/scripts/game.js"></script>
+        <script defer src="assets/scripts/background.js"></script>
+        <script defer src="assets/scripts/triangle-collision.js"></script>
+        <script defer src="assets/scripts/touch-controls.js"></script>
+        <script defer src="assets/scripts/pause.js"></script>
+        <script defer src="assets/scripts/hub.js"></script>
+        <!--Title-->
         <title>Geometric</title>
     </head>
     <body>
+        <!--Background Images-->
+        <img id="bgTitle1" src="assets/images/game-bg-one.jpg">
+        <img id="bgTitle2" src="assets/images/game-bg-two.jpg">
+        <img id="bgTitle3" src="assets/images/game-bg-three.jpg">
         <!--Main Menu-->
         <section id="mainMenu" class="menu display-toggle">
             <h1>Geometric</h1>
@@ -169,11 +184,6 @@
            <h2>Leaderboard</h2>
         </section>
 
-        <!--Background Images-->
-        <img id="bgTitle1" src="assets/images/game-bg-one.jpg">
-        <img id="bgTitle2" src="assets/images/game-bg-two.jpg">
-        <img id="bgTitle3" src="assets/images/game-bg-three.jpg">
-
         <!--Audio-->
         <audio id="laserSound" src="assets/sfx/laser.mp3"></audio>
         <audio id="laserBounce" src="assets/sfx/laser-bounce.mp3"></audio>
@@ -181,21 +191,5 @@
         <audio id="circleExplosion" src="assets/sfx/circle-explosion.mp3"></audio>
         <audio id="jumpSound" src="assets/sfx/jump.mp3"></audio>
         <audio id="heroCrash" src="assets/sfx/hero-crash.mp3"></audio>
-        
-        <!--Bootstrap JS-->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-        <!--Scripts-->
-        <script src="assets/scripts/key-mapping.js"></script>
-        <script src="assets/scripts/togglers.js"></script>
-        <script src="assets/scripts/game-initializer.js"></script>
-        <script src="assets/scripts/game.js"></script>
-        <script src="assets/scripts/background.js"></script>
-        <script src="assets/scripts/triangle-collision.js"></script>
-        <script src="assets/scripts/touch-controls.js"></script>
-        <script src="assets/scripts/pause.js"></script>
-        <script src="assets/scripts/hub.js"></script>
     </body>
 </html> 
