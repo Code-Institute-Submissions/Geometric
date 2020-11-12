@@ -18,3 +18,18 @@ $('.laser-color').click(function() {
     $(this).addClass('laser-active');
     laserColor = this.value;
 });
+
+// Mute Toggler
+$('#muteBtn').click(function() {
+    console.log('i run')
+    if (soundOn == true){
+        muteOff()
+        return
+    }
+
+    if (soundOn == false){
+        muteOn()
+        return
+    }
+    return
+});

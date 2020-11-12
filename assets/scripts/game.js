@@ -9,15 +9,6 @@ var obstacleHeight = objectSize * 1.5;
 var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
 var gameState = 0; // Controls Start, Pause, Background
 
-// Sound Effects
-var laserSfx = document.getElementById('laserSound');
-var laserBounceSfx = document.getElementById('laserBounce');
-var laserAbsorbSfx = document.getElementById('laserAbsorb');
-var circleExplosionSfx = document.getElementById('circleExplosion');
-var jumpSfx = document.getElementById('jumpSound');
-var heroCrashSfx = document.getElementById('heroCrash');
-
-
 // Functions
 /* Clamp use to work out sections of the canvas for heroTri / Rect Obs Collisions
 Limits the value a number between two others.
@@ -351,8 +342,7 @@ var heroTri = {
         heroTri.airBorn = true;
 
         // Jump Sound
-        jumpSfx.currentTime = 0; //Reset sound clip to start
-        jumpSfx.play();
+        playJumpSoundSfx();
     },
 
     shoot: function() {
@@ -368,8 +358,7 @@ var heroTri = {
             gameLaser.push(new Laser());
 
             // Shoot audio 
-            laserSfx.currentTime = 0; //Reset sound clip to start
-            laserSfx.play();
+            playLaserSfx();
         }
 
         //Stops the Hero over rotating and reverses the rotation
@@ -387,7 +376,7 @@ var heroTri = {
         heroTri.alive = false;
 
         // Hero Crash sound
-        heroCrashSfx.play();
+        playHeroCrashSfx();
     }
 };
 
@@ -448,8 +437,7 @@ function laserCollisionCheck() {
                     console.log('rect collision');
 
                     // Laser Absorb audio 
-                    laserAbsorbSfx.currentTime = 0; //Reset sound clip to start
-                    laserAbsorbSfx.play();
+                    playLaserAbsorbSfx();
                 } 
                 
                 // Laser vs Triangle
@@ -464,8 +452,7 @@ function laserCollisionCheck() {
                     gameLaser[i].x -= 40; // Make a percentage of full width
 
                     // Lazer Bounce Sound
-                    laserBounceSfx.currentTime = 0; //Reset sound clip to start
-                    laserBounceSfx.play();
+                    playLaserBounceSfx();
                 }
                 
                 // Laser vs Circle
@@ -478,8 +465,7 @@ function laserCollisionCheck() {
                     gameObstacles[j].alive = false;
 
                     // Cirlce Explosion Sound
-                    circleExplosionSfx.currentTime = 0; //Reset sound clip to start
-                    circleExplosionSfx.play();
+                    playCircleExplosionSfx();
                 }
             }
         }

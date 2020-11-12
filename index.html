@@ -13,7 +13,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <!--Local Scripts-->
         <script defer src="assets/scripts/key-mapping.js"></script>
-        <script defer src="assets/scripts/togglers.js"></script>
         <script defer src="assets/scripts/game-initializer.js"></script>
         <script defer src="assets/scripts/game.js"></script>
         <script defer src="assets/scripts/background.js"></script>
@@ -21,6 +20,8 @@
         <script defer src="assets/scripts/touch-controls.js"></script>
         <script defer src="assets/scripts/pause.js"></script>
         <script defer src="assets/scripts/hub.js"></script>
+        <script defer src="assets/scripts/sound-effects.js"></script>
+        <script defer src="assets/scripts/togglers.js"></script>
         <!--Title-->
         <title>Geometric</title>
     </head>
@@ -182,6 +183,14 @@
         <!--Add to Leaderboard-->
         <section id="addToLeaderboard" class="menu">
            <h2>Leaderboard</h2>
+        </section>
+
+        <!--Hub-->
+        <section id="headsUp" class="hub" >
+            <div id="mute" class="hub_item hub_item--right">
+                <p>M =</p>
+                <button id="muteBtn" class="btn btn--hub"><i id="muteIcon" class="fas fa-volume-up"></i></button>
+            </div>
         </section>
 
         <!--Audio-->
