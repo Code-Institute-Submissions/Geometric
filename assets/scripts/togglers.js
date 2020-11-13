@@ -35,3 +35,17 @@ $('#muteBtn').click(function() {
     }
     return
 });
+
+$(document).keypress(function (event) {
+    if (event.which === 109) {
+        if (soundOn == true){
+            muteOff()
+            return
+        }
+
+         if (soundOn == false){
+            muteOn()
+            return
+        }
+    }
+});
