@@ -685,10 +685,10 @@ function obstacleRemove(){
 
 
 //Controller
-var jumpKey = 32; // S
-var shootKey = 115; // Spacebar
+var jumpKey = 87; // S
+var shootKey = 68; // Spacebar
 
-$(document).keypress(function (event) {
+$(document).keydown(function (event) {
 console.log(`press ${event.which}`)
 console.log(`shoot ${shootKey}`)
 console.log(`jump ${jumpKey}`)
@@ -703,7 +703,7 @@ console.log(`jump ${jumpKey}`)
         heroTri.shoot();
     }
 
-    if (event.which === 112 && heroTri.airBorn == false) { // P
+    if (event.which === 80 && heroTri.airBorn == false) { // P
         if (gameState == 2) {
             resumeGame();
         }

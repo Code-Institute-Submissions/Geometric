@@ -3,7 +3,7 @@ $('#jumpButton').click(function() {
     keyListenerStatas = 1;
     setTimeout(function(){toggleColor('jumpButton')}, 300);
     keyListener(jumpButton);
-    $('#controlsInstructions').html('<h3>Press a key</h3>');
+    $('#controlsInstructions').html('<h3>Press a letter key A-Z</h3>');
     $('#jumpButton').blur();
 });
 
@@ -12,16 +12,16 @@ $('#shootButton').click(function() {
     keyListenerStatas = 1;
     setTimeout(function(){toggleColor('shootButton')}, 300);
     keyListener(shootButton);
-    $('#controlsInstructions').html('<h3>Press a key</h3>')
+    $('#controlsInstructions').html('<h3>Press a letter key A-Z</h3>')
     $('#shootButton').blur();
 });
 
 // Key Listener
 function keyListener(button) {
-    $(document).keypress(function keyMap(event) {
+    $(document).keydown(function keyMap(event) {
         if (keyListenerStatas == 1) {
-            if (event.which == 112 || event.which == 109 || event.which == 13) {
-                
+            if (event.which == 80 || event.which == 77) {
+                $('#controlsInstructions').html('<h3>Sorry "P" & "M" are not mappable</h3>');
                 console.log('Sorry "P", "M"  and "Enter" are not mappable');
             }
 
@@ -35,26 +35,31 @@ function keyListener(button) {
                 console.log('Sorry that key is mapped to Jump');
             }
 
+            else if (event.which <= 65 || event.which >= 90) {
+               $('#controlsInstructions').html('<h3>Key not mappable</h3>');
+                console.log('Sorry that key is mapped to Jump');
+            }
+
             else {
                 if(button == jumpButton) {
                     jumpKey = event.which;
                     jumpChar = String.fromCharCode(event.which)
                     console.log(`new jump ${jumpKey}`);
-                    stopFlash = true;
-                    $(document).off('keypress', keyMap);
                     $("#jumpButton").html(`${jumpChar}`)
                     $('#controlsInstructions').html('<h3>New Jump Key Set</h3>');
-                    
+
                 }
                 else if(button == shootButton) {
                     shootKey = event.which;
                     shootChar = String.fromCharCode(event.which)
                     console.log(`new shoot ${shootKey}`);
-                    stopFlash = true;
-                    $(document).off('keypress', keyMap);
                     $("#shootButton").html(`${shootChar}`)
                     $('#controlsInstructions').html('<h3>New Shoot Key Set</h3>');
                 }
+
+                stopFlash = true;
+                $(document).off('keydown', keyMap);
+                return
             }
         }
         else {
@@ -63,18 +68,14 @@ function keyListener(button) {
     })
 }
 
-
 var buttonColor = 'red';
 
 // Flashing Button
 var stopFlash = false;
-
 function toggleColor(button) {
-
     $('body').click(function() {
         stopFlash = true;
     });
-
     if (stopFlash == false) {
         if(buttonColor == 'red') {
         setTimeout(function(){
@@ -88,7 +89,6 @@ function toggleColor(button) {
                 toggleColor(button);
             }, 300);
         }
-
         else {
             setTimeout(function(){
                 if(button == 'jumpButton') {
@@ -103,7 +103,6 @@ function toggleColor(button) {
             }, 300);
         }
     }
-
     else {
         $('#jumpButton').css("background-color", "blue");
         $('#shootButton').css("background-color", "blue");

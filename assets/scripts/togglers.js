@@ -36,8 +36,8 @@ $('#muteBtn').click(function() {
     return
 });
 
-$(document).keypress(function (event) {
-    if (event.which === 109) {
+$(document).keydown(function (event) {
+    if (event.which === 77) {
         if (soundOn == true){
             muteOff()
             return
