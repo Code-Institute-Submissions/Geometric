@@ -1,3 +1,9 @@
+// Page Ready Loading Bar to Play Button
+$(document).ready(function() {
+    $('#loadingIcon').remove();
+    $('#playButton').addClass('display-toggle');
+});
+
 // Menu Toggler
 $('.btn--menu').click(function() {
     $('.menu').removeClass('display-toggle')

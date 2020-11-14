@@ -13,7 +13,7 @@ canvas {
     background-color: rgb(56, 56, 56);
 }
 
-img {
+.bg-image {
     display: none;
 }
 
@@ -33,6 +33,10 @@ img {
 
 .display-toggle {
     display: block !important;
+}
+
+.hide {
+    display: none;
 }
 
 /*------------------------------------------------Header & Text*/
