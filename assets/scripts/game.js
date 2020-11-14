@@ -83,6 +83,7 @@ var gameCanvas = {
             //gameObstacles.push(new Obstacle('circle'));
             mapRender();
             fillFloorGap();
+            rearrangeObstacles()
         }
 
         for(i = 0; i < gameObstacles.length; i++) {
@@ -680,7 +681,7 @@ function obstacleRemove(){
         if (gameObstacles[i].x + gameObstacles[i].width < 0 && gameObstacles[i].type == 'rect' || 
             gameObstacles[i].triCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'tri'|| 
             gameObstacles[i].circleCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'circle') {
-            gameObstacles.splice(i);
+            gameObstacles.shift();
             gameCanvas.score += 1;
         }
     }

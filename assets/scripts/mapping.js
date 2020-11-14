@@ -71,3 +71,17 @@ function fillFloorGap() {
     }
     //console.log(`new game floor legth ${gameFloor.length}`);
 }
+
+function rearrangeObstacles() {
+    gameObstacles.sort(compare);
+}
+
+function compare( a, b ) {
+  if ( a.x < b.x ){
+    return -1;
+  }
+  if ( a.x > b.x ){
+    return 1;
+  }
+  return 0;
+}
