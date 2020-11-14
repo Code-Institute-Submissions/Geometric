@@ -37,23 +37,19 @@ function bgTitle (titleNo) {
 function bgCreation() {
     if (gameBg.length == 0){
         gameBg.push(new bgTitle(0));
-        console.log('push 0')
     }
 
     else if(gameBg[gameBg.length - 1].x + gameBg[gameBg.length - 1].width <= fullWidth) {
         if((gameBg[gameBg.length - 1].titleNo + 2) % 3 == 0 || gameBg[gameBg.length - 1].titleNo == 0 && (gameBg[gameBg.length - 1].titleNo + 3) % 3 == 0) {
             gameBg.push(new bgTitle(2));
-            console.log('push 2')
         }
 
         else if((gameBg[gameBg.length - 1].titleNo + 1) % 3 == 0) {
             gameBg.push(new bgTitle(3));
-            console.log('push 3')
         }
         
         else if((gameBg[gameBg.length - 1].titleNo + 3) % 3 == 0) {
             gameBg.push(new bgTitle(1));
-            console.log('push 1')
         }
         gameBg[gameBg.length - 1].x = fullWidth - gameBg[i].speed; // Draws title as the one before it moves passed the full width of the canvas
     }

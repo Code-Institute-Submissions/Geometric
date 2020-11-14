@@ -5,8 +5,8 @@ var strokeWidth = fullHeight * 0.02;
 var objectSize = fullHeight * 0.06; // Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
-var obstacleHeight = objectSize * 1.5;
-var moveSpeed = 15; // 15 is an ideal speed (turn into a percentage of full width)
+var obstacleHeight = objectSize * 1.6;
+var moveSpeed = 15;
 var gameState = 0; // Controls Start, Pause, Background
 
 // Functions
@@ -23,7 +23,8 @@ Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
 
 // Game Canvas
 var gameCanvas = {
-    
+    rows : 11,
+    columns: Math.ceil(fullWidth / obstacleHeight), 
     // Counters
     loopCounter : 0, // How many time the loop function runs
     score: 0, // Player Score
@@ -48,13 +49,12 @@ var gameCanvas = {
     loop: function() {
         //Clears last frame
         gameCanvas.clear();
-
         // Background
         for(i = 0; i < gameBg.length; i++) {
             gameBg[i].draw()
-        }
-
-        bgCreation()
+        }  
+        console.log(gameObstacles.length);
+        bgCreation();
         //Writes score
         score.draw();
         
@@ -71,16 +71,18 @@ var gameCanvas = {
         }
 
         // Initial Floor pushed into the array
-        initalFloorCreation();
+        //initalFloorCreation();
 
         // Adds new floor tile to create continuous infinity floor 
-        infinityFloor();
+        //infinityFloor();
 
         // Test Obstacles pushed into the array (Replace with Level Design in Late Commit)
-        if(gameObstacles.length == 0) {
-            gameObstacles.push(new Obstacle('tri'));
-            gameObstacles.push(new Obstacle('rect'));
-            gameObstacles.push(new Obstacle('circle'));
+        if(gameCanvas.loopCounter == 0) {
+            //gameObstacles.push(new Obstacle('tri'));
+            //gameObstacles.push(new Obstacle('rect', totalFloorHeight - obstacleHeight));
+            //gameObstacles.push(new Obstacle('circle'));
+            mapRender();
+            fillFloorGap();
         }
 
         for(i = 0; i < gameObstacles.length; i++) {
@@ -90,11 +92,6 @@ var gameCanvas = {
         // Hero Physics
         heroTri.draw();
         heroTri.gravity();
-        
-        // Hero Collisions
-        heroTri.cirlceCrash();
-        heroTri.rectCrash();
-        triCollision();
 
         // Obstacle Physics
         if (heroTri.alive == true) {
@@ -103,11 +100,16 @@ var gameCanvas = {
             for(i = 0; i < gameBg.length; i++) {
                 gameBg[i].movement()
             }
+
+            // Hero Collisions
+            heroTri.cirlceCrash();
+            heroTri.rectCrash();
+            triCollision();
         }
+        
         obstacleRemove();
         // Add 1 to the amount of time the loop has been run
         gameCanvas.loopCounter += 1;
-
         if(gameState == 1) {
         // Self Call to repeat the loop
             requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
@@ -432,7 +434,8 @@ function laserCollisionCheck() {
                 gameObstacles[j].type == 'rect' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
                 gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
-                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y) {
+                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y &&
+                gameLaser[i].y < gameObstacles[j].y + gameObstacles[j].height) {
                     gameLaser[i].x = fullWidth;
                     console.log('rect collision');
 
@@ -475,11 +478,11 @@ function laserCollisionCheck() {
 // Floor
 var gameFloor = [];
 
-function Floor() {
+function Floor(y, x) {
     this.height = floorHeight;
-    this.width = fullWidth / 10;
-    this.x = 0;
-    this.y = fullHeight - this.height;
+    this.width = obstacleHeight;
+    this.x = x;
+    this.y = y;
     this.strokeWidth = strokeWidth;
 
     this.draw = function() {
@@ -500,8 +503,8 @@ function Floor() {
 // Creates the starting floor of the game
 function initalFloorCreation() {
     if(gameFloor.length == 0) {
-        for(var i = 0; i < 10; i++) {
-            gameFloor.push(new Floor());
+        for(var i = 0; i < gameCanvas.columns; i++) {
+            gameFloor.push(new Floor(obsY));
             gameFloor[i].x += gameFloor[i].width * i;
         }
     }
@@ -509,7 +512,7 @@ function initalFloorCreation() {
 
 // Creates new floor title ever time the floor doesn't cover the entire width of the canvas
 function infinityFloor() {
-    if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= 10) {
+    if(gameFloor[gameFloor.length - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth && gameFloor.length >= gameCanvas.columns) {
         gameFloor.push(new Floor());
         gameFloor[gameFloor.length - 1].x = fullWidth - moveSpeed; // Draws title as the one before it moves passed the full width of the canvas
     }
@@ -525,15 +528,15 @@ function removeOldFloor() {
 // Obstacles
 var gameObstacles = [];
 
-function Obstacle(type) {
+function Obstacle(type, y, x) {
 
     this.type = type;
 
     // Rectangle
     this.height = objectSize * 1.5;
     this.width = this.height;
-    this.x = fullWidth + 2000;
-    this.y = totalFloorHeight - this.height;
+    this.x = x;
+    this.y = y;
     
     // Circle
     this.radius = objectSize * 0.75;
@@ -673,11 +676,11 @@ function obstacleMovement() {
 
 // Removes obstacles outside the canvas (left side only)
 function obstacleRemove(){
-    for(i = 0; i < gameObstacles.length; i++) {
+    for(var i = 0; i < gameObstacles.length; i++) {
         if (gameObstacles[i].x + gameObstacles[i].width < 0 && gameObstacles[i].type == 'rect' || 
             gameObstacles[i].triCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'tri'|| 
             gameObstacles[i].circleCenterX + gameObstacles[i].size < 0 && gameObstacles[i].type == 'circle') {
-            gameObstacles.shift();
+            gameObstacles.splice(i);
             gameCanvas.score += 1;
         }
     }
@@ -689,9 +692,9 @@ var jumpKey = 87; // S
 var shootKey = 68; // Spacebar
 
 $(document).keydown(function (event) {
-console.log(`press ${event.which}`)
-console.log(`shoot ${shootKey}`)
-console.log(`jump ${jumpKey}`)
+//console.log(`press ${event.which}`)
+//console.log(`shoot ${shootKey}`)
+//console.log(`jump ${jumpKey}`)
 
     // Jump Control
     if (event.which === jumpKey && heroTri.airBorn == false && heroTri.shooting == false) {
