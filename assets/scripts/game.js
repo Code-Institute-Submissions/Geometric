@@ -223,8 +223,8 @@ function Obstacle(type, x, y) {
     
     // Circle
     this.radius = objectSize * 0.75;
-    this.circleCenterX = fullWidth + this.radius + 3000;
-    this.circleCenterY = totalFloorHeight - this.radius;
+    this.circleCenterX = this.x + this.radius;
+    this.circleCenterY = this.y + this.radius;
     this.alive = true;
     this.deathR1 = this.radius * 0.25;
     this.deathR2 = this.radius * 0.25;
@@ -234,8 +234,8 @@ function Obstacle(type, x, y) {
     // Triangle
     this.sides = 3;
     this.size = objectSize;
-    this.triCenterX = fullWidth + objectSize + 1000;
-    this.triCenterY = totalFloorHeight - this.size / 2;
+    this.triCenterX = this.x + this.size / 1.325;
+    this.triCenterY = y + this.size;
     //this.strokeWidth = 0;
     //this.strokeColor = 'purple';
     this.rotationDegrees = 180;
@@ -287,6 +287,7 @@ function Obstacle(type, x, y) {
 
     // Draw Triangle Obstacles
     this.drawObsTri = function() {
+        console.log(`y = ${this.y} and center tri y = ${this.triCenterY}`)
         var radiansObs = this.rotationDegrees * Math.PI/180;
         gameCanvas.ctx.translate(this.triCenterX, this.triCenterY);
         gameCanvas.ctx.rotate(radiansObs);
@@ -412,21 +413,6 @@ var score = {
 
 }
 
-/*function mapLoop() {
-    for(i = 0; i < gameFloor.length; i++) {
-        if(gameFloor.length == 0) {
-            mapRender(map0);
-            mapNo += 1;
-        }
-        else {
-            if (gameFloor[gameFloor - 1].x + gameFloor[gameFloor.length - 1].width <= fullWidth) {
-                mapRender(level[mapNo]);
-                mapNo += 1
-            }
-        }
-    }
-}*/
-
 var level = [map0,map1,map2];
 
 function mapLoop() {
@@ -472,20 +458,19 @@ function mapRender(map) {
             
             else {
                 obsX = startMap + totalFloorHeight - obstacleHeight * (11 - j - 1);
-                console.log(startMap);
-                console.log(obsX);
             }
+
             // Defines which object to push
             if (map[i][j] == 1) {
                 gameObstacles.push(new Obstacle('rect', obsX, obsY));
             }
 
             if (map[i][j] == 2) {
-            gameObstacles.push(new Obstacle('tri', obsY));
+            gameObstacles.push(new Obstacle('tri', obsX, obsY));
             }
 
             if (map[i][j] == 3) {
-                gameObstacles.push(new Obstacle('circle', obsY));
+                gameObstacles.push(new Obstacle('circle', obsX, obsY));
             }
 
             if (map[i][j] == 4) {

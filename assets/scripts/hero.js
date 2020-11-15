@@ -2,10 +2,10 @@
 var fullWidth = $(window).width();
 var fullHeight = $(window).height();
 var strokeWidth = fullHeight * 0.02;
-var objectSize = fullHeight * 0.06; // Triange, others are scaled based off it
+var objectSize = fullHeight * 0.061; // Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
-var obstacleHeight = objectSize * 1.5;
+var obstacleHeight = fullHeight * 0.09;
 var moveSpeed = 15;
 
 // Hero Character
