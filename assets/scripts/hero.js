@@ -122,7 +122,7 @@ var heroTri = {
     // Hero Collision with Circle Obstacle (Pythagoras Therom)
     cirlceCrash: function() {
         for(i = 0; i < gameObstacles.length; i++) {
-            if (gameObstacles[i].alive == true) {
+            if (gameObstacles[i].alive == true && gameObstacles[i].type == 'circle') {
                 // Use Pythagoras Therom to work out the distance from Hero Center to Obstacle Center
                 var disHyp = pythagoras(heroTri.centerX ,heroTri.centerY , gameObstacles[i].circleCenterX, gameObstacles[i].circleCenterY);
                 
@@ -142,7 +142,8 @@ var heroTri = {
             if (heroTri.centerX + heroTri.size > gameObstacles[i].x &&
                 heroTri.centerX - heroTri.size < gameObstacles[i].x + gameObstacles[i].width &&
                 heroTri.centerY >= gameObstacles[i].y - heroTri.size &&
-                heroTri.centerY <= gameObstacles[i].y + gameObstacles[i].height * 0.25) {
+                heroTri.centerY <= gameObstacles[i].y + gameObstacles[i].height * 0.25 &&
+                gameObstacles[i].type == 'rect') {
                     
                     heroTri.centerY = gameObstacles[i].y - heroTri.size / 2
                     // Resets
@@ -155,8 +156,10 @@ var heroTri = {
             }
 
             // Allow gravity again 
-            else if (heroTri.centerX - heroTri.size > gameObstacles[i].x + gameObstacles[i].width && heroTri.centerY == gameObstacles[i].y - heroTri.size / 2) {
-                heroTri.airBorn = true;
+            else if (heroTri.centerX - heroTri.size > gameObstacles[i].x + gameObstacles[i].width && 
+                    heroTri.centerY == gameObstacles[i].y - heroTri.size / 2 &&
+                    gameObstacles[i].type == 'rect') {
+                    heroTri.airBorn = true;
             }
 
             // 
@@ -171,7 +174,7 @@ var heroTri = {
             // If the distance is less than the circle's radius, an intersection occurs
                 var distanceSquared = Math.pow(distanceX, 2) + Math.pow(distanceY, 2);
                 
-                if (distanceSquared < Math.pow(heroTri.size,2)) {
+                if (distanceSquared < Math.pow(heroTri.size,2) && gameObstacles[i].type == 'rect') {
                     heroTri.fillColor = 'red'; //Change to END GAME
                     heroTri.crash();
                 }
@@ -287,79 +290,4 @@ function Laser() {
         gameCanvas.ctx.fillStyle = this.color;
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
-}
-
-// Laser Movement
-function laserMovement() {
-    for (var i = 0; i < gameLaser.length; i++) {
-        gameLaser[i].draw();
-        gameLaser[i].x += gameLaser[i].speed;
-    }
-}
-
-// Laser Collisions
-function laserCollisionCheck() {
-    for (var i = 0; i < gameLaser.length; i++) {
-
-        // Remove off canvas lasers
-        if (gameLaser[i].x >= fullWidth || gameLaser[i].x + gameLaser[i].width < 0) {
-            gameLaser.shift();
-        }
-
-        // Laser vs Hero 
-        else if (gameLaser[i].x + gameLaser[i].width > heroTri.centerX && 
-        gameLaser[i].x < heroTri.centerX + heroTri.size / 2 &&
-        gameLaser[i].y + gameLaser[i].height < heroTri.centerY) {
-            heroTri.fillColor = 'red';
-            console.log('hero collision');
-
-        }
-        
-        else if (gameObstacles.length > 0) {
-            for (var j = 0; j < gameObstacles.length; j++) {
-                
-                //Laser vs Rect
-                if (
-                gameObstacles[j].type == 'rect' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].x && 
-                gameLaser[i].x < gameObstacles[j].x + gameObstacles[j].width && 
-                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].y &&
-                gameLaser[i].y < gameObstacles[j].y + gameObstacles[j].height) {
-                    gameLaser[i].x = fullWidth;
-                    console.log('rect collision');
-
-                    // Laser Absorb audio 
-                    playLaserAbsorbSfx();
-                } 
-                
-                // Laser vs Triangle
-                else if (
-                gameObstacles[j].type == 'tri' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
-                gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].width / 2 &&
-                gameLaser[i].y + gameLaser[i].height < gameObstacles[j].triCenterY) {
-                    gameLaser[i].speed = -gameLaser[i].speed;
-                    gameLaser[i].color = 'red';
-                    console.log('tri collision');
-                    gameLaser[i].x -= 40; // Make a percentage of full width
-
-                    // Lazer Bounce Sound
-                    playLaserBounceSfx();
-                }
-                
-                // Laser vs Circle
-                else if (
-                gameObstacles[j].type == 'circle' && 
-                gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
-                gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
-                    gameLaser[i].color = 'red';
-                    console.log('circle collision');
-                    gameObstacles[j].alive = false;
-
-                    // Cirlce Explosion Sound
-                    playCircleExplosionSfx();
-                }
-            }
-        }
-    }
 }
