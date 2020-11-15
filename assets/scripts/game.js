@@ -123,7 +123,7 @@ function Laser() {
     this.width = objectSize * 0.66;
     this.height = objectSize * 0.1;
     this.speed = fullWidth * 0.015;
-    this.y = totalFloorHeight - objectSize / 2 - this.height * 2;
+    this.y = heroTri.centerY + heroTri.size / 2 - this.height / 2;
     this.x = heroTri.centerX + heroTri.size;
     this.color = laserColor;
 
@@ -181,13 +181,14 @@ function laserCollisionCheck() {
                 gameObstacles[j].type == 'tri' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].triCenterX && 
                 gameLaser[i].x < gameObstacles[j].triCenterX + gameObstacles[j].width / 2 &&
-                gameLaser[i].y + gameLaser[i].height < gameObstacles[j].triCenterY) {
-                    gameLaser[i].speed = -gameLaser[i].speed;
+                gameLaser[i].y < gameObstacles[j].triCenterY &&
+                gameLaser[i].y + gameLaser[i].width > gameObstacles[j].triCenterY) {
+                    gameLaser[i].speed =- gameLaser[i].speed;
                     gameLaser[i].color = 'red';
                     console.log('tri collision');
                     gameLaser[i].x -= 40; // Make a percentage of full width
 
-                    // Lazer Bounce Sound
+                    // Laser Bounce Sound
                     playLaserBounceSfx();
                 }
                 
@@ -195,7 +196,10 @@ function laserCollisionCheck() {
                 else if (
                 gameObstacles[j].type == 'circle' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
-                gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius) {
+                gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius &&
+                gameLaser[i].y > gameObstacles[j].circleCenterY &&
+                gameLaser[i].y < gameObstacles[j].circleCenterY + gameObstacles[j].radius &&
+                gameObstacles[j].alive == true) {
                     gameLaser[i].color = 'red';
                     console.log('circle collision');
                     gameObstacles[j].alive = false;
@@ -287,7 +291,6 @@ function Obstacle(type, x, y) {
 
     // Draw Triangle Obstacles
     this.drawObsTri = function() {
-        console.log(`y = ${this.y} and center tri y = ${this.triCenterY}`)
         var radiansObs = this.rotationDegrees * Math.PI/180;
         gameCanvas.ctx.translate(this.triCenterX, this.triCenterY);
         gameCanvas.ctx.rotate(radiansObs);
@@ -388,6 +391,7 @@ $(document).keydown(function (event) {
     // Shoot Control
     if (event.which === shootKey && heroTri.airBorn == false) {
         heroTri.shoot();
+        heroTri.shooting = true;
     }
 
     if (event.which === 80 && heroTri.airBorn == false) { // P
@@ -413,7 +417,7 @@ var score = {
 
 }
 
-var level = [map0,map1,map2];
+var level = [map0,map0,map0];
 
 function mapLoop() {
     if (loopCounter == 0) {

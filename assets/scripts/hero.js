@@ -144,22 +144,13 @@ var heroTri = {
                 heroTri.centerY >= gameObstacles[i].y - heroTri.size &&
                 heroTri.centerY <= gameObstacles[i].y + gameObstacles[i].height * 0.25 &&
                 gameObstacles[i].type == 'rect') {
-                    
-                    heroTri.centerY = gameObstacles[i].y - heroTri.size / 2
                     // Resets
                     heroTri.airBorn = false;
-                    heroTri.shooting = false;
-                    heroTri.shootMax = false;
-                    heroTri.velocityY = 0;
-                    heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
-                    heroTri.rotationSpeed = 0;
-            }
-
-            // Allow gravity again 
-            else if (heroTri.centerX - heroTri.size > gameObstacles[i].x + gameObstacles[i].width && 
-                    heroTri.centerY == gameObstacles[i].y - heroTri.size / 2 &&
-                    gameObstacles[i].type == 'rect') {
-                    heroTri.airBorn = true;
+                    if (heroTri.shooting == false) {
+                        heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
+                        heroTri.velocityY = 0;
+                        heroTri.centerY = gameObstacles[i].y - heroTri.size / 2;
+                    }
             }
 
             // 
@@ -214,8 +205,9 @@ var heroTri = {
     onFloor: function() {
         for(i = 0; i < gameFloor.length; i++) {
             if(heroTri.centerY > fullHeight - gameFloor[i].height - gameFloor[i].strokeWidth / 2 - objectSize / 2 - 1 &&
-                heroTri.centerX + heroTri.size / 2 > gameFloor[i].x &&
-                heroTri.centerX - heroTri.size / 2 < gameFloor[i].x + gameFloor[i].width) { //
+            heroTri.centerX + heroTri.size / 2 > gameFloor[i].x &&
+            heroTri.centerX - heroTri.size / 2 < gameFloor[i].x + gameFloor[i].width) { //
+                
                 heroTri.centerY = totalFloorHeight - objectSize / 2; // Stops hero falling through the floor
 
                 // Resets
@@ -260,10 +252,19 @@ var heroTri = {
             heroTri.rotationDegrees += heroTri.rotateSpeed;
             heroTri.centerY += heroTri.velocityY;
 
+            if (heroTri.rotationDegrees >= 270) {
+                heroTri.rotationDegrees = 270;
+                heroTri.shooting = false;
+                heroTri.shootMax = false;
+                heroTri.airBorn = true;
+                
+            }
+
         } else {
             heroTri.rotationDegrees -= heroTri.rotateSpeed;
             heroTri.centerY -= heroTri.velocityY;
         }
+
     },
 
     crash: function() {
