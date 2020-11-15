@@ -2,7 +2,7 @@
 var fullWidth = $(window).width();
 var fullHeight = $(window).height();
 var strokeWidth = fullHeight * 0.02;
-var objectSize = fullHeight * 0.061; // Triange, others are scaled based off it
+var objectSize = fullHeight * 0.0605; // Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = fullHeight * 0.09;
@@ -12,7 +12,7 @@ var moveSpeed = 15;
 // Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
 var heroTri = {
     sides: 3,
-    size: objectSize,
+    size: objectSize * 0.90,
     centerX: fullWidth * 0.15,
     centerY: totalFloorHeight - objectSize / 2,
     //strokeWidth: 0,

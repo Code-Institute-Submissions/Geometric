@@ -418,7 +418,7 @@ var score = {
 
 }
 
-var level = [map0,map0,map0];
+var level = [map0,map1,map2];
 
 function mapLoop() {
     if (loopCounter == 0) {
