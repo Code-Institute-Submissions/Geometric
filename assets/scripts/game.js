@@ -53,10 +53,10 @@ var gameCanvas = {
         for(i = 0; i < gameBg.length; i++) {
             gameBg[i].draw()
         }  
-        console.log(gameObstacles.length);
         bgCreation();
         //Writes score
         score.draw();
+        console.log(gameFloor.length);
         
         // Laser Physics
         laserMovement();
@@ -93,6 +93,8 @@ var gameCanvas = {
         // Hero Physics
         heroTri.draw();
         heroTri.gravity();
+
+        console.log(heroTri.airBorn)
 
         // Obstacle Physics
         if (heroTri.alive == true) {
@@ -324,7 +326,9 @@ var heroTri = {
 
     onFloor: function() {
         for(i = 0; i < gameFloor.length; i++) {
-            if(heroTri.centerY > fullHeight - gameFloor[i].height - gameFloor[i].strokeWidth / 2 - objectSize / 2 - 1) { //
+            if(heroTri.centerY > fullHeight - gameFloor[i].height - gameFloor[i].strokeWidth / 2 - objectSize / 2 - 1 &&
+                heroTri.centerX + heroTri.size / 2 > gameFloor[i].x &&
+                heroTri.centerX - heroTri.size / 2 < gameFloor[i].x + gameFloor[i].width) { //
                 heroTri.centerY = totalFloorHeight - objectSize / 2; // Stops hero falling through the floor
 
                 // Resets
