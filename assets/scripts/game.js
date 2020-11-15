@@ -153,7 +153,8 @@ function laserCollisionCheck() {
         // Laser vs Hero 
         else if (gameLaser[i].x + gameLaser[i].width > heroTri.centerX && 
         gameLaser[i].x < heroTri.centerX + heroTri.size / 2 &&
-        gameLaser[i].y + gameLaser[i].height < heroTri.centerY) {
+        gameLaser[i].y < heroTri.centerY &&
+        gameLaser[i].y + gameLaser[i].width > heroTri.centerY ) {
             heroTri.fillColor = 'red';
             console.log('hero collision');
 
