@@ -29,7 +29,7 @@ var heroTri = {
     sides: 3,
     size: objectSize * 0.95,
     centerX: fullWidth * 0.15,
-    centerY: totalFloorHeight - objectSize / 2,
+    centerY: fullHeight * 0.5,
     fillColor: 'limegreen',
     rotationDegrees: 270, // Pointing Up
     velocityY: 0,
@@ -279,8 +279,10 @@ var heroTri = {
 
     crash: function() {
         heroTri.alive = false;
-
         // Hero Crash sound
         playHeroCrashSfx();
+
+        gameCanvas.endGame()
+        return;
     }
 };

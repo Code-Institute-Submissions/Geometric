@@ -40,7 +40,7 @@
         <section id="mainMenu" class="menu display-toggle">
             <h1>Geometric</h1>
             <img id="loadingIcon" src="assets/images/loading-triangles.gif">
-            <button id="playButton" class="btn btn--play hide">Play</button>
+            <button id="playButton" class="btn btn--play play hide">Play</button>
             <button id="controlsButton" class="btn btn--menu" value="controls">Controls</button>
             <button id="customiseButton" class="btn btn--menu" value="customise">Customise</button>
             <button id="leaderboardButton" class="btn btn--menu" value="leaderboard">Leaderboard</button>
@@ -175,16 +175,15 @@
         <section id="pauseMenu" class="menu">
             <h2>Pause</h2>
             <button id="resumeBtn" class="btn btn--resume">Resume</button>
+            <button id="quit" class="btn btn--resume">Quit</button>
         </section>
 
         <!--Game Over-->
         <section id="gameOver" class="menu">
-            <h2>Game Over</h2>
-            <p>Your Score = <span id="yourScore"></span></p>
-            <button class="btn btn--menu">Share to Facebook</button>
+            <h2 id="gameOverTitle">Game Over</h2>
+            <button id="playAgain" class="btn play">Play Again</button>
             <button class="btn btn--menu">Add Score to Leaderboard</button>
             <button class="btn btn--menu" value="mainMenu">Main Menu</button>
-            <button class="btn btn--menu" value="playAgain">Play Again</button>
         </section>
 
         <!--Add to Leaderboard-->

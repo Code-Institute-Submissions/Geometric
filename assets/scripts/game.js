@@ -26,6 +26,9 @@ var gameCanvas = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.ctx = this.canvas.getContext("2d");
         gameState = 1; // If 1 the game loop runs
+        heroTri.centerY = fullHeight * 0.5; // Resets hero position so it falls in
+        loopCounter = 0;
+        heroTri.alive = true; // Makes sure hero is alive when game start fixes instance death on Play Again
         // Removes vertical side scroller
         $('body').css('height', this.canvas.height);
 
@@ -33,9 +36,32 @@ var gameCanvas = {
          this.loop();
     },
 
-    // Wipes the canvas cleen by removing all it content
+    // Wipes the canvas clean by removing all it content
     clear: function() {
         gameCanvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //Clears Canvas
+    },
+
+    endGame: function() {
+        gameState = 3;
+        gameCanvas.clear();
+        $('#yourScore').remove();
+        var endGameTitle = document.getElementById('gameOverTitle');
+        endGameTitle.insertAdjacentHTML('afterend', `<p id="yourScore">You Scored = ${gameCanvas.score}</p>`);
+        // Remove Touch Controls
+        $('#touchRight').remove();
+        $('#touchLeft').remove();
+        //Reset Counters
+        mapCount = 0;
+        loopCounter = 0;
+        //Empty Game Arrays
+        gameFloor = [];
+        gameObstacles = [];
+        gameLaser = [];
+        gameBg = [];
+        $('#pause').remove();
+        $('#gameOver').addClass('display-toggle');
+        $('#gameZone').remove();
+        return
     },
 
     // GAME LOOP START
@@ -58,8 +84,9 @@ var gameCanvas = {
         Decides which map to use for the obstacles and call the map renderer to push the 
         obstacles into ther repective arrays
         */
-        mapLoop();
-
+        if(gameState == 1) { // Stops map loop throwing errors when the loop ends
+            mapLoop();
+        }
         // Draws Back ground titles
         for(i = 0; i < gameBg.length; i++) {
             gameBg[i].draw()
@@ -141,6 +168,7 @@ function mapLoop() {
 }
 
 
+// Obstacle Map Renderer
 function mapRender(map) {
     for (var i = 0; i < map.length; i++) {
         // Defines each rows Y coordinate
@@ -185,7 +213,6 @@ function mapRender(map) {
         }
     }
 }
-
 /* Not my own code
 Rearranges the obstacles by their X value so they can be shifted out in the correct order.
 If they were left in order that the map render pushes them into the array, when the one with the

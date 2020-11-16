@@ -11,6 +11,13 @@ function resumeGame(){
     gameCanvas.loop();
 }
 
+// Contiunes Game where the user left off
 $('#resumeBtn').click(function() {
-    resumeGame()
+    resumeGame();
+});
+
+// Quit the game
+$('#quit').click(function() {
+    $('#pauseMenu').removeClass('display-toggle');
+    gameCanvas.endGame();
 });
