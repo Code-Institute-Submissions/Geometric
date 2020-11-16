@@ -1,6 +1,17 @@
 // Variables
 var gameState = 0; // Controls Start, Pause, Background
 var loopCounter = 0;
+
+/* Detla Timer Varibles
+Source: https://stackoverflow.com/questions/13996267/loop-forever-and-provide-delta-time/14006703
+Improves frame rate (NOT MY OWN CODE)
+*/
+const perfectFrameTime = 1000 / 300;
+var deltaTime = 0;
+var lastTimestamp = 0;
+// (End of NOT MY OWN CODE)
+
+
 // Functions
 /* Clamp use to work out sections of the canvas for heroTri / Rect Obs Collisions
 Limits the value a number between two others.
@@ -37,7 +48,14 @@ var gameCanvas = {
     },
 
     // Updates the game and self calls creating the loop
-    loop: function() {
+    loop: function(timestamp) {
+        requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
+        
+        // Delta Time Improves Frame Rate (NOT MY OWN CODE)
+            deltaTime = (timestamp - lastTimestamp) / perfectFrameTime;
+            lastTimestamp = timestamp;
+        //(End NOT MY OWN CODE)
+
         //Clears last frame
         gameCanvas.clear();
         mapLoop();
@@ -98,13 +116,15 @@ var gameCanvas = {
             heroTri.rectCrash();
             triCollision();
         }
+
+        console.log(moveSpeed);
         
         obstacleRemove();
         // Add 1 to the amount of time the loop has been run
         loopCounter += 1;
         if(gameState == 1) {
         // Self Call to repeat the loop
-            requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop
+            
         }
     },
 
