@@ -95,7 +95,6 @@ var gameCanvas = {
         // Hero Physics
         heroTri.draw();
         heroTri.gravity();
-
         // Obstacle Physics
         if (heroTri.alive == true) { // run if hero is alive
             heroTri.onFloor();
@@ -104,9 +103,10 @@ var gameCanvas = {
                 gameBg[i].movement()
             }
 
-            // Hero Collisions (doesn't run if hero is dead as it caused the hero to repeatedly crash)
+            // Hero Collisions (doesn't run if hero is dead as it caused the hero to repeatedly crash and ruin the death animation)
             heroTri.cirlceCrash();
             heroTri.rectCrash();
+            heroTri.floorCrash(); // Checks if the hero hasn't fallen below the floor
             triCollision();
         }
 

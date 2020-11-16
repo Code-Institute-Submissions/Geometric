@@ -174,9 +174,15 @@ var heroTri = {
             }
         }
     },
+
+    floorCrash: function() {
+        if (heroTri.centerY > fullHeight) {
+            heroTri.crash();
+        }
+    },
     // (End of Not all my own code)
 
-    gravity() {
+    gravity: function() {
         // Check shoot functions isn't running first (Shoot defies gravity)
         if(heroTri.shooting == true) {
             heroTri.shoot();
