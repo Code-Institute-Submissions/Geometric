@@ -196,7 +196,7 @@ function laserCollisionCheck() {
                 gameObstacles[j].type == 'circle' && 
                 gameLaser[i].x + gameLaser[i].width > gameObstacles[j].circleCenterX && 
                 gameLaser[i].x < gameObstacles[j].circleCenterX + gameObstacles[j].radius &&
-                gameLaser[i].y > gameObstacles[j].circleCenterY &&
+                gameLaser[i].y + gameLaser[i].height > gameObstacles[j].circleCenterY &&
                 gameLaser[i].y < gameObstacles[j].circleCenterY + gameObstacles[j].radius &&
                 gameObstacles[j].alive == true) {
                     gameLaser[i].color = 'red';
