@@ -282,7 +282,7 @@ var heroTri = {
         // Hero Crash sound
         playHeroCrashSfx();
 
-        gameCanvas.endGame()
+        setTimeout(function() {gameCanvas.endGame()}, 750); // Delay allows death animation to complete before showing Game Over Screen
         return;
     }
 };
