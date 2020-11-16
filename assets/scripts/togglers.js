@@ -47,33 +47,3 @@ $('.laser-color').click(function() {
     $(this).addClass('laser-active');
     laserColor = this.value;
 });
-
-// Mute Toggler
-$('#muteBtn').click(function() {
-    if (soundOn == true){
-        muteOff()
-        $('#muteBtn').blur();
-        return
-    }
-
-    if (soundOn == false){
-        muteOn()
-         $('#muteBtn').blur();
-        return
-    }
-    return
-});
-
-$(document).keydown(function (event) {
-    if (event.which === 77) {
-        if (soundOn == true){
-            muteOff()
-            return
-        }
-
-         if (soundOn == false){
-            muteOn()
-            return
-        }
-    }
-});
