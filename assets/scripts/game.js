@@ -55,7 +55,8 @@ var gameCanvas = {
             deltaTime = (timestamp - lastTimestamp) / perfectFrameTime;
             lastTimestamp = timestamp;
         //(End NOT MY OWN CODE)
-
+        bgReomveOld()
+        console.log(gameBg.length)
         //Clears last frame
         gameCanvas.clear();
         mapLoop();
