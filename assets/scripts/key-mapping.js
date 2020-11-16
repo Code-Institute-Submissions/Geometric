@@ -65,50 +65,48 @@ function keyListener(button) {
     })
 }
 
-// Default colour to get the flash started
-var buttonColor = 'yellow';
-
 // Flashing Button
-var stopFlash = false;
-function toggleColor(button) { // Take the button the user clicks
-    $('body').click(function() { // Ends flash when the user clicks off the button
+// Default colour to get the flash started
+var buttonColor = 'red';
+var stopFlash = false; // Stops the flash when true
+
+function toggleColor(button) { // Take the button that is press so one function can be used for mulipte buttons
+    $('body').click(function() {
         stopFlash = true;
     });
     if (stopFlash == false) {
-
-        if(buttonColor == 'yellow') {
+        if(buttonColor == 'red') {
         setTimeout(function(){
                 if(button == 'jumpButton') {
-                    $('#jumpButton').css("background-color", "white");
+                    $('#jumpButton').css("background-color", "blue");
                 }
                 if(button == 'shootButton') {
-                    $('#shootButton').css("background-color", "white");
+                    $('#shootButton').css("background-color", "blue");
                 }
-                buttonColor = 'yellow'
-                toggleColor(button); // Self call
-            }, 300); // How long the function is delayed
+                buttonColor = 'blue'; // Set value to the opposite to run the opposite if statement 
+                toggleColor(button); // Self Calling
+            }, 300);
         }
-
         else {
             setTimeout(function(){
                 if(button == 'jumpButton') {
-                    $('#jumpButton').css("background-color", "yellow");
+                    $('#jumpButton').css("background-color", "red");
                 }
                 if(button == 'shootButton') {
-                    $('#shootButton').css("background-color", "yellow");
+                    $('#shootButton').css("background-color", "red");
                 }
                 
-                buttonColor = 'white'
-                toggleColor(button); // Self call
-            }, 300); // How long the function is delayed
+                buttonColor = 'red'; // Set value to the opposite to run the opposite if statement 
+                toggleColor(button); // Self Calling
+            }, 300);
         }
     }
     else {
-        $('#jumpButton').css("background-color", "white");
-        $('#shootButton').css("background-color", "white");
-        $('body').off('click') // removes listener
-        stopFlash = false // Turns off flash
-        keyListenerStatas = 0; // Turns off listener
+        $('#jumpButton').css("background-color", "blue");
+        $('#shootButton').css("background-color", "blue");
+        $('body').off('click')
+        stopFlash = false
+        keyListenerStatas = 0;
         return
     }    
 };
