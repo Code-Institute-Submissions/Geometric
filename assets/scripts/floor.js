@@ -1,6 +1,9 @@
 // Floor
+
+// Floor Array
 var gameFloor = [];
 
+// Floor Constructor Function
 function Floor(x, y) {
     this.height = floorHeight;
     this.width = obstacleHeight;

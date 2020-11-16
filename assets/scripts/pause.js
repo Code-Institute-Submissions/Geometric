@@ -1,6 +1,6 @@
 // Resumes game on button press by changing game state back to 1
 function pauseGame() {
-    gameState = 2;
+    gameState = 2; 
     $('#pauseMenu').addClass('display-toggle');
 }
 

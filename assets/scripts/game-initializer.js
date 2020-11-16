@@ -1,7 +1,7 @@
+// Starts Game when play button clicked
 $('#playButton').click(function() {
-    console.log('play')
-    gameCanvas.create();
-    $('.menu').removeClass('display-toggle');
-    createZone();
-    hub();
+    gameCanvas.create(); // Creates Canvas
+    $('.menu').removeClass('display-toggle'); // Hide menu
+    createZone(); // Adds Touch Controls
+    hub(); // Adds Heads Up
 });
