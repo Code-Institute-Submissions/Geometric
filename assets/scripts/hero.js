@@ -140,20 +140,19 @@ var heroTri = {
         for (i = 0; i < gameObstacles.length; i++) {
             // Landing on top of rect
             if (heroTri.centerX + heroTri.size > gameObstacles[i].x &&
-                heroTri.centerX - heroTri.size < gameObstacles[i].x + gameObstacles[i].width &&
-                heroTri.centerY >= gameObstacles[i].y - heroTri.size &&
-                heroTri.centerY <= gameObstacles[i].y + gameObstacles[i].height * 0.25 &&
-                gameObstacles[i].type == 'rect') {
-                    // Resets
-                    heroTri.airBorn = false;
-                    if (heroTri.shooting == false) {
-                        heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
-                        heroTri.velocityY = 0;
-                        heroTri.centerY = gameObstacles[i].y - heroTri.size / 2;
-                    }
+            heroTri.centerX - heroTri.size < gameObstacles[i].x + gameObstacles[i].width &&
+            heroTri.centerY >= gameObstacles[i].y - heroTri.size &&
+            heroTri.centerY <= gameObstacles[i].y &&
+            gameObstacles[i].type == 'rect') {
+                // Resets
+                heroTri.airBorn = false;
+                if (heroTri.shooting == false) {
+                    heroTri.rotationDegrees = 270; //Resets rotation to be flush with floor (Delete once rotation formula is added)
+                    heroTri.velocityY = 0;
+                    heroTri.centerY = gameObstacles[i].y - heroTri.size / 2;
+                }
             }
-
-            // 
+ 
             else {
                 var closestX = Math.clamp(heroTri.centerX, gameObstacles[i].x, gameObstacles[i].x + gameObstacles[i].width);
                 var closestY = Math.clamp(heroTri.centerY, gameObstacles[i].y, gameObstacles[i].y + gameObstacles[i].height);
@@ -178,6 +177,7 @@ var heroTri = {
         // Check shoot functions isn't running first (Shoot defies gravity)
         if(heroTri.shooting == true) {
             heroTri.shoot();
+            heroTri.airBorn = true;
 
         // Gravity
         } 
@@ -190,6 +190,7 @@ var heroTri = {
 
                 heroTri.rotateSpeed = 10; //Close to correct rotation (Add formula later for precise rotation)
                 heroTri.rotationDegrees += heroTri.rotateSpeed;
+                heroTri.airBorn = true;
             }
 
             else {
@@ -242,7 +243,6 @@ var heroTri = {
         if(heroTri.rotationDegrees <= 220) {
             heroTri.shootMax = true;
             gameLaser.push(new Laser());
-
             // Shoot audio 
             playLaserSfx();
         }
@@ -257,10 +257,11 @@ var heroTri = {
                 heroTri.shooting = false;
                 heroTri.shootMax = false;
                 heroTri.airBorn = true;
-                
             }
 
-        } else {
+        } 
+        
+        else {
             heroTri.rotationDegrees -= heroTri.rotateSpeed;
             heroTri.centerY -= heroTri.velocityY;
         }

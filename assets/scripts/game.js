@@ -41,6 +41,7 @@ var gameCanvas = {
         //Clears last frame
         gameCanvas.clear();
         mapLoop();
+        console.log(heroTri.airBorn);
         //mapRender(map0);
         // Background
         for(i = 0; i < gameBg.length; i++) {
@@ -74,11 +75,8 @@ var gameCanvas = {
             //gameObstacles.push(new Obstacle('rect', totalFloorHeight - obstacleHeight));
             //gameObstacles.push(new Obstacle('circle'));
             
-            //fillFloorGap();
-            //rearrangeObstacles()
         }
-        //fillFloorGap();
-        rearrangeObstacles()
+        reArrangeObstacles()
         for(i = 0; i < gameObstacles.length; i++) {
             gameObstacles[i].draw();
         }
@@ -418,7 +416,8 @@ var score = {
 
 }
 
-var level = [map0,map1,map2];
+// Map Tenderer
+var level = [map0, map1, map2, map3, map4];
 
 function mapLoop() {
     if (loopCounter == 0) {
