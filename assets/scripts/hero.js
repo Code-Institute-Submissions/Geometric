@@ -118,7 +118,11 @@ var heroTri = {
     },
 //(End of Not all my own code)
 
-    // Hero Collision with Circle Obstacle (Pythagoras Therom)
+    /*
+    HERO COLLISION PHYSICS
+    (Hero vs Triangle is a very long function and has it own script file called triangle collision due to this.)
+    */
+    // Hero vs Circle Obstacle (Pythagoras Therom) 
     cirlceCrash: function() {
         for(i = 0; i < gameObstacles.length; i++) {
             if (gameObstacles[i].alive == true && gameObstacles[i].type == 'circle') {
@@ -134,7 +138,7 @@ var heroTri = {
         }
     },
 
-    // Hero Collision with Rectangle Obstacle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
+    // Hero vs Rectangle Obstacle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
     rectCrash: function() {
         for (i = 0; i < gameObstacles.length; i++) {
             // Landing on top of rect Collision
@@ -234,7 +238,6 @@ var heroTri = {
 
     shoot: function() {
         heroTri.shooting = true;
-        console.log('shoot');
 
         heroTri.rotateSpeed = 6; // Speed of shooting
         heroTri.velocityY = objectSize * 0.075; // Move the Hero up so the tip is on the floor

@@ -1,17 +1,29 @@
-// Page Ready Loading Bar to Play Button
+// When Page Ready Swap Loading Bar to Play Button
 $(document).ready(function() {
     $('#loadingIcon').remove();
     $('#playButton').addClass('display-toggle');
 });
 
+// Styles and updates score
+var score = {
+    x : fullWidth / 2 - fullWidth * 0.0125,
+    y : fullHeight * 0.1,
+    color : 'white',
+    draw : function() {
+		gameCanvas.ctx.fillStyle = this.color;
+		gameCanvas.ctx.font = '5vw Montserrat';
+		gameCanvas.ctx.fillText(gameCanvas.score, this.x, this.y);
+	}
+
+}
+
 // Creates Pause Button when game starts
-function hub(){
+function addPause(){
     var headsUp = document.getElementById('headsUp');
     headsUp.insertAdjacentHTML('afterbegin', '<div id="pause" class="hub_item hub_item--left"><p>P =</p><button id="pauseBtn" class="btn btn--hub">Pause</button></div>');
     
     $('#pauseBtn').click(function() {
         pauseGame();
-        console.log('pause');
     });
 }
 
@@ -38,7 +50,6 @@ $('.laser-color').click(function() {
 
 // Mute Toggler
 $('#muteBtn').click(function() {
-    console.log('i run')
     if (soundOn == true){
         muteOff()
         $('#muteBtn').blur();

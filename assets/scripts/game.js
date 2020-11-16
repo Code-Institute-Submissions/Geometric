@@ -2,7 +2,8 @@
 var gameState = 0; // Controls Start, Pause, Background
 var loopCounter = 0; // How many times the game has updated
 
-/* Detla Timer Varibles
+/* 
+Detla Timer Varibles
 Source: https://stackoverflow.com/questions/13996267/loop-forever-and-provide-delta-time/14006703
 Improves frame rate (NOT MY OWN CODE)
 */
@@ -32,7 +33,12 @@ var gameCanvas = {
          this.loop();
     },
 
-    //-------------------------------------------------------------GAME LOOP START
+    // Wipes the canvas cleen by removing all it content
+    clear: function() {
+        gameCanvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //Clears Canvas
+    },
+
+    // GAME LOOP START
     // Update the game canvas each time it runs
     loop: function(timestamp) {
         if(gameState == 1) {
@@ -109,55 +115,8 @@ var gameCanvas = {
         // Add 1 to the amount of time the loop has been run
         loopCounter += 1;
     },
-
-    // Wipes the canvas cleen by removing all it content
-    clear: function() {
-        gameCanvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //Clears Canvas
-    },
 };
-
-// Controller
-var jumpKey = 87; // S
-var shootKey = 68; // Spacebar
-
-$(document).keydown(function (event) {
-//console.log(`press ${event.which}`)
-//console.log(`shoot ${shootKey}`)
-//console.log(`jump ${jumpKey}`)
-
-    // Jump Control
-    if (event.which === jumpKey && heroTri.airBorn == false && heroTri.shooting == false) {
-        heroTri.jump();
-    }
-
-    // Shoot Control
-    if (event.which === shootKey && heroTri.airBorn == false) {
-        heroTri.shoot();
-        heroTri.shooting = true;
-    }
-
-    if (event.which === 80 && heroTri.airBorn == false) { // P
-        if (gameState == 2) {
-            resumeGame();
-        }
-        else {
-            pauseGame();
-        }
-    }
-});
-
-// Score
-var score = {
-    x : fullWidth / 2 - fullWidth * 0.0125,
-    y : fullHeight * 0.1,
-    color : 'white',
-    draw : function() {
-		gameCanvas.ctx.fillStyle = this.color;
-		gameCanvas.ctx.font = '5vw Montserrat';
-		gameCanvas.ctx.fillText(gameCanvas.score, this.x, this.y);
-	}
-
-}
+ // GAME LOOP END
 
 // Map Renderer
 var level = [map0, map1, map2, map3, map4, map5, map6, map7, map8, map9, map10, map11];
@@ -227,7 +186,11 @@ function mapRender(map) {
     }
 }
 
-/* Not all my own code
+/* Not my own code
+Rearranges the obstacles by their X value so they can be shifted out in the correct order.
+If they were left in order that the map render pushes them into the array, when the one with the
+smallers x value is off the screen instead of shifting that one, the one with the smallest Y value
+would be shift as it was pushed into the array first.
 Source = https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
 */
 function reArrangeObstacles() {

@@ -43,8 +43,7 @@ function triCollision() {
 
             // If the any of the distances is smaller than the Hero's radius they must be overlapping (Same as Hero vs Circle but only one radius)
             if (backHyp < r || topHyp < r || frontHyp < r) {
-                console.log('point crash');
-                heroTri.fillColor = 'red'; // replace with END GAME
+                heroTri.crash(); 
             }
 
             else {
@@ -85,8 +84,7 @@ function triCollision() {
                     var backDistance = pythagoras(backClosestX, backClosestY, cx, cy);
 
                     if (backDistance <= r) {
-                        console.log('back crash end detection');
-                        heroTri.fillColor = 'red'; // replace with END GAME
+                        heroTri.crash(); 
                     }
                 }
 
@@ -94,8 +92,7 @@ function triCollision() {
                     var frontDistance = pythagoras(frontClosestX, frontClosestY, cx, cy);
 
                     if (frontDistance <= r) {
-                        console.log('front crash end detection');
-                        heroTri.fillColor = 'red'; // Replace with END GAME
+                        heroTri.crash(); 
                     }
                 } 
 
@@ -103,8 +100,7 @@ function triCollision() {
                     var bottomDistance = pythagoras(bottomClosestX, bottomClosestY, cx, cy);
                 
                     if (bottomDistance <= r) {
-                        console.log('bottom crash end detection');
-                        heroTri.fillColor = 'red'; // Replace with END GAME
+                        heroTri.crash(); // Replace with END GAME
                     }
                 } 
             }

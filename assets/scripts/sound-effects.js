@@ -1,15 +1,46 @@
 // Sound Effects
 var soundOn = true;
 
+// Mute Toggler
+$('#muteBtn').click(function() {
+    console.log('i run')
+    if (soundOn == true){
+        muteOff()
+        $('#muteBtn').blur();
+        return
+    }
+
+    if (soundOn == false){
+        muteOn()
+         $('#muteBtn').blur();
+        return
+    }
+    return
+});
+
+// Always Listening for the M button press to Mute the sound effects
+$(document).keydown(function (event) {
+    if (event.which === 77) {
+        if (soundOn == true){
+            muteOff()
+            return
+        }
+
+         if (soundOn == false){
+            muteOn()
+            return
+        }
+    }
+});
+
+// 
 function muteOff() {
-    console.log('i sound')
     $('#muteIcon').removeClass('fa-volume-up');
     $('#muteIcon').addClass('fa-volume-mute');
     soundOn = false;
 }
 
 function muteOn() {
-    console.log('i no sound')
     $('#muteIcon').removeClass('fa-volume-mute');
     $('#muteIcon').addClass('fa-volume-up');
     soundOn = true;
