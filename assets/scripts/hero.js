@@ -6,7 +6,7 @@ var objectSize = fullHeight * 0.0605; // Triange, others are scaled based off it
 var floorHeight = fullHeight * 0.1;
 var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = fullHeight * 0.09;
-var moveSpeed = 15;
+var moveSpeed = fullHeight / 56;
 
 // Hero Character
 // Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
