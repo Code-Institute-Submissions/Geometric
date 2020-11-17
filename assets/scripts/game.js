@@ -84,16 +84,13 @@ var gameCanvas = {
         Decides which map to use for the obstacles and call the map renderer to push the 
         obstacles into ther repective arrays
         */
-        if(gameState == 1) { // Stops map loop throwing errors when the loop ends
+        if(gameState == 1) { // Stops map and background from loop throwing errors when the loop ends
             mapLoop();
              for(i = 0; i < gameBg.length; i++) {
-            gameBg[i].draw()
+            gameBg[i].draw()  // Draws Back ground titles
         }
-            bgCreation();
+            bgCreation(); // Push backgrounds titles into thier array
         }
-        // Draws Back ground titles
-
-        // Push backgrounds titles into thier array
 
         //Writes score
         score.draw();
@@ -139,13 +136,13 @@ var gameCanvas = {
 
         obstacleRemove();
 
-        // Add 1 to the amount of time the loop has been run
+        // Add 1 to the amount of time the loop has been run used for map render and background title creator
         loopCounter += 1;
     },
 };
  // GAME LOOP END
 
-// Map Renderer
+// Map Selector
 var level = [map0, map1, map2, map3, map4, map5, map6, map7, map8, map9, map10, map11];
 
 function mapLoop() {
@@ -162,7 +159,7 @@ function mapLoop() {
             mapNo += 1
         }
         else {
-            mapNo = randomNumber(1, level.length - 1)
+            mapNo = randomNumber(1, level.length - 1) //Must have the -1 to avoid errors and the random number include max which will not have a value in the array
         }
     }
 }
@@ -234,7 +231,7 @@ function compare( a, b ) {
   return 0;
 }
 /*
-Random Numebr Generator
+Random Numebr Generator used by map loop to choose which map to select after all item in the array have been selected
 Source: https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
 */
 function randomNumber(min, max) { // min and max included 

@@ -8,6 +8,8 @@ function pythagoras(x1, y1, x2, y2) {
 /* 
 The following code is based off the line collision code written by jeffrey thompson 
 Source: http://www.jeffreythompson.org/collision-detection/line-circle.php
+The code from https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas 
+also helped me find the coordinates of the points I needed to make it work.
 Adapted to work for a triangle
 */
 

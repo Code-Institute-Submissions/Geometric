@@ -1,3 +1,9 @@
+/*
+Code relating to the drawing of the 'tri' objects is based off the code from the source below but not the code used to control its behaviour.
+All other code relating to other obstacles and other function to do with the tri obstacles is my own code such as the points and movement of the 'tri object.
+The generic draw function which selects which obstacles to be draw is also my own code.
+Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
+*/
 // Obstacles
 var gameObstacles = [];
 
@@ -26,8 +32,6 @@ function Obstacle(type, x, y) {
     this.size = objectSize;
     this.triCenterX = this.x + this.size / 1.325;
     this.triCenterY = y + this.size;
-    //this.strokeWidth = 0;
-    //this.strokeColor = 'purple';
     this.rotationDegrees = 180;
 
     //Tri Points
@@ -87,9 +91,6 @@ function Obstacle(type, x, y) {
         }
         gameCanvas.ctx.closePath();
         gameCanvas.ctx.fillStyle = 'pink';
-        //gameCanvas.ctx.strokeStyle = this.strokeColor;
-        //gameCanvas.ctx.lineWidth = this.strokeWidth;
-        //gameCanvas.ctx.stroke();
         gameCanvas.ctx.rotate(-radiansObs);
         gameCanvas.ctx.translate(-this.triCenterX,-this.triCenterY);
         gameCanvas.ctx.fill();

@@ -1,4 +1,4 @@
-// Variables
+// Variables, values are all percentage or multipler of the browser height or width to allow the game to be responsive.
 var fullWidth = $(window).width();
 var fullHeight = $(window).height();
 var strokeWidth = fullHeight * 0.02;
@@ -8,7 +8,7 @@ var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = fullHeight * 0.09;
 var moveSpeed = fullHeight / 56;
 
-// Resizes all the variables so the browser size can be cahnged without breaking the game (only while the game isn't running see ReadMe doc for more info);
+// Resizes all the variables so the browser size can be cahnged without breaking the game (only while the game isn't running see ReadMe doc under Testing for more info);
 window.addEventListener('resize', resizeWindow);
 function resizeWindow() {
     fullWidth = $(window).width();
@@ -19,9 +19,9 @@ function resizeWindow() {
     totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
     obstacleHeight = fullHeight * 0.09;
     moveSpeed = fullHeight / 56;
-    heroTri.size = objectSize * 0.95;
     score.x = fullWidth / 2 - fullWidth * 0.0125;
     score.y = fullHeight * 0.1;
+    heroTri.size = objectSize * 0.95;
     heroTri.jumpHeight = obstacleHeight * 1;
     bgTitle.width = fullWidth * 1.05;
     bgTitle.height = fullHeight;
@@ -42,6 +42,7 @@ Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
 
 /* 
 Hero Character
+Code relating to the drawing of the 'tri' objects is based off the code from the source below but not the code used to control it's behaviour.
 Source https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas ADAPTED TO MY NEEDS (Not all my own code)
 */
 var heroTri = {
@@ -83,6 +84,7 @@ var heroTri = {
             // Styles Triangle
             gameCanvas.ctx.fillStyle = this.fillColor;
             gameCanvas.ctx.fill();
+            
             gameCanvas.ctx.rotate(-radians);
             gameCanvas.ctx.translate(-this.centerX,-this.centerY);
         }
@@ -139,7 +141,7 @@ var heroTri = {
 
     /*
     HERO COLLISION PHYSICS
-    (Hero vs Triangle is a very long function and has it own script file called triangle collision due to this.)
+    (Hero vs Triangle is a very long function and has it own script file called triangle-collision.js due to this.)
     */
     // Hero vs Circle Obstacle (Pythagoras Therom) 
     cirlceCrash: function() {
@@ -157,7 +159,6 @@ var heroTri = {
         }
     },
 
-    // Hero vs Rectangle Obstacle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
     rectCrash: function() {
         for (i = 0; i < gameObstacles.length; i++) {
             // Landing on top of rect Collision
@@ -174,9 +175,10 @@ var heroTri = {
                     heroTri.centerY = gameObstacles[i].y - heroTri.size / 2;
                 }
             }
- 
+
+            // Hero vs Rectangle Obstacle Source: https://www.mmbyte.com/article/84023.html Adapted to my needs (Not all my own code)
+            // Sections off the cavans in relation to the rectangle and Hero
             else {
-                // Sections off the cavans in relation to the rectangle and Hero
                 var closestX = Math.clamp(heroTri.centerX, gameObstacles[i].x, gameObstacles[i].x + gameObstacles[i].width);
                 var closestY = Math.clamp(heroTri.centerY, gameObstacles[i].y, gameObstacles[i].y + gameObstacles[i].height);
 
@@ -193,13 +195,13 @@ var heroTri = {
             }
         }
     },
+    // (End of Not all my own code)
 
     floorCrash: function() {
         if (heroTri.centerY > fullHeight) {
             heroTri.crash();
         }
     },
-    // (End of Not all my own code)
 
     gravity: function() {
         // Check shoot functions isn't running first (Shoot defies gravity)
