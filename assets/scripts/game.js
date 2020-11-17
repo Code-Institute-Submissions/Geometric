@@ -143,7 +143,7 @@ var gameCanvas = {
  // GAME LOOP END
 
 // Map Selector
-var level = [map0, map1, map2, map3, map4, map5, map6, map7, map8, map9, map10, map11];
+var level = [map0, map1, map2, map3, map4, map5, map6, map7, map8, map9, map10, map11, map12];
 
 function mapLoop() {
     if (loopCounter == 0) {
