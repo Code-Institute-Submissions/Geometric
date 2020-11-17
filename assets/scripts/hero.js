@@ -8,6 +8,25 @@ var totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
 var obstacleHeight = fullHeight * 0.09;
 var moveSpeed = fullHeight / 56;
 
+// Resizes all the variables so the browser size can be cahnged without breaking the game (only while the game isn't running see ReadMe doc for more info);
+window.addEventListener('resize', resizeWindow);
+function resizeWindow() {
+    fullWidth = $(window).width();
+    fullHeight = $(window).height();
+    strokeWidth = fullHeight * 0.02;
+    objectSize = fullHeight * 0.0605;
+    floorHeight = fullHeight * 0.1;
+    totalFloorHeight = fullHeight - floorHeight - strokeWidth / 2;
+    obstacleHeight = fullHeight * 0.09;
+    moveSpeed = fullHeight / 56;
+    heroTri.size = objectSize * 0.95;
+    score.x = fullWidth / 2 - fullWidth * 0.0125;
+    score.y = fullHeight * 0.1;
+    heroTri.jumpHeight = obstacleHeight * 1;
+    bgTitle.width = fullWidth * 1.05;
+    bgTitle.height = fullHeight;
+}
+
 // Functions
 /* Clamp use to work out sections of the canvas for heroTri / Rect Obs Collisions
 Limits the value a number between two others.

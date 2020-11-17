@@ -4,19 +4,6 @@ $(document).ready(function() {
     $('#playButton').addClass('display-toggle');
 });
 
-// Styles and updates score
-var score = {
-    x : fullWidth / 2 - fullWidth * 0.0125,
-    y : fullHeight * 0.1,
-    color : 'white',
-    draw : function() {
-		gameCanvas.ctx.fillStyle = this.color;
-		gameCanvas.ctx.font = '5vw Montserrat';
-		gameCanvas.ctx.fillText(gameCanvas.score, this.x, this.y);
-	}
-
-}
-
 // Creates Pause Button when game starts
 function addPause(){
     var headsUp = document.getElementById('headsUp');

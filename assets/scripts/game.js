@@ -68,11 +68,10 @@ var gameCanvas = {
     // GAME LOOP START
     // Update the game canvas each time it runs
     loop: function(timestamp) {
-        if(gameState == 1) {
+        if(gameState == 1) { // Allows the game to be pause as the game only runs in state 1
         // Self Call to repeat the loop
         requestAnimationFrame(gameCanvas.loop); //Re calls the this fuction to complete the loop (calling this.loop doesn't work)
         }
-        
         // Delta Time Improves Frame Rate (NOT MY OWN CODE)
             deltaTime = (timestamp - lastTimestamp) / perfectFrameTime;
             lastTimestamp = timestamp;
@@ -87,14 +86,14 @@ var gameCanvas = {
         */
         if(gameState == 1) { // Stops map loop throwing errors when the loop ends
             mapLoop();
-        }
-        // Draws Back ground titles
-        for(i = 0; i < gameBg.length; i++) {
+             for(i = 0; i < gameBg.length; i++) {
             gameBg[i].draw()
         }
+            bgCreation();
+        }
+        // Draws Back ground titles
 
         // Push backgrounds titles into thier array
-        bgCreation();
 
         //Writes score
         score.draw();
@@ -242,3 +241,16 @@ function randomNumber(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 // (END OF NOT MY OWN CODE)
+
+// Styles and updates score
+var score = {
+    x : fullWidth / 2 - fullWidth * 0.0125,
+    y : fullHeight * 0.15,
+    color : 'white',
+    draw : function() {
+		gameCanvas.ctx.fillStyle = this.color;
+		gameCanvas.ctx.font = '5vw Montserrat';
+		gameCanvas.ctx.fillText(gameCanvas.score, this.x, this.y);
+	}
+
+}
