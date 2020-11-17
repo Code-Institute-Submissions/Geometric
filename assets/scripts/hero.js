@@ -31,7 +31,7 @@ function resizeWindow() {
         $('#rotationInstruction').addClass('display-toggle')
     }
 
-    else (fullWidth < fullWidth) {
+    else {
         $('#rotationInstruction').removeClass('display-toggle')
     }
 }
