@@ -1,7 +1,6 @@
 function pythagoras(x1, y1, x2, y2) {
     distX = x1 - x2;
     distY = y1 - y2;
-
     return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 }
 
@@ -14,7 +13,7 @@ Adapted to work for a triangle
 */
 
 function triCollision() {
-    for(i = 0; i < gameObstacles.length; i++) {
+    for(var i = 0; i < gameObstacles.length; i++) {
         if (gameObstacles[i].type == 'tri') {
             // Triangle vs CIRCLE
 
@@ -45,7 +44,7 @@ function triCollision() {
 
             // If the any of the distances is smaller than the Hero's radius they must be overlapping (Same as Hero vs Circle but only one radius)
             if (backHyp < r || topHyp < r || frontHyp < r) {
-                heroTri.crash(); 
+                heroTri.crash();    // A crash has happened
             }
 
             else {
@@ -86,7 +85,7 @@ function triCollision() {
                     var backDistance = pythagoras(backClosestX, backClosestY, cx, cy);
 
                     if (backDistance <= r) {
-                        heroTri.crash(); 
+                        heroTri.crash();    // A crash has happened
                     }
                 }
 
@@ -94,7 +93,7 @@ function triCollision() {
                     var frontDistance = pythagoras(frontClosestX, frontClosestY, cx, cy);
 
                     if (frontDistance <= r) {
-                        heroTri.crash(); 
+                        heroTri.crash();    // A crash has happened
                     }
                 } 
 
@@ -102,7 +101,7 @@ function triCollision() {
                     var bottomDistance = pythagoras(bottomClosestX, bottomClosestY, cx, cy);
                 
                     if (bottomDistance <= r) {
-                        heroTri.crash(); // Replace with END GAME
+                        heroTri.crash();    // A crash has happened
                     }
                 } 
             }
@@ -113,24 +112,24 @@ function triCollision() {
 // LINE / POINT
 function linePoint(x1, y1, x2, y2, px, py) {
 
-  // get distance from the point to the two ends of the line
-  var d1 = pythagoras(px,py, x1,y1);
-  var d2 = pythagoras(px,py, x2,y2);
+    // get distance from the point to the two ends of the line
+    var d1 = pythagoras(px,py, x1,y1);
+    var d2 = pythagoras(px,py, x2,y2);
 
-  // get the length of the line
-  var lineLen = pythagoras(x1,y1, x2,y2);
+    // get the length of the line
+    var lineLen = pythagoras(x1,y1, x2,y2);
 
 
-  // a little buffer zone that will give collision
-  var buffer = 0.1;    // higher no. = less accurate
+    // a little buffer zone that will give collision
+    var buffer = 0.1;    // higher no. = less accurate
 
-  // if the two distances are equal to the line's
-  // length, the point is on the line!
-  // note we use the buffer here to give a range,
-  if (d1 + d2 >= lineLen - buffer && d1 + d2 <= lineLen + buffer) {
-    return true;
-  }
-  else {
-    return false;
-  }
+    // if the two distances are equal to the line's
+    // length, the point is on the line!
+    // note we use the buffer here to give a range,
+    if (d1 + d2 >= lineLen - buffer && d1 + d2 <= lineLen + buffer) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }

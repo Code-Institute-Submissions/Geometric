@@ -127,7 +127,7 @@ function Obstacle(type, x, y) {
             this.deathR2 += 0.75;
             this.deathR3 += 0.25; 
         }
-    }
+    };
 }
 
 // Moves the obstacles

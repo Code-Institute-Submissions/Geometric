@@ -1,7 +1,7 @@
 // Jump Key Selection
 $('#jumpButton').click(function() {
     keyListenerStatas = 1; // Sets when the listener should be listening 0 = off 1 = On
-    setTimeout(function(){toggleColor('jumpButton')}, 300); // Prevents double clicking
+    setTimeout(function(){toggleColor('jumpButton');}, 300); // Prevents double clicking
     keyListener(jumpButton);
     $('#controlsInstructions').html('<h3>Press a letter key A-Z</h3>'); // Add instructions
     $('#jumpButton').blur(); // Unfocuses the button to stop it being click again by spacebar
@@ -10,9 +10,9 @@ $('#jumpButton').click(function() {
 // Shoot Key Selection
 $('#shootButton').click(function() {
     keyListenerStatas = 1; // Sets when the listener should be listening 0 = off 1 = On
-    setTimeout(function(){toggleColor('shootButton')}, 300); // Prevents double clicking
+    setTimeout(function(){toggleColor('shootButton');}, 300); // Prevents double clicking
     keyListener(shootButton); // Add instructions
-    $('#controlsInstructions').html('<h3>Press a letter key A-Z</h3>')
+    $('#controlsInstructions').html('<h3>Press a letter key A-Z</h3>');
     $('#shootButton').blur(); // Unfocuses the button to stop it being click again by spacebar
 });
 
@@ -42,27 +42,28 @@ function keyListener(button) {
             else {
                 if(button == jumpButton) {
                     jumpKey = event.which; // Sets new key
-                    jumpChar = String.fromCharCode(event.which) // Converts Code to Character
-                    $("#jumpButton").html(`${jumpChar}`) // Shows it in the Button
+                    jumpChar = String.fromCharCode(event.which); // Converts Code to Character
+                    $("#jumpButton").html(`${jumpChar}`); // Shows it in the Button
                     $('#controlsInstructions').html('<h3>New Jump Key Set</h3>');  // Shows instruction
 
                 }
                 else if(button == shootButton) {
                     shootKey = event.which; // Sets new key
-                    shootChar = String.fromCharCode(event.which) // Converts Code to Character
-                    $("#shootButton").html(`${shootChar}`) // Shows it in the Button
+                    shootChar = String.fromCharCode(event.which); // Converts Code to Character
+                    $("#shootButton").html(`${shootChar}`); // Shows it in the Button
                     $('#controlsInstructions').html('<h3>New Shoot Key Set</h3>'); // Shows instruction
                 }
 
                 stopFlash = true; // Turns off key listener indicator
                 $(document).off('keydown', keyMap); // Removes this listener
-                return
+                return;
             }
         }
+      
         else {
-            return
+            return;
         }
-    })
+    });
 }
 
 // Flashing Button
@@ -104,9 +105,9 @@ function toggleColor(button) { // Take the button that is press so one function 
     else {
         $('#jumpButton').css("background-color", "blue");
         $('#shootButton').css("background-color", "blue");
-        $('body').off('click')
-        stopFlash = false
+        $('body').off('click');
+        stopFlash = false;
         keyListenerStatas = 0;
-        return
+        return;
     }    
-};
+}

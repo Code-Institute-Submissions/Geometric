@@ -1,5 +1,4 @@
 // Floor
-
 // Floor Array
 var gameFloor = [];
 

@@ -28,11 +28,11 @@ function resizeWindow() {
 
     // Toggles the rotation instructions on the main menu
     if(fullHeight > fullWidth) {
-        $('#rotationInstruction').addClass('display-toggle')
+        $('#rotationInstruction').addClass('display-toggle');
     }
 
     else {
-        $('#rotationInstruction').removeClass('display-toggle')
+        $('#rotationInstruction').removeClass('display-toggle');
     }
 }
 
@@ -47,7 +47,6 @@ Source: https://gist.github.com/kujon/2781489 (NOT MY OWN CODE)
     };
 })();
 // (End of NOT MY OWN CODE)
-
 
 /* 
 Hero Character
@@ -154,12 +153,11 @@ var heroTri = {
     */
     // Hero vs Circle Obstacle (Pythagoras Therom) 
     cirlceCrash: function() {
-        for(i = 0; i < gameObstacles.length; i++) {
+        for(var i = 0; i < gameObstacles.length; i++) {
             if (gameObstacles[i].alive == true && gameObstacles[i].type == 'circle') {
                 // Use Pythagoras Therom to work out the distance from Hero Center to Obstacle Center
                 var disHyp = pythagoras(heroTri.centerX ,heroTri.centerY , gameObstacles[i].circleCenterX, gameObstacles[i].circleCenterY);
                 
-
                 // If the length of the hypotenuse is smaller than the size of the two radii add together they must be overlapping
                 if(disHyp < heroTri.size + gameObstacles[i].radius) {
                     heroTri.crash(); // Crash Animation
@@ -169,7 +167,7 @@ var heroTri = {
     },
 
     rectCrash: function() {
-        for (i = 0; i < gameObstacles.length; i++) {
+        for (var i = 0; i < gameObstacles.length; i++) {
             // Landing on top of rect Collision
             if (heroTri.centerX + heroTri.size > gameObstacles[i].x &&
             heroTri.centerX - heroTri.size < gameObstacles[i].x + gameObstacles[i].width &&
@@ -297,7 +295,6 @@ var heroTri = {
                 heroTri.shootMax = false;
                 heroTri.airBorn = true;
             }
-
         } 
         
         else {
@@ -312,7 +309,7 @@ var heroTri = {
         // Hero Crash sound
         playHeroCrashSfx();
 
-        setTimeout(function() {gameCanvas.endGame()}, 750); // Delay allows death animation to complete before showing Game Over Screen
+        setTimeout(function() {gameCanvas.endGame();}, 750); // Delay allows death animation to complete before showing Game Over Screen
         return;
     }
 };

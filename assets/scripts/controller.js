@@ -15,6 +15,7 @@ $(document).keydown(function (event) {
         heroTri.shooting = true;
     }
 
+    // Pause Game Control
     if (event.which === 80) { // P to Pause 
         if (gameState == 2) { // Toggles what P does depending on the game state. Game only loops in game state 1
             resumeGame();

@@ -4,54 +4,58 @@ var soundOn = true;
 // Mute Toggler
 $('#muteBtn').click(function() {
     if (soundOn == true){
-        muteOff()
+        muteOff();
         $('#muteBtn').blur();
-        return
+        return;
     }
 
     if (soundOn == false){
-        muteOn()
-         $('#muteBtn').blur();
-        return
+        muteOn();
+        $('#muteBtn').blur();
+        return;
     }
-    return
+    return;
 });
 
 // Always Listening for the M button press to Mute the sound effects
 $(document).keydown(function (event) {
     if (event.which === 77) {
         if (soundOn == true){
-            muteOff()
-            return
+            muteOff();
+            return;
         }
 
          if (soundOn == false){
-            muteOn()
-            return
+            muteOn();
+            return;
         }
     }
 });
 
-// 
+// Turns game sound off
 function muteOff() {
     $('#muteIcon').removeClass('fa-volume-up');
     $('#muteIcon').addClass('fa-volume-mute');
     soundOn = false;
 }
 
+// Turns game sound on
 function muteOn() {
     $('#muteIcon').removeClass('fa-volume-mute');
     $('#muteIcon').addClass('fa-volume-up');
     soundOn = true;
 }
 
+/*
+All the functions below are control if the sound effect plays or not based on the soundOn variable
+*/
 function playLaserSfx() {
     if(soundOn == true) {
         var laserSfx = document.getElementById('laserSound');
         laserSfx.currentTime = 0; //Reset sound clip to start
         laserSfx.play();
     }
-};
+}
 
 function playLaserBounceSfx() {
     if(soundOn == true) {
@@ -59,7 +63,7 @@ function playLaserBounceSfx() {
         laserBounceSfx.currentTime = 0; //Reset sound clip to start
         laserBounceSfx.play();
     }
-};
+}
 
 function playLaserAbsorbSfx() {
     if(soundOn == true) {
@@ -67,7 +71,7 @@ function playLaserAbsorbSfx() {
         laserAbsorbSfx.currentTime = 0; //Reset sound clip to start
         laserAbsorbSfx.play();
     }
-};
+}
 
 function playCircleExplosionSfx() {
     if(soundOn == true) {
@@ -75,7 +79,7 @@ function playCircleExplosionSfx() {
         circleExplosionSfx.currentTime = 0; //Reset sound clip to start
         circleExplosionSfx.play();
     }
-};
+}
 
 function playJumpSoundSfx() {
     if(soundOn == true) {
@@ -83,11 +87,11 @@ function playJumpSoundSfx() {
         jumpSoundSfx.currentTime = 0; //Reset sound clip to start
         jumpSoundSfx.play();
     }
-};
+}
 
 function playHeroCrashSfx() {
     if(soundOn == true) {
         var heroCrashSfx = document.getElementById('heroCrash');
         heroCrashSfx.play();
     }
-};
+}

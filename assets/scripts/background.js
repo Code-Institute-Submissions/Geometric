@@ -1,5 +1,4 @@
 // Background
-
 // Background Array
 gameBg = [];
 
@@ -17,26 +16,26 @@ function bgTitle (titleNo) {
     // Draws background to canvas
     this.draw = function() {
         if (this.titleNo == 0) {
-            gameCanvas.ctx.drawImage(this.title1, this.x, this.y, this.width, this.height)
+            gameCanvas.ctx.drawImage(this.title1, this.x, this.y, this.width, this.height);
         }
 
         if (this.titleNo == 1) {
-            gameCanvas.ctx.drawImage(this.title1, this.x, this.y, this.width, this.height)
+            gameCanvas.ctx.drawImage(this.title1, this.x, this.y, this.width, this.height);
         }
 
         if (this.titleNo == 2) {
-            gameCanvas.ctx.drawImage(this.title2, this.x, this.y, this.width, this.height)
+            gameCanvas.ctx.drawImage(this.title2, this.x, this.y, this.width, this.height);
         }
 
         else if (this.titleNo == 3) {
-            gameCanvas.ctx.drawImage(this.title3, this.x, this.y, this.width, this.height)
+            gameCanvas.ctx.drawImage(this.title3, this.x, this.y, this.width, this.height);
         }
-    }
+    };
 
     // Moves the background by decreasing the X value
     this.movement = function() {
         gameBg[i].x -= gameBg[i].speed;
-    }
+    };
 }
 
 // Pushes new background image into array
