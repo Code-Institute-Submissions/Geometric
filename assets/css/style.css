@@ -144,6 +144,7 @@ p {
     display: block;
     margin: 1% auto;
     font-size: 2rem;
+    background-color: rgb(21, 255, 0);
 }
 
 .btn--pause {
@@ -250,7 +251,7 @@ p {
 /*--Lazer--*/
 .color-active, 
 .laser-active {
-    border-color: rgb(159, 255, 159);
+    border-color: rgb(21, 255, 0);
 }
 
 .laser {
