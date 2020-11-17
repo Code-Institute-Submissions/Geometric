@@ -240,11 +240,11 @@ p {
 }
 
 .tri--green {
-    border-bottom-color: green;
+    border-bottom-color: skyblue;
 }
 
 .tri--gold {
-    border-bottom-color: gold;
+    border-bottom-color: red;
 }
 
 /*--Lazer--*/
@@ -266,15 +266,15 @@ p {
 }
 
 .laser--green {
-    border-color: green;
+    border-color: orange;
 }
 
 .laser--blue {
-    border-color: blue;
+    border-color: deeppink;
 }
 
 .laser--purple {
-    border-color: purple;
+    border-color: turquoise;
 }
 
 
