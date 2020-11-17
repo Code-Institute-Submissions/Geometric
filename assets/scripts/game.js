@@ -28,6 +28,7 @@ var gameCanvas = {
         gameState = 1; // If 1 the game loop runs
         heroTri.centerY = fullHeight * 0.5; // Resets hero position so it falls in
         loopCounter = 0;
+        this.score = 0
         heroTri.alive = true; // Makes sure hero is alive when game start fixes instance death on Play Again
         // Removes vertical side scroller
         $('body').css('height', this.canvas.height);
