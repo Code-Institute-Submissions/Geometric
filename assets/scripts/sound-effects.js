@@ -3,7 +3,6 @@ var soundOn = true;
 
 // Mute Toggler
 $('#muteBtn').click(function() {
-    console.log('i run')
     if (soundOn == true){
         muteOff()
         $('#muteBtn').blur();
