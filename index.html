@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
         <!--Local CSS-->
         <link rel="stylesheet" href="assets/css/style.css">
+        <!--Title-->
+        <title>Geometric</title>
         <!--JQuery-->
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <!--Local Scripts-->
@@ -25,11 +27,9 @@
         <script defer src="assets/scripts/controller.js"></script>
         <script defer src="assets/scripts/pause.js"></script>
         <script defer src="assets/scripts/sound-effects.js"></script>
-        <script defer src="assets/scripts/togglers.js"></script>
         <script defer src="assets/scripts/key-mapping.js"></script>
         <script defer src="assets/scripts/game-initializer.js"></script>
-        <!--Title-->
-        <title>Geometric</title>
+        <script defer src="assets/scripts/togglers.js"></script>
     </head>
     <body>
         <!--Background Images-->
@@ -39,6 +39,7 @@
         <!--Main Menu-->
         <section id="mainMenu" class="menu display-toggle">
             <h1>Geometric</h1>
+            <p id="rotationInstruction" class="rotation-instruction">Please put your device or browser into landscape</p>
             <img id="loadingIcon" src="assets/images/loading-triangles.gif" alt="Spinning Triangle Preloader">
             <button id="playButton" class="btn btn--play play hide">Play</button>
             <button id="controlsButton" class="btn btn--menu" value="controls">Controls</button>

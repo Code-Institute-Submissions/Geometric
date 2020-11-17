@@ -25,6 +25,15 @@ function resizeWindow() {
     heroTri.jumpHeight = obstacleHeight * 1;
     bgTitle.width = fullWidth * 1.05;
     bgTitle.height = fullHeight;
+
+    // Toggles the rotation instructions on the main menu
+    if(fullHeight > fullWidth) {
+        $('#rotationInstruction').addClass('display-toggle')
+    }
+
+    else (fullWidth < fullWidth) {
+        $('#rotationInstruction').removeClass('display-toggle')
+    }
 }
 
 // Functions
