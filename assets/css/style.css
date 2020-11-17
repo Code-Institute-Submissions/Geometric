@@ -176,7 +176,7 @@ p {
 }
 
 .controls_item {
-    margin: 2vh 0;
+    margin: 20px 0;
 }
 
 .controls_action {
@@ -198,7 +198,7 @@ p {
 
 /*------------------------------------------------Customisation*/
 .custom-title {
-    margin-bottom: 2vh;
+    margin-bottom: 20px;
 }
 
 .custom-container {
@@ -212,12 +212,14 @@ p {
     background-color: transparent;
     border: 3px solid #008080;
     outline: none !important;
+    z-index: 3;
 }
 
 .custom_item {
     position: relative;
     top: -80%;
     left: 30%;
+    z-index: -3;
 }
 
 /*--Triangle--*/
@@ -256,6 +258,7 @@ p {
     border: 5px solid;
     position: relative;
     top: -60%;
+    z-index: -3;
 }
 
 .laser--skyblue {
