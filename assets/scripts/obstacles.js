@@ -64,7 +64,7 @@ function Obstacle(type, x, y) {
 
     // Draw Rectangle Obstacles
     this.drawObsRect = function() {
-        gameCanvas.ctx.fillStyle = 'yellow';
+        gameCanvas.ctx.fillStyle = 'white';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.fillRect(this.x, this.y, this.width, this.height);
         gameCanvas.ctx.closePath();
@@ -72,7 +72,7 @@ function Obstacle(type, x, y) {
 
     // Draw Cirlce Obstacles
     this.drawObsCircle = function() {
-        gameCanvas.ctx.fillStyle = 'purple';
+        gameCanvas.ctx.fillStyle = 'orange';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.radius, 0, 2 * Math.PI, true);
         gameCanvas.ctx.closePath();
@@ -90,7 +90,7 @@ function Obstacle(type, x, y) {
             gameCanvas.ctx.lineTo (this.size * Math.sin(i * 2 * Math.PI / this.sides), this.size * Math.cos(i * 2 * Math.PI / this.sides));
         }
         gameCanvas.ctx.closePath();
-        gameCanvas.ctx.fillStyle = 'pink';
+        gameCanvas.ctx.fillStyle = 'red';
         gameCanvas.ctx.rotate(-radiansObs);
         gameCanvas.ctx.translate(-this.triCenterX,-this.triCenterY);
         gameCanvas.ctx.fill();
@@ -99,21 +99,21 @@ function Obstacle(type, x, y) {
     // Draw Cirlce Death
     this.drawCircleDeath = function() {
         // Largest Ring
-        gameCanvas.ctx.strokeStyle = 'red';
+        gameCanvas.ctx.strokeStyle = 'dodgerblue';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.deathR1, 0, 2 * Math.PI, false);
         gameCanvas.ctx.lineWidth = this.deathStroke;
         gameCanvas.ctx.stroke();
 
        // Medium Ring
-        gameCanvas.ctx.strokeStyle = 'red';
+        gameCanvas.ctx.strokeStyle = 'dodgerblue';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.deathR2, 0, 2 * Math.PI, false);
         gameCanvas.ctx.lineWidth = this.deathStroke;
         gameCanvas.ctx.stroke();
 
         // Small Ring
-        gameCanvas.ctx.strokeStyle = 'red';
+        gameCanvas.ctx.strokeStyle = 'dodgerblue';
         gameCanvas.ctx.beginPath();
         gameCanvas.ctx.arc(this.circleCenterX, this.circleCenterY, this.deathR3, 0, 2 * Math.PI, false);
         gameCanvas.ctx.lineWidth = this.deathStroke;
