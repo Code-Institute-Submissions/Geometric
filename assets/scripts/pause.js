@@ -6,7 +6,6 @@ function pauseGame() {
 
 function resumeGame(){
     gameState = 1;
-    console.log('resume');
     $('.menu').removeClass('display-toggle');
     gameCanvas.loop();
 }
