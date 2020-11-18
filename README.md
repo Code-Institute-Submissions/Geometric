@@ -577,6 +577,7 @@ Code from third parties has been credited in the code of the website where appro
         -   Converting it from another coding language into JavaScript (I believe it to be another code language as I didn't recognize the syntax).
         -   Added my own pythagoras theorem function to find the hypotenuse of the caluctaion triangles.
         -   Converting it from another coding language into JavaScript (I believe it to be in another code language as I didn't recognize syntax).
+-   [Code Institute](https://codeinstitute.net/) - Provided the .theia .gitpod.dockerfile .gitpod.yml .gitignore files in the repository which have not been modified by myself in anyway.
 ### Media
 
 #### Audio
