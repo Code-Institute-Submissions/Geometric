@@ -79,15 +79,16 @@ function toggleColor(button) { // Take the button that is press so one function 
         if(buttonColor == 'red') {
         setTimeout(function(){
                 if(button == 'jumpButton') {
-                    $('#jumpButton').css("background-color", "blue");
+                    $('#jumpButton').css("background-color", "teal");
                 }
                 if(button == 'shootButton') {
-                    $('#shootButton').css("background-color", "blue");
+                    $('#shootButton').css("background-color", "teal");
                 }
-                buttonColor = 'blue'; // Set value to the opposite to run the opposite if statement 
+                buttonColor = 'teal'; // Set value to the opposite to run the opposite if statement 
                 toggleColor(button); // Self Calling
-            }, 300);
+            }, 300); // Dely Between Flashs
         }
+
         else {
             setTimeout(function(){
                 if(button == 'jumpButton') {
@@ -99,12 +100,12 @@ function toggleColor(button) { // Take the button that is press so one function 
                 
                 buttonColor = 'red'; // Set value to the opposite to run the opposite if statement 
                 toggleColor(button); // Self Calling
-            }, 300);
+            }, 300); // Dely Between Flashs
         }
     }
     else {
-        $('#jumpButton').css("background-color", "blue");
-        $('#shootButton').css("background-color", "blue");
+        $('#jumpButton').css("background-color", "teal");
+        $('#shootButton').css("background-color", "teal");
         $('body').off('click');
         stopFlash = false;
         keyListenerStatas = 0;
