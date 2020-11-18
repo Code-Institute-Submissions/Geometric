@@ -47,6 +47,7 @@ The default controls are as follows:
     -   [Approach](#Approach)
     -   [Level Mapping](#Level-Mapping)
     -   [Hero Triangle Treated as a Circle](#Hero-Triangle-Treated-as-a-Circle)
+    -   [#JavaScript in Head](#JavaScript-in-Head)
     -   [Console Logs](#Console-Logs)
     -   [Media](#Media)
     -   [Commit Messages](#Commit-Messages)
@@ -123,13 +124,13 @@ Before creating the game I asked a few people what they would what from a game:
 
    The pause button appears in the top left hand corner of the screen while the game is running.
 
-Please find the user story [Fulfillment Screenshots here](https://github.com/LiamDHall/Geometeric/tree/master/readme/user-stories-fulfillment)
+Please find the user story [Fulfillment Screenshots here](https://github.com/LiamDHall/Geometric/tree/master/assets/images/readme/user-stories-fulfillment)
 
 ## Development
 
 ### Planning
 
-Please find the planning document [here](https://github.com/LiamDHall/Geometeric/tree/master/planning/geometeric-planning.pdf). This document contains the following planning stages **Scope, Strategy, Structure** for the website. 
+Please find the planning document [here](https://github.com/LiamDHall/Geometric/blob/master/planning/geometeric-planning.pdf). This document contains the following planning stages **Scope, Strategy, Structure** for the website. 
 
 ### Ideas
 
@@ -186,8 +187,6 @@ as you go through the inner arrays. Each item then inside the inner array is giv
 
 The end result from the function is the obstacle inherits it's y coordinate from the inner array it is in. Tt's x coordinate is from the position it holds in the inner array. 
 The type of obstacle or object is determind by its value. 1 = Rectangle, 2 = Triangle, 3 = Circle and 4 = Floor. 
-
-When left like this, it caused a few problems which you can read about in the Testing section under Level Mapping [Functionality](#Functionality).
 
 It produces a map of obstacles which is then passed to another function that then sorts the obstacles into their correct order. Therefore, they can be shifted out when appropriate with out causing issues.
 
