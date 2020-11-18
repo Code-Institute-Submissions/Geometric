@@ -20,7 +20,7 @@ $(document).keydown(function (event) {
         if (gameState == 2) { // Toggles what P does depending on the game state. Game only loops in game state 1
             resumeGame();
         }
-        else {
+        else if (gameState == 1) {
             pauseGame();
         }
     }
