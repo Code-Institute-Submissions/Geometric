@@ -45,8 +45,8 @@ function keyListener(button) {
                     jumpChar = String.fromCharCode(event.which); // Converts Code to Character
                     $("#jumpButton").html(`${jumpChar}`); // Shows it in the Button
                     $('#controlsInstructions').html('<h3>New Jump Key Set</h3>');  // Shows instruction
-
                 }
+
                 else if(button == shootButton) {
                     shootKey = event.which; // Sets new key
                     shootChar = String.fromCharCode(event.which); // Converts Code to Character
@@ -72,7 +72,7 @@ var buttonColor = 'red';
 var stopFlash = false; // Stops the flash when true
 
 function toggleColor(button) { // Take the button that is press so one function can be used for mulipte buttons
-    $('body').click(function() {
+    $(document).click(function() {
         stopFlash = true;
     });
     if (stopFlash == false) {
@@ -106,9 +106,14 @@ function toggleColor(button) { // Take the button that is press so one function 
     else {
         $('#jumpButton').css("background-color", "teal");
         $('#shootButton').css("background-color", "teal");
-        $('body').off('click');
+        $(document).off('click');
         stopFlash = false;
         keyListenerStatas = 0;
+        setTimeout(function(){resetControlsInstructions(); }, 1500); // Waits 3 seconds then resets the instructions
         return;
-    }    
+    } 
+}
+
+function resetControlsInstructions() {
+    $('#controlsInstructions').html('<h3>Click a control to set new key.</h3>');
 }
