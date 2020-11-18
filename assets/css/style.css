@@ -56,7 +56,6 @@ canvas {
     display: none;
 }
 
-
 /*------------------------------------------------Header & Text*/
 h1 {
     font-size: 5rem;
@@ -99,7 +98,6 @@ p {
         font-size: 1.75rem;
     }
 }
-
 
 /*------------------------------------------------Buttons*/
 .btn {
@@ -289,7 +287,6 @@ p {
 .laser--purple {
     border-color: turquoise;
 }
-
 
 /*------------------------------------------------Leaderboard*/
 .leaderboard {
