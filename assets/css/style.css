@@ -108,7 +108,7 @@ p {
     padding: 11px;
     width: 50%;
     text-align: center;
-    outline: none
+    outline: none;
 }
 
 .btn--menu {
@@ -172,6 +172,10 @@ p {
     }
 }
 /*------------------------------------------------Controls*/
+#controlsInstructions {
+    padding: 11px;
+}
+
 .controls_text {
     display: inline;
 }
@@ -181,20 +185,28 @@ p {
 }
 
 .controls_action {
-    font-size: 1.5rem; 
+    font-size: 1.5rem;
+}
+
+.controls_touch {
+    padding: 11px;
+    text-align: center;
+    width: 20%;
+    display: inline-block;
+    margin: 0 2%;
+    font-size: 1.5rem;
 }
 
 @media screen and (max-width: 765px) {
-    #jumpButton,
-    #shootButton,
-    #controlsInstructions,
-    .controls_text {
-        display: none;
-    }
-
     .btn--control {
         width: 90%;
     }
+
+    .controls_text {
+        display: block;
+        margin-top: 10px;
+    }
+
 }
 
 /*------------------------------------------------Customisation*/
