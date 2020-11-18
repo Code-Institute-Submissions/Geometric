@@ -326,6 +326,12 @@ p {
 }
 
 /*------------------------------------------------404 Error Page*/
+.error {
+    width: 100%;
+    position: relative;
+    top: 35%;
+}
+
 .error-pic_item {
     height: 100%;
 }
